@@ -6,6 +6,7 @@ use App\Models\CashFlow;
 use App\Models\Sale;
 use App\Models\Salesman;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ReportController extends Controller
 {
@@ -64,6 +65,48 @@ class ReportController extends Controller
     {
         $sales = Sale::with(['customer', 'salesman'])->orderBy('date', 'desc')->get();
         return view('report.sales', compact('sales'));
+    }
+
+    public function salesExportCsv()
+    {
+        $sales = Sale::with(['customer', 'salesman'])->orderBy('date', 'desc')->get();
+
+        $filename = 'laporan-penjualan.csv';
+        $headers = [
+            'Content-Type' => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => "attachment; filename=\"$filename\"",
+        ];
+
+        $callback = function () use ($sales) {
+            $out = fopen('php://output', 'w');
+            // UTF-8 BOM for Excel
+            fprintf($out, chr(0xEF) . chr(0xBB) . chr(0xBF));
+
+            fputcsv($out, ['Invoice', 'Tanggal', 'Customer', 'Salesman', 'Subtotal', 'Diskon', 'Pajak', 'Total', 'Status']);
+            foreach ($sales as $s) {
+                fputcsv($out, [
+                    $s->invoice_number,
+                    optional($s->date)->format('Y-m-d'),
+                    $s->customer?->name,
+                    $s->salesman?->name,
+                    (string) ($s->subtotal ?? 0),
+                    (string) ($s->discount ?? 0),
+                    (string) ($s->tax ?? 0),
+                    (string) ($s->total ?? 0),
+                    $s->status,
+                ]);
+            }
+            fclose($out);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+
+    public function salesExportPdf()
+    {
+        $sales = Sale::with(['customer', 'salesman'])->orderBy('date', 'desc')->get();
+        $pdf = Pdf::loadView('report.sales-pdf', compact('sales'))->setPaper('a4', 'landscape');
+        return $pdf->stream('laporan-penjualan.pdf');
     }
 
     public function cashFlow()

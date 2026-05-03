@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('title', isset($cashFlow) ? 'Edit Kas / Bank' : 'Tambah Kas / Bank')
 @section('page-title', 'Kas / Bank')

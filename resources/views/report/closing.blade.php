@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('title', 'Closing / Assessment')
 @section('page-title', 'Closing / Assessment')

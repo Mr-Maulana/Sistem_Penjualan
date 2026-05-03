@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('title', isset($customer) ? 'Edit Customer' : 'Tambah Customer')
 @section('page-title', 'Customer')
@@ -47,9 +47,22 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
+                    <label class="block text-xs font-semibold text-slate-500 mb-1">Kota</label>
+                    <input name="city" value="{{ old('city', $customer->city ?? '') }}" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    @error('city') <div class="text-xs text-red-500 mt-1">{{ $message }}</div> @enderror
+                </div>
+                <div>
                     <label class="block text-xs font-semibold text-slate-500 mb-1">Telepon</label>
                     <input name="phone" value="{{ old('phone', $customer->phone ?? '') }}" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
                     @error('phone') <div class="text-xs text-red-500 mt-1">{{ $message }}</div> @enderror
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 mb-1">Grup Customer</label>
+                    <input name="group" value="{{ old('group', $customer->group ?? '') }}" placeholder="Contoh: Grosir / Retail / VIP" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    @error('group') <div class="text-xs text-red-500 mt-1">{{ $message }}</div> @enderror
                 </div>
                 <div>
                     <label class="block text-xs font-semibold text-slate-500 mb-1">Salesman</label>

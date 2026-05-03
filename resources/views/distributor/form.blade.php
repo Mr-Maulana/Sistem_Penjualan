@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('title', isset($distributor) ? 'Edit Distributor' : 'Tambah Distributor')
 @section('page-title', isset($distributor) ? 'Edit Distributor' : 'Tambah Distributor')

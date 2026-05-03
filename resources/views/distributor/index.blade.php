@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('title', 'Distributor')
 @section('page-title', 'Distributor')
@@ -37,8 +37,8 @@
                         </span>
                     </td>
                     <td class="px-5 py-3 flex gap-1">
-                        <a href="{{ route('distributor.edit', $distributor) }}" class="p-1.5 rounded hover:bg-slate-100 text-slate-500">
-                            <i data-lucide="edit" style="width:15px;height:15px;"></i>
+                        <a href="{{ route('distributor.edit', $distributor) }}" class="p-1.5 rounded hover:bg-slate-100 text-blue-500">
+                            <i data-lucide="pencil" style="width:15px;height:15px;"></i>
                         </a>
                         <form action="{{ route('distributor.destroy', $distributor) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus?')">
                             @csrf

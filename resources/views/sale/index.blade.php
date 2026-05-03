@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('title', 'Penjualan')
 @section('page-title', 'Penjualan')
@@ -34,11 +34,16 @@
                     <td class="px-5 py-3 text-slate-600">{{ $sale->salesman?->name ?? '-' }}</td>
                     <td class="px-5 py-3 font-semibold text-slate-800">Rp {{ number_format($sale->total, 0, ',', '.') }}</td>
                     <td class="px-5 py-3">
-                        <span class="badge {{ $sale->status === 'paid' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700' }}">
-                            {{ $sale->status === 'paid' ? 'Lunas' : 'Belum Lunas' }}
+                        @php($isPaid = $sale->status === 'paid')
+                        @php($isPartial = $sale->status === 'partial')
+                        <span class="badge {{ $isPaid ? 'bg-emerald-100 text-emerald-700' : ($isPartial ? 'bg-sky-100 text-sky-700' : 'bg-amber-100 text-amber-700') }}">
+                            {{ $isPaid ? 'Lunas' : ($isPartial ? 'Sebagian' : 'Belum Lunas') }}
                         </span>
                     </td>
                     <td class="px-5 py-3 flex gap-1">
+                        <a href="{{ route('sale.print', $sale) }}" class="p-1.5 rounded hover:bg-slate-100 text-slate-500" title="Cetak">
+                            <i data-lucide="printer" style="width:15px;height:15px;"></i>
+                        </a>
                         <a href="{{ route('sale.edit', $sale) }}" class="p-1.5 rounded hover:bg-slate-100 text-slate-500">
                             <i data-lucide="edit" style="width:15px;height:15px;"></i>
                         </a>

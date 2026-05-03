@@ -35,7 +35,9 @@ class CustomerController extends Controller
             'code' => 'required|unique:customers,code',
             'name' => 'required',
             'address' => 'required',
+            'city' => 'nullable|string|max:100',
             'phone' => 'required',
+            'group' => 'nullable|string|max:50',
             'salesman_id' => 'nullable|exists:salesmen,id',
             'status' => 'required|in:active,inactive',
         ]);
@@ -72,7 +74,9 @@ class CustomerController extends Controller
             'code' => 'required|unique:customers,code,' . $customer->id,
             'name' => 'required',
             'address' => 'required',
+            'city' => 'nullable|string|max:100',
             'phone' => 'required',
+            'group' => 'nullable|string|max:50',
             'salesman_id' => 'nullable|exists:salesmen,id',
             'status' => 'required|in:active,inactive',
         ]);
