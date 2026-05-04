@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Salesman;
 use Illuminate\Http\Request;
+use App\Traits\CodeGenerator;
 
 class SalesmanController extends Controller
 {
+    use CodeGenerator;
+
     /**
      * Display a listing of the resource.
      */
@@ -21,7 +24,8 @@ class SalesmanController extends Controller
      */
     public function create()
     {
-        return view('salesman.form');
+        $autoCode = $this->generateCode(Salesman::class, 'SLS');
+        return view('salesman.form', compact('autoCode'));
     }
 
     /**
@@ -47,9 +51,9 @@ class SalesmanController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Salesman $salesman)
     {
-        return redirect()->route('salesman.index');
+        return view('salesman.show', compact('salesman'));
     }
 
     /**

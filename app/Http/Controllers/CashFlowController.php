@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\CashFlow;
 use Illuminate\Http\Request;
+use App\Traits\CodeGenerator;
 
 class CashFlowController extends Controller
 {
+    use CodeGenerator;
+
     /**
      * Display a listing of the resource.
      */
@@ -23,7 +26,8 @@ class CashFlowController extends Controller
     {
         $last = CashFlow::orderBy('date', 'desc')->orderBy('id', 'desc')->first();
         $currentBalance = $last ? (float) $last->balance : 0;
-        return view('cash-flow.form', compact('currentBalance'));
+        $autoCode = $this->generateDatedCode(CashFlow::class, 'CF', 'code');
+        return view('cash-flow.form', compact('currentBalance', 'autoCode'));
     }
 
     /**
@@ -55,9 +59,9 @@ class CashFlowController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(CashFlow $cashFlow)
     {
-        return redirect()->route('cash-flow.index');
+        return view('cash-flow.show', compact('cashFlow'));
     }
 
     /**

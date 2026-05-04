@@ -11,19 +11,25 @@
         <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
         <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     </head>
-    <body class="h-full font-sans antialiased bg-slate-950">
-        <div class="min-h-screen relative overflow-hidden flex items-center justify-center p-6">
-            <div class="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-emerald-950"></div>
-            <div class="absolute -top-24 -left-24 w-72 h-72 rounded-full bg-emerald-500/20 blur-3xl"></div>
-            <div class="absolute -bottom-24 -right-24 w-72 h-72 rounded-full bg-sky-500/15 blur-3xl"></div>
+    <body class="h-full font-sans antialiased">
+        <div class="min-h-screen relative overflow-hidden flex items-center justify-center p-6 bg-slate-900">
+            <!-- Background Image with Overlay -->
+            <div class="absolute inset-0 z-0">
+                <img src="{{ asset('images/login-bg.png') }}" alt="Background" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-[2px]"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-slate-950/40"></div>
+            </div>
+
+            <div class="absolute -top-24 -left-24 w-96 h-92 rounded-full bg-blue-500/10 blur-[120px] z-0"></div>
+            <div class="absolute -bottom-24 -right-24 w-96 h-96 rounded-full bg-indigo-500/10 blur-[120px] z-0"></div>
 
             <div class="relative w-full max-w-md">
-                <div class="mb-4 text-center">
-                    <div class="inline-flex items-center gap-3">
-                        <div class="w-11 h-11 rounded-2xl bg-emerald-500 flex items-center justify-center font-extrabold text-white text-lg">S</div>
-                        <div class="text-left">
-                            <div class="text-white font-extrabold leading-tight">Sistem Penjualan</div>
-                            <div class="text-xs text-slate-300">Masuk untuk melanjutkan</div>
+                <div class="mb-8 text-center">
+                    <div class="inline-flex flex-col items-center gap-4">
+                        <div class="w-16 h-16 rounded-[2rem] bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center font-black text-white text-3xl shadow-xl shadow-indigo-500/20 rotate-3 hover:rotate-0 transition-transform duration-500">S</div>
+                        <div>
+                            <h1 class="text-white text-2xl font-black tracking-tight">Sistem Penjualan</h1>
+                            <p class="text-slate-400 text-sm font-medium mt-1">Management Dashboard v2.0</p>
                         </div>
                     </div>
                 </div>

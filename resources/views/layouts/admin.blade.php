@@ -56,13 +56,13 @@
                 </a>
 
                 <div class="px-4 mt-4 mb-2 text-[10px] tracking-widest uppercase text-slate-500 font-semibold">Laporan</div>
-                <a href="{{ route('report.closing') }}" class="sidebar-item {{ request()->routeIs('report.*') ? 'active' : '' }} w-full text-left px-4 py-2.5 flex items-center gap-3 text-sm rounded-lg mx-2 mb-0.5" style="width:calc(100% - 16px)">
+                <a href="{{ route('report.closing') }}" class="sidebar-item {{ request()->routeIs('report.closing') ? 'active' : '' }} w-full text-left px-4 py-2.5 flex items-center gap-3 text-sm rounded-lg mx-2 mb-0.5" style="width:calc(100% - 16px)">
                     <i data-lucide="clipboard-check" style="width:18px;height:18px;"></i> Closing / Assessment
                 </a>
-                <a href="{{ route('report.sales') }}" class="sidebar-item {{ request()->routeIs('report.sales') ? 'active' : '' }} w-full text-left px-4 py-2.5 flex items-center gap-3 text-sm rounded-lg mx-2 mb-0.5" style="width:calc(100% - 16px)">
+                <a href="{{ route('report.sales') }}" class="sidebar-item {{ request()->routeIs('report.sales*') ? 'active' : '' }} w-full text-left px-4 py-2.5 flex items-center gap-3 text-sm rounded-lg mx-2 mb-0.5" style="width:calc(100% - 16px)">
                     <i data-lucide="bar-chart-3" style="width:18px;height:18px;"></i> Laporan Penjualan
                 </a>
-                <a href="{{ route('report.cash-flow') }}" class="sidebar-item {{ request()->routeIs('report.cash-flow') ? 'active' : '' }} w-full text-left px-4 py-2.5 flex items-center gap-3 text-sm rounded-lg mx-2 mb-0.5" style="width:calc(100% - 16px)">
+                <a href="{{ route('report.cash-flow') }}" class="sidebar-item {{ request()->routeIs('report.cash-flow*') ? 'active' : '' }} w-full text-left px-4 py-2.5 flex items-center gap-3 text-sm rounded-lg mx-2 mb-0.5" style="width:calc(100% - 16px)">
                     <i data-lucide="wallet" style="width:18px;height:18px;"></i> Laporan Kas / Bank
                 </a>
 
@@ -77,7 +77,7 @@
             <div class="p-4 border-t border-white/10">
                 <div class="flex items-center gap-3">
                     @php($u = auth()->user())
-                    @php($photo = $u?->profile_photo_path ? asset('storage/'.$u->profile_photo_path) : null)
+                    @php($photo = $u?->profile_photo_path ? \Illuminate\Support\Facades\Storage::url($u->profile_photo_path) : null)
                     @if($photo)
                         <img src="{{ $photo }}" alt="Profile photo" class="w-8 h-8 rounded-full object-cover ring-2 ring-white/10">
                     @else
@@ -99,43 +99,49 @@
             </div>
         </aside>
 
-        <main class="flex-1 flex flex-col h-full overflow-auto">
-            <header class="bg-white border-b border-slate-200 px-6 py-3.5 flex items-center justify-between flex-shrink-0">
+        <main class="flex-1 flex flex-col h-full overflow-hidden bg-slate-50">
+            <header class="bg-white border-b border-slate-200 px-8 py-4 flex items-center justify-between flex-shrink-0 z-10">
                 <div>
-                    <h1 class="text-lg font-bold text-slate-800">@yield('page-title', 'Dashboard')</h1>
-                    <p class="text-xs text-slate-400">@yield('page-subtitle', 'Ringkasan data penjualan')</p>
+                    <h1 class="text-xl font-extrabold text-slate-800 tracking-tight">@yield('page-title', 'Dashboard')</h1>
+                    <p class="text-sm text-slate-500 mt-0.5">@yield('page-subtitle', 'Ringkasan data penjualan')</p>
                 </div>
-                <div class="flex items-center gap-3">
+                <div class="flex items-center gap-4">
                     @php($uTop = auth()->user())
-                    @php($topPhoto = $uTop?->profile_photo_path ? asset('storage/'.$uTop->profile_photo_path) : null)
+                    @php($topPhoto = $uTop?->profile_photo_path ? \Illuminate\Support\Facades\Storage::url($uTop->profile_photo_path) : null)
                     <div x-data="{ open:false }" class="relative">
                         <button type="button" @click="open = !open" @keydown.escape.window="open=false"
-                            class="flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 px-2 py-1.5 rounded-xl transition">
+                            class="flex items-center gap-3 hover:bg-slate-50 text-slate-700 px-2 py-1.5 rounded-2xl transition-all border border-transparent hover:border-slate-200">
                             @if($topPhoto)
-                                <img src="{{ $topPhoto }}" alt="Profile photo" class="w-8 h-8 rounded-full object-cover ring-1 ring-slate-200">
+                                <img src="{{ $topPhoto }}" alt="Profile photo" class="w-10 h-10 rounded-full object-cover shadow-sm ring-2 ring-white">
                             @else
-                                <div class="w-8 h-8 rounded-full bg-emerald-600 flex items-center justify-center text-xs font-bold text-white">
+                                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center text-sm font-bold text-white shadow-sm ring-2 ring-white">
                                     {{ strtoupper(mb_substr($uTop?->name ?? 'U', 0, 1)) }}
                                 </div>
                             @endif
-                            <div class="text-left hidden md:block">
-                                <div class="text-xs font-bold leading-tight truncate max-w-[140px]">{{ $uTop?->name ?? 'User' }}</div>
-                                <div class="text-[10px] text-slate-500 leading-tight truncate max-w-[140px]">{{ strtoupper($uTop?->role ?? '') }}</div>
+                            <div class="text-left hidden md:block pr-2">
+                                <div class="text-sm font-bold leading-none text-slate-800">{{ $uTop?->name ?? 'User' }}</div>
+                                <div class="text-xs text-emerald-600 font-medium mt-1 uppercase tracking-wider">{{ $uTop?->role ?? '' }}</div>
                             </div>
-                            <i data-lucide="chevron-down" style="width:16px;height:16px;" class="text-slate-500"></i>
+                            <i data-lucide="chevron-down" style="width:16px;height:16px;" class="text-slate-400"></i>
                         </button>
 
-                        <div x-show="open" x-transition.origin.top.right @click.outside="open=false"
-                            class="absolute right-0 mt-2 w-44 bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden z-50">
-                            <a href="{{ route('profile.edit') }}" class="flex items-center gap-2 px-4 py-3 text-sm text-slate-700 hover:bg-slate-50">
-                                <i data-lucide="user" style="width:16px;height:16px;"></i> Profile
-                            </a>
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                <button type="submit" class="w-full flex items-center gap-2 px-4 py-3 text-sm text-red-600 hover:bg-red-50">
-                                    <i data-lucide="log-out" style="width:16px;height:16px;"></i> Logout
-                                </button>
-                            </form>
+                        <div x-show="open" x-transition.origin.top.right @click.outside="open=false" style="display: none;"
+                            class="absolute right-0 mt-3 w-56 bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden z-50">
+                            <div class="p-4 border-b border-slate-50">
+                                <p class="text-sm font-semibold text-slate-800 truncate">{{ $uTop?->name }}</p>
+                                <p class="text-xs text-slate-500 truncate">{{ $uTop?->email }}</p>
+                            </div>
+                            <div class="p-2">
+                                <a href="{{ route('profile.edit') }}" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-slate-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-xl transition-colors">
+                                    <i data-lucide="user" style="width:16px;height:16px;"></i> My Profile
+                                </a>
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit" class="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50 rounded-xl transition-colors mt-1">
+                                        <i data-lucide="log-out" style="width:16px;height:16px;"></i> Sign Out
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>

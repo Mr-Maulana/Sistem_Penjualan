@@ -28,6 +28,13 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email',
             'role' => 'required|in:admin,supervisor,sales',
             'password' => 'required|string|min:8|confirmed',
+            'nik' => 'nullable|string|max:16',
+            'nip' => 'nullable|string|max:20',
+            'profesi' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|max:15',
+            'address' => 'nullable|string',
+            'gender' => 'nullable|in:L,P',
+            'birth_date' => 'nullable|date',
         ]);
 
         User::create([
@@ -35,14 +42,21 @@ class UserController extends Controller
             'email' => $validated['email'],
             'role' => $validated['role'],
             'password' => Hash::make($validated['password']),
+            'nik' => $validated['nik'],
+            'nip' => $validated['nip'],
+            'profesi' => $validated['profesi'],
+            'phone' => $validated['phone'],
+            'address' => $validated['address'],
+            'gender' => $validated['gender'],
+            'birth_date' => $validated['birth_date'],
         ]);
 
         return redirect()->route('user.index')->with('success', 'User berhasil ditambahkan');
     }
 
-    public function show(string $id)
+    public function show(User $user)
     {
-        return redirect()->route('user.index');
+        return view('user.show', compact('user'));
     }
 
     public function edit(User $user)
@@ -58,12 +72,26 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email,' . $user->id,
             'role' => 'required|in:admin,supervisor,sales',
             'password' => 'nullable|string|min:8|confirmed',
+            'nik' => 'nullable|string|max:16',
+            'nip' => 'nullable|string|max:20',
+            'profesi' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|max:15',
+            'address' => 'nullable|string',
+            'gender' => 'nullable|in:L,P',
+            'birth_date' => 'nullable|date',
         ]);
 
         $payload = [
             'name' => $validated['name'],
             'email' => $validated['email'],
             'role' => $validated['role'],
+            'nik' => $validated['nik'],
+            'nip' => $validated['nip'],
+            'profesi' => $validated['profesi'],
+            'phone' => $validated['phone'],
+            'address' => $validated['address'],
+            'gender' => $validated['gender'],
+            'birth_date' => $validated['birth_date'],
         ];
         if (!empty($validated['password'])) {
             $payload['password'] = Hash::make($validated['password']);

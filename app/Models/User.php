@@ -23,6 +23,13 @@ class User extends Authenticatable
         'role',
         'profile_photo_path',
         'password',
+        'nik',
+        'nip',
+        'profesi',
+        'phone',
+        'address',
+        'gender',
+        'birth_date',
     ];
 
     /**

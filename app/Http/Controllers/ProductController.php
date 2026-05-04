@@ -6,9 +6,12 @@ use App\Models\Category;
 use App\Models\Distributor;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Traits\CodeGenerator;
 
 class ProductController extends Controller
 {
+    use CodeGenerator;
+
     /**
      * Display a listing of the resource.
      */
@@ -25,7 +28,8 @@ class ProductController extends Controller
     {
         $categories = Category::orderBy('name')->get();
         $distributors = Distributor::orderBy('name')->get();
-        return view('product.form', compact('categories', 'distributors'));
+        $autoCode = $this->generateCode(Product::class, 'PRD');
+        return view('product.form', compact('categories', 'distributors', 'autoCode'));
     }
 
     /**
@@ -51,9 +55,9 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Product $product)
     {
-        return redirect()->route('product.index');
+        return view('product.show', compact('product'));
     }
 
     /**

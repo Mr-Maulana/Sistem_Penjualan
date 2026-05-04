@@ -84,9 +84,9 @@ class PriceController extends Controller
         return redirect()->route('price.index')->with('success', 'Harga berhasil ditambahkan');
     }
 
-    public function show(string $id)
+    public function show(Price $price)
     {
-        return redirect()->route('price.index');
+        return view('price.show', compact('price'));
     }
 
     public function edit(Price $price)

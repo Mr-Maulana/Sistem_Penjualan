@@ -5,83 +5,134 @@
 @section('page-subtitle', 'Ringkasan data penjualan')
 
 @section('content')
-<div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
-        <div class="text-xs text-slate-500 font-semibold">Total Penjualan</div>
-        <div class="text-xl font-extrabold text-slate-800 mt-1">Rp {{ number_format($totalSales ?? 0, 0, ',', '.') }}</div>
-        <div class="text-xs text-slate-400 mt-1">{{ number_format($totalTransactions ?? 0) }} transaksi</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200/60 relative overflow-hidden group">
+        <div class="absolute -right-4 -top-4 w-24 h-24 bg-blue-500/5 rounded-full blur-2xl group-hover:bg-blue-500/10 transition-colors"></div>
+        <div class="relative z-10">
+            <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mb-4">
+                <i data-lucide="bar-chart-3" style="width:20px;height:20px;"></i>
+            </div>
+            <div class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Total Penjualan</div>
+            <div class="text-2xl font-black text-slate-800 tracking-tight">Rp {{ number_format($totalSales ?? 0, 0, ',', '.') }}</div>
+            <div class="text-[10px] font-bold text-slate-400 mt-1 uppercase tracking-tighter">{{ number_format($totalTransactions ?? 0) }} TRANSAKSI</div>
+        </div>
     </div>
-    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
-        <div class="text-xs text-slate-500 font-semibold">Lunas</div>
-        <div class="text-xl font-extrabold text-emerald-700 mt-1">Rp {{ number_format($paidSales ?? 0, 0, ',', '.') }}</div>
-        <div class="text-xs text-slate-400 mt-1">Status paid</div>
+
+    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200/60 relative overflow-hidden group">
+        <div class="absolute -right-4 -top-4 w-24 h-24 bg-emerald-500/5 rounded-full blur-2xl group-hover:bg-emerald-500/10 transition-colors"></div>
+        <div class="relative z-10">
+            <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-4">
+                <i data-lucide="check-circle" style="width:20px;height:20px;"></i>
+            </div>
+            <div class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Lunas</div>
+            <div class="text-2xl font-black text-emerald-600 tracking-tight">Rp {{ number_format($paidSales ?? 0, 0, ',', '.') }}</div>
+            <div class="text-[10px] font-bold text-emerald-500/70 mt-1 uppercase tracking-tighter">SUDAH TERBAYAR</div>
+        </div>
     </div>
-    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
-        <div class="text-xs text-slate-500 font-semibold">Belum Lunas</div>
-        <div class="text-xl font-extrabold text-amber-700 mt-1">Rp {{ number_format($unpaidSales ?? 0, 0, ',', '.') }}</div>
-        <div class="text-xs text-slate-400 mt-1">Status unpaid/partial</div>
+
+    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200/60 relative overflow-hidden group">
+        <div class="absolute -right-4 -top-4 w-24 h-24 bg-amber-500/5 rounded-full blur-2xl group-hover:bg-amber-500/10 transition-colors"></div>
+        <div class="relative z-10">
+            <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center mb-4">
+                <i data-lucide="clock" style="width:20px;height:20px;"></i>
+            </div>
+            <div class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Tagihan Pending</div>
+            <div class="text-2xl font-black text-amber-600 tracking-tight">Rp {{ number_format($unpaidSales ?? 0, 0, ',', '.') }}</div>
+            <div class="text-[10px] font-bold text-amber-500/70 mt-1 uppercase tracking-tighter">BELUM TERBAYAR</div>
+        </div>
     </div>
-    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
-        <div class="text-xs text-slate-500 font-semibold">Saldo Kas/Bank</div>
-        <div class="text-xl font-extrabold text-slate-800 mt-1">Rp {{ number_format($currentBalance ?? 0, 0, ',', '.') }}</div>
-        <div class="text-xs text-slate-400 mt-1">In: Rp {{ number_format($totalCashIn ?? 0, 0, ',', '.') }} | Out: Rp {{ number_format($totalCashOut ?? 0, 0, ',', '.') }}</div>
+
+    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200/60 relative overflow-hidden group">
+        <div class="absolute -right-4 -top-4 w-24 h-24 bg-indigo-500/5 rounded-full blur-2xl group-hover:bg-indigo-500/10 transition-colors"></div>
+        <div class="relative z-10">
+            <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center mb-4">
+                <i data-lucide="landmark" style="width:20px;height:20px;"></i>
+            </div>
+            <div class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Saldo Kas/Bank</div>
+            <div class="text-2xl font-black text-slate-800 tracking-tight">Rp {{ number_format($currentBalance ?? 0, 0, ',', '.') }}</div>
+            <div class="text-[10px] font-bold text-slate-400 mt-1 uppercase tracking-tighter">SALDO AKTIF</div>
+        </div>
     </div>
 </div>
 
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-        <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
-            <h3 class="font-bold text-slate-800">Transaksi Terbaru</h3>
-            <a href="{{ route('sale.index') }}" class="text-xs font-semibold text-emerald-700 hover:text-emerald-800">Lihat semua</a>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200/60 overflow-hidden">
+        <div class="px-6 py-5 border-b border-slate-100 flex items-center justify-between bg-white">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center">
+                    <i data-lucide="shopping-bag" style="width:18px;height:18px;"></i>
+                </div>
+                <h3 class="font-bold text-slate-800">Transaksi Terbaru</h3>
+            </div>
+            <a href="{{ route('sale.index') }}" class="text-xs font-bold text-blue-600 hover:text-blue-700 uppercase tracking-wider">Lihat Semua</a>
         </div>
         <div class="overflow-x-auto">
             <table class="w-full text-sm">
                 <thead>
-                    <tr class="bg-slate-50 text-slate-500 text-xs uppercase tracking-wide">
-                        <th class="px-5 py-3 text-left font-semibold">Invoice</th>
-                        <th class="px-5 py-3 text-left font-semibold">Customer</th>
-                        <th class="px-5 py-3 text-left font-semibold">Total</th>
+                    <tr class="bg-slate-50/50 text-slate-500 text-[10px] uppercase tracking-widest">
+                        <th class="px-6 py-4 text-left font-bold">Invoice</th>
+                        <th class="px-6 py-4 text-left font-bold">Customer</th>
+                        <th class="px-6 py-4 text-right font-bold">Total</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="divide-y divide-slate-100">
                     @forelse($recentTransactions as $t)
-                        <tr class="border-b border-slate-100">
-                            <td class="px-5 py-3 font-mono text-xs text-slate-500">{{ $t->invoice_number }}</td>
-                            <td class="px-5 py-3 font-semibold text-slate-800">{{ $t->customer?->name ?? '-' }}</td>
-                            <td class="px-5 py-3 font-semibold text-slate-800">Rp {{ number_format($t->total ?? 0, 0, ',', '.') }}</td>
+                        <tr class="hover:bg-slate-50 transition-colors group">
+                            <td class="px-6 py-4 font-mono text-xs font-bold text-blue-600">{{ $t->invoice_number }}</td>
+                            <td class="px-6 py-4 font-semibold text-slate-700">{{ $t->customer?->name ?? '-' }}</td>
+                            <td class="px-6 py-4 text-right font-black text-slate-800">Rp {{ number_format($t->total ?? 0, 0, ',', '.') }}</td>
                         </tr>
                     @empty
-                        <tr><td colspan="3" class="px-5 py-8 text-center text-slate-400">Belum ada transaksi</td></tr>
+                        <tr><td colspan="3" class="px-6 py-12 text-center text-slate-400">
+                            <div class="flex flex-col items-center justify-center">
+                                <i data-lucide="database" class="w-8 h-8 text-slate-200 mb-2"></i>
+                                <p class="text-xs font-medium uppercase tracking-widest">Belum ada transaksi</p>
+                            </div>
+                        </td></tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
     </div>
 
-    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-        <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
-            <h3 class="font-bold text-slate-800">Stok Hampir Habis</h3>
-            <a href="{{ route('product.index') }}" class="text-xs font-semibold text-emerald-700 hover:text-emerald-800">Kelola produk</a>
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200/60 overflow-hidden">
+        <div class="px-6 py-5 border-b border-slate-100 flex items-center justify-between bg-white">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-red-50 text-red-600 flex items-center justify-center">
+                    <i data-lucide="package-search" style="width:18px;height:18px;"></i>
+                </div>
+                <h3 class="font-bold text-slate-800">Stok Hampir Habis</h3>
+            </div>
+            <a href="{{ route('product.index') }}" class="text-xs font-bold text-red-600 hover:text-red-700 uppercase tracking-wider">Kelola Produk</a>
         </div>
         <div class="overflow-x-auto">
             <table class="w-full text-sm">
                 <thead>
-                    <tr class="bg-slate-50 text-slate-500 text-xs uppercase tracking-wide">
-                        <th class="px-5 py-3 text-left font-semibold">Produk</th>
-                        <th class="px-5 py-3 text-left font-semibold">Stok</th>
+                    <tr class="bg-slate-50/50 text-slate-500 text-[10px] uppercase tracking-widest">
+                        <th class="px-6 py-4 text-left font-bold">Produk</th>
+                        <th class="px-6 py-4 text-right font-bold">Stok Sisa</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="divide-y divide-slate-100">
                     @forelse($lowStockProducts as $p)
-                        <tr class="border-b border-slate-100">
-                            <td class="px-5 py-3">
-                                <div class="font-semibold text-slate-800">{{ $p->name }}</div>
-                                <div class="font-mono text-xs text-slate-500">{{ $p->code }}</div>
+                        <tr class="hover:bg-red-50/30 transition-colors group">
+                            <td class="px-6 py-4">
+                                <div class="font-bold text-slate-800">{{ $p->name }}</div>
+                                <div class="font-mono text-[10px] text-slate-400 font-bold uppercase tracking-tighter">{{ $p->code }}</div>
                             </td>
-                            <td class="px-5 py-3 font-semibold {{ ($p->stock ?? 0) <= 5 ? 'text-red-600' : 'text-amber-700' }}">{{ $p->stock ?? 0 }}</td>
+                            <td class="px-6 py-4 text-right">
+                                <span class="inline-flex items-center justify-center px-3 py-1 rounded-full text-xs font-black {{ ($p->stock ?? 0) <= 5 ? 'bg-red-100 text-red-700 ring-1 ring-red-600/20' : 'bg-amber-100 text-amber-700 ring-1 ring-amber-600/20' }}">
+                                    {{ $p->stock ?? 0 }}
+                                </span>
+                            </td>
                         </tr>
                     @empty
-                        <tr><td colspan="2" class="px-5 py-8 text-center text-slate-400">Tidak ada stok rendah</td></tr>
+                        <tr><td colspan="2" class="px-6 py-12 text-center text-slate-400">
+                            <div class="flex flex-col items-center justify-center">
+                                <i data-lucide="package" class="w-8 h-8 text-slate-200 mb-2"></i>
+                                <p class="text-xs font-medium uppercase tracking-widest">Stok aman terkendali</p>
+                            </div>
+                        </td></tr>
                     @endforelse
                 </tbody>
             </table>

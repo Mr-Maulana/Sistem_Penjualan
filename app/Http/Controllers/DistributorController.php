@@ -3,9 +3,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Distributor;
 use Illuminate\Http\Request;
+use App\Traits\CodeGenerator;
 
 class DistributorController extends Controller
 {
+    use CodeGenerator;
+
     public function index()
     {
         $distributors = Distributor::orderBy('code')->get();
@@ -14,7 +17,8 @@ class DistributorController extends Controller
     
     public function create()
     {
-        return view('distributor.form');
+        $autoCode = $this->generateCode(Distributor::class, 'DBR');
+        return view('distributor.form', compact('autoCode'));
     }
     
     public function store(Request $request)
@@ -35,6 +39,11 @@ class DistributorController extends Controller
     public function edit(Distributor $distributor)
     {
         return view('distributor.form', compact('distributor'));
+    }
+
+    public function show(Distributor $distributor)
+    {
+        return view('distributor.show', compact('distributor'));
     }
     
     public function update(Request $request, Distributor $distributor)

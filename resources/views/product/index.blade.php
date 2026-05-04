@@ -5,51 +5,86 @@
 @section('page-subtitle', 'Kelola data produk')
 
 @section('content')
-<div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-    <div class="px-5 py-4 flex items-center justify-between border-b border-slate-100">
-        <h3 class="font-bold text-slate-800">Data Produk</h3>
-        <a href="{{ route('product.create') }}" class="bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold px-4 py-2 rounded-lg flex items-center gap-1.5 transition">
+<div class="bg-white rounded-2xl shadow-sm border border-slate-200/60 overflow-hidden">
+    <div class="px-6 py-5 flex items-center justify-between border-b border-slate-100 bg-white">
+        <div>
+            <h3 class="font-bold text-slate-800 text-lg">Data Produk</h3>
+            <p class="text-xs text-slate-500 mt-1">Kelola semua data barang dan produk</p>
+        </div>
+        <a href="{{ route('product.create') }}" class="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl flex items-center gap-2 transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5">
             <i data-lucide="plus" style="width:16px;height:16px;"></i> Tambah Produk
         </a>
     </div>
     <div class="overflow-x-auto">
         <table class="w-full text-sm">
             <thead>
-                <tr class="bg-slate-50 text-slate-500 text-xs uppercase tracking-wide">
-                    <th class="px-5 py-3 text-left font-semibold">Kode</th>
-                    <th class="px-5 py-3 text-left font-semibold">Nama</th>
-                    <th class="px-5 py-3 text-left font-semibold">Kategori</th>
-                    <th class="px-5 py-3 text-left font-semibold">Distributor</th>
-                    <th class="px-5 py-3 text-left font-semibold">Harga</th>
-                    <th class="px-5 py-3 text-left font-semibold">Stok</th>
-                    <th class="px-5 py-3 text-left font-semibold">Aksi</th>
+                <tr class="bg-slate-50/50 text-slate-500 text-xs uppercase tracking-wider">
+                    <th class="px-6 py-4 text-left font-semibold">Kode</th>
+                    <th class="px-6 py-4 text-left font-semibold">Nama Produk</th>
+                    <th class="px-6 py-4 text-left font-semibold">Kategori</th>
+                    <th class="px-6 py-4 text-left font-semibold">Distributor</th>
+                    <th class="px-6 py-4 text-left font-semibold">Harga</th>
+                    <th class="px-6 py-4 text-left font-semibold">Stok</th>
+                    <th class="px-6 py-4 text-left font-semibold">Aksi</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="divide-y divide-slate-100">
                 @forelse($products as $product)
-                <tr class="table-row border-b border-slate-100">
-                    <td class="px-5 py-3 font-mono text-xs text-slate-500">{{ $product->code }}</td>
-                    <td class="px-5 py-3 font-semibold text-slate-800">{{ $product->name }}</td>
-                    <td class="px-5 py-3 text-slate-600">{{ $product->category?->name ?? '-' }}</td>
-                    <td class="px-5 py-3 text-slate-600">{{ $product->distributor?->name ?? '-' }}</td>
-                    <td class="px-5 py-3 text-slate-600">Rp {{ number_format($product->price, 0, ',', '.') }}</td>
-                    <td class="px-5 py-3 text-slate-600">{{ $product->stock }}</td>
-                    <td class="px-5 py-3 flex gap-1">
-                        <a href="{{ route('product.edit', $product) }}" class="p-1.5 rounded hover:bg-slate-100 text-slate-500">
-                            <i data-lucide="edit" style="width:15px;height:15px;"></i>
+                <tr class="hover:bg-slate-50/80 transition-colors group">
+                    <td class="px-6 py-4 font-mono text-xs text-slate-500">{{ $product->code }}</td>
+                    <td class="px-6 py-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center font-bold">
+                                <i data-lucide="package" style="width:16px;height:16px;"></i>
+                            </div>
+                            <div class="font-semibold text-slate-800">{{ $product->name }}</div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4">
+                        @if($product->category)
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-100 text-slate-600 text-xs font-medium">
+                                <i data-lucide="tag" style="width:12px;height:12px;"></i> {{ $product->category->name }}
+                            </span>
+                        @else
+                            <span class="text-slate-400 italic text-xs">-</span>
+                        @endif
+                    </td>
+                    <td class="px-6 py-4 text-slate-600">{{ $product->distributor?->name ?? '-' }}</td>
+                    <td class="px-6 py-4">
+                        <span class="font-semibold text-slate-700">Rp {{ number_format($product->price, 0, ',', '.') }}</span>
+                    </td>
+                    <td class="px-6 py-4">
+                        <span class="inline-flex items-center justify-center min-w-[2.5rem] px-2 py-1 rounded-full text-xs font-bold {{ $product->stock > 10 ? 'bg-emerald-50 text-emerald-600' : ($product->stock > 0 ? 'bg-amber-50 text-amber-600' : 'bg-red-50 text-red-600') }}">
+                            {{ $product->stock }}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 flex gap-2">
+                        <a href="{{ route('product.show', $product) }}" class="p-2 rounded-lg hover:bg-slate-100 text-slate-500 hover:text-slate-700 transition-colors" title="Lihat Detail">
+                            <i data-lucide="eye" style="width:16px;height:16px;"></i>
                         </a>
-                        <form action="{{ route('product.destroy', $product) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus?')">
+                        <a href="{{ route('product.edit', $product) }}" class="p-2 rounded-lg hover:bg-blue-50 text-slate-500 hover:text-blue-600 transition-colors" title="Edit">
+                            <i data-lucide="pencil" style="width:16px;height:16px;"></i>
+                        </a>
+                        <form action="{{ route('product.destroy', $product) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus produk ini?')">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="p-1.5 rounded hover:bg-red-50 text-red-400">
-                                <i data-lucide="trash-2" style="width:15px;height:15px;"></i>
+                            <button type="submit" class="p-2 rounded-lg hover:bg-red-50 text-slate-500 hover:text-red-500 transition-colors" title="Hapus">
+                                <i data-lucide="trash-2" style="width:16px;height:16px;"></i>
                             </button>
                         </form>
                     </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="7" class="px-5 py-8 text-center text-slate-400">Belum ada data produk</td>
+                    <td colspan="7" class="px-6 py-12 text-center text-slate-400">
+                        <div class="flex flex-col items-center justify-center">
+                            <div class="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mb-4">
+                                <i data-lucide="package" class="w-8 h-8 text-slate-300"></i>
+                            </div>
+                            <p class="font-medium text-slate-500">Belum ada data produk</p>
+                            <p class="text-xs text-slate-400 mt-1">Mulai dengan menambahkan produk baru</p>
+                        </div>
+                    </td>
                 </tr>
                 @endforelse
             </tbody>

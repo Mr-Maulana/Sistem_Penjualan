@@ -10,9 +10,12 @@ use App\Models\Salesman;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Traits\CodeGenerator;
 
 class SaleController extends Controller
 {
+    use CodeGenerator;
+
     /**
      * Display a listing of the resource.
      */
@@ -30,7 +33,8 @@ class SaleController extends Controller
         $customers = Customer::orderBy('name')->get();
         $salesmen = Salesman::orderBy('name')->get();
         $products = Product::orderBy('name')->get();
-        return view('sale.form', compact('customers', 'salesmen', 'products'));
+        $autoInvoice = $this->generateDatedCode(Sale::class, 'INV');
+        return view('sale.form', compact('customers', 'salesmen', 'products', 'autoInvoice'));
     }
 
     /**
@@ -116,9 +120,10 @@ class SaleController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Sale $sale)
     {
-        return redirect()->route('sale.index');
+        $sale->load(['customer', 'salesman', 'items.product']);
+        return view('sale.show', compact('sale'));
     }
 
     public function print(Sale $sale)

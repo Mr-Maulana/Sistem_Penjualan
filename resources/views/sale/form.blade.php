@@ -5,184 +5,236 @@
 @section('page-subtitle', isset($sale) ? 'Edit transaksi penjualan' : 'Tambah transaksi penjualan')
 
 @section('content')
-<div class="max-w-3xl">
-    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-        <div class="px-5 py-4 border-b border-slate-100">
-            <h3 class="font-bold text-slate-800">{{ isset($sale) ? 'Edit Penjualan' : 'Tambah Penjualan' }}</h3>
-        </div>
-        <form method="POST" action="{{ isset($sale) ? route('sale.update', $sale) : route('sale.store') }}" class="p-5 space-y-4" id="sale-form">
-            @csrf
-            @if(isset($sale))
-                @method('PUT')
-            @endif
+<div class="bg-white rounded-2xl shadow-sm border border-slate-200/60 max-w-5xl mx-auto overflow-hidden">
+    <div class="px-8 py-5 border-b border-slate-100 bg-white">
+        <h3 class="font-bold text-slate-800 text-lg">{{ isset($sale) ? 'Edit Transaksi Penjualan' : 'Buat Transaksi Baru' }}</h3>
+        <p class="text-xs text-slate-500 mt-1">Input data transaksi dengan teliti untuk akurasi laporan keuangan.</p>
+    </div>
+    <form method="POST" action="{{ isset($sale) ? route('sale.update', $sale) : route('sale.store') }}" class="p-8" id="sale-form">
+        @csrf
+        @if(isset($sale))
+            @method('PUT')
+        @endif
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="space-y-4">
                 <div>
-                    <label class="block text-xs font-semibold text-slate-500 mb-1">No. Invoice</label>
-                    <input name="invoice_number" value="{{ old('invoice_number', $sale->invoice_number ?? '') }}" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                    @error('invoice_number') <div class="text-xs text-red-500 mt-1">{{ $message }}</div> @enderror
+                    <label class="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wide">No. Invoice</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                            <i data-lucide="hash" style="width:16px;height:16px;" class="text-slate-400"></i>
+                        </div>
+                        <input type="text" name="invoice_number" value="{{ old('invoice_number', $sale->invoice_number ?? $autoInvoice ?? '') }}" 
+                               class="w-full border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-sm bg-slate-100 text-blue-600 cursor-not-allowed font-mono font-bold"
+                               readonly required placeholder="Otomatis">
+                    </div>
+                    @error('invoice_number') <div class="text-xs text-red-500 mt-1.5 font-medium">{{ $message }}</div> @enderror
+                    <p class="text-[10px] text-slate-400 mt-1 font-medium italic">* No. Invoice digenerate otomatis</p>
                 </div>
+                
                 <div>
-                    <label class="block text-xs font-semibold text-slate-500 mb-1">Tanggal</label>
-                    <input type="date" name="date" value="{{ old('date', isset($sale) ? optional($sale->date)->format('Y-m-d') : now()->format('Y-m-d')) }}" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                    @error('date') <div class="text-xs text-red-500 mt-1">{{ $message }}</div> @enderror
+                    <label class="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wide">Tanggal Transaksi</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                            <i data-lucide="calendar" style="width:16px;height:16px;" class="text-slate-400"></i>
+                        </div>
+                        <input type="date" name="date" value="{{ old('date', isset($sale) ? optional($sale->date)->format('Y-m-d') : now()->format('Y-m-d')) }}" 
+                               class="w-full border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all bg-slate-50/50 hover:bg-slate-50"
+                               required>
+                    </div>
+                    @error('date') <div class="text-xs text-red-500 mt-1.5 font-medium">{{ $message }}</div> @enderror
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="space-y-4">
                 <div>
-                    <label class="block text-xs font-semibold text-slate-500 mb-1">Customer</label>
-                    <select name="customer_id" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                        @foreach($customers as $c)
-                            <option value="{{ $c->id }}" {{ (string)old('customer_id', $sale->customer_id ?? '') === (string)$c->id ? 'selected' : '' }}>{{ $c->name }}</option>
-                        @endforeach
-                    </select>
-                    @error('customer_id') <div class="text-xs text-red-500 mt-1">{{ $message }}</div> @enderror
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-500 mb-1">Salesman</label>
-                    <select name="salesman_id" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                        @foreach($salesmen as $s)
-                            <option value="{{ $s->id }}" {{ (string)old('salesman_id', $sale->salesman_id ?? '') === (string)$s->id ? 'selected' : '' }}>{{ $s->name }}</option>
-                        @endforeach
-                    </select>
-                    @error('salesman_id') <div class="text-xs text-red-500 mt-1">{{ $message }}</div> @enderror
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-500 mb-1">Termin</label>
-                    <input name="payment_term" value="{{ old('payment_term', $sale->payment_term ?? '') }}" placeholder="Contoh: COD / 7 Hari / 14 Hari" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                    @error('payment_term') <div class="text-xs text-red-500 mt-1">{{ $message }}</div> @enderror
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-500 mb-1">Uang Muka (Rp)</label>
-                    <input type="number" name="down_payment" value="{{ old('down_payment', $sale->down_payment ?? 0) }}" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                    @error('down_payment') <div class="text-xs text-red-500 mt-1">{{ $message }}</div> @enderror
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-500 mb-1">Status</label>
-                    @php($v = old('status', $sale->status ?? 'unpaid'))
-                    <select name="status" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                        <option value="paid" {{ $v==='paid'?'selected':'' }}>Lunas</option>
-                        <option value="partial" {{ $v==='partial'?'selected':'' }}>Sebagian</option>
-                        <option value="unpaid" {{ $v==='unpaid'?'selected':'' }}>Belum Lunas</option>
-                    </select>
-                    @error('status') <div class="text-xs text-red-500 mt-1">{{ $message }}</div> @enderror
-                </div>
-            </div>
-
-            <div class="bg-slate-50 border border-slate-200 rounded-xl overflow-hidden">
-                <div class="px-4 py-3 flex items-center justify-between border-b border-slate-200">
-                    <div class="font-semibold text-slate-800">Detail Item</div>
-                    <button type="button" id="add-item" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-3 py-2 rounded-lg transition flex items-center gap-1.5">
-                        <i data-lucide="plus" style="width:14px;height:14px;"></i> Tambah Item
-                    </button>
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-sm" id="items-table">
-                        <thead>
-                            <tr class="bg-white text-slate-500 text-xs uppercase tracking-wide">
-                                <th class="px-4 py-3 text-left font-semibold">Produk</th>
-                                <th class="px-4 py-3 text-left font-semibold w-20">Qty</th>
-                                <th class="px-4 py-3 text-left font-semibold w-24">Bonus</th>
-                                <th class="px-4 py-3 text-left font-semibold w-32">Harga</th>
-                                <th class="px-4 py-3 text-left font-semibold w-32">Diskon</th>
-                                <th class="px-4 py-3 text-left font-semibold w-36">Subtotal</th>
-                                <th class="px-4 py-3 text-left font-semibold w-12"></th>
-                            </tr>
-                        </thead>
-                        <tbody id="items-body" class="bg-white">
-                            @php
-                                $oldItems = old('items');
-                                $items = $oldItems ?? (isset($sale) ? $sale->items->map(function($i){
-                                    return [
-                                        'product_id' => $i->product_id,
-                                        'quantity' => $i->quantity,
-                                        'bonus' => $i->bonus ?? 0,
-                                        'price' => $i->price,
-                                        'discount' => $i->discount ?? 0,
-                                    ];
-                                })->toArray() : []);
-                                if (empty($items)) {
-                                    $items = [[ 'product_id' => $products->first()?->id, 'quantity' => 1, 'bonus' => 0, 'price' => 0, 'discount' => 0 ]];
-                                }
-                            @endphp
-                            @foreach($items as $idx => $it)
-                            <tr class="border-b border-slate-100 item-row">
-                                <td class="px-4 py-3">
-                                    <select name="items[{{ $idx }}][product_id]" class="item-product w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                                        @foreach($products as $p)
-                                            <option value="{{ $p->id }}" {{ (string)($it['product_id'] ?? '') === (string)$p->id ? 'selected' : '' }} data-default-price="{{ $p->price }}">
-                                                {{ $p->name }} ({{ $p->code }}) - stok: {{ $p->stock }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </td>
-                                <td class="px-4 py-3">
-                                    <input type="number" min="1" name="items[{{ $idx }}][quantity]" value="{{ $it['quantity'] ?? 1 }}" class="item-qty w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                                </td>
-                                <td class="px-4 py-3">
-                                    <input type="number" min="0" name="items[{{ $idx }}][bonus]" value="{{ $it['bonus'] ?? 0 }}" class="item-bonus w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                                </td>
-                                <td class="px-4 py-3">
-                                    <input type="number" min="0" name="items[{{ $idx }}][price]" value="{{ $it['price'] ?? 0 }}" class="item-price w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                                </td>
-                                <td class="px-4 py-3">
-                                    <input type="number" min="0" name="items[{{ $idx }}][discount]" value="{{ $it['discount'] ?? 0 }}" class="item-discount w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                                </td>
-                                <td class="px-4 py-3 font-semibold text-slate-800 item-subtotal">Rp 0</td>
-                                <td class="px-4 py-3 text-right">
-                                    <button type="button" class="remove-item p-1.5 rounded hover:bg-red-50 text-red-400">
-                                        <i data-lucide="x" style="width:16px;height:16px;"></i>
-                                    </button>
-                                </td>
-                            </tr>
+                    <label class="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wide">Customer (Pembeli)</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                            <i data-lucide="user" style="width:16px;height:16px;" class="text-slate-400"></i>
+                        </div>
+                        <select name="customer_id" class="w-full border border-slate-200 rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all bg-slate-50/50 hover:bg-slate-50 appearance-none">
+                            @foreach($customers as $c)
+                                <option value="{{ $c->id }}" {{ (string)old('customer_id', $sale->customer_id ?? '') === (string)$c->id ? 'selected' : '' }}>{{ $c->name }}</option>
                             @endforeach
-                        </tbody>
-                    </table>
+                        </select>
+                    </div>
+                    @error('customer_id') <div class="text-xs text-red-500 mt-1.5 font-medium">{{ $message }}</div> @enderror
+                </div>
+                
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wide">Salesman (Penanggung Jawab)</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                            <i data-lucide="briefcase" style="width:16px;height:16px;" class="text-slate-400"></i>
+                        </div>
+                        <select name="salesman_id" class="w-full border border-slate-200 rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all bg-slate-50/50 hover:bg-slate-50 appearance-none">
+                            @foreach($salesmen as $s)
+                                <option value="{{ $s->id }}" {{ (string)old('salesman_id', $sale->salesman_id ?? '') === (string)$s->id ? 'selected' : '' }}>{{ $s->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    @error('salesman_id') <div class="text-xs text-red-500 mt-1.5 font-medium">{{ $message }}</div> @enderror
                 </div>
             </div>
+        </div>
 
-            @error('items') <div class="text-xs text-red-500 mt-1">{{ $message }}</div> @enderror
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-500 mb-1">Catatan</label>
-                    <input name="notes" value="{{ old('notes', $sale->notes ?? '') }}" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                    @error('notes') <div class="text-xs text-red-500 mt-1">{{ $message }}</div> @enderror
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl overflow-hidden mb-8 shadow-inner">
+            <div class="px-6 py-4 flex items-center justify-between border-b border-slate-200 bg-white/50 backdrop-blur-sm">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="shopping-cart" style="width:18px;height:18px;" class="text-blue-500"></i>
+                    <span class="font-bold text-slate-800">Daftar Barang / Item</span>
                 </div>
+                <button type="button" id="add-item" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition-all flex items-center gap-2 shadow-sm hover:shadow">
+                    <i data-lucide="plus" style="width:14px;height:14px;"></i> Tambah Item
+                </button>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm" id="items-table">
+                    <thead>
+                        <tr class="bg-slate-100/50 text-slate-500 text-[10px] uppercase tracking-widest">
+                            <th class="px-4 py-3 text-left font-bold">Produk</th>
+                            <th class="px-4 py-3 text-center font-bold w-20">Qty</th>
+                            <th class="px-4 py-3 text-center font-bold w-20">Bonus</th>
+                            <th class="px-4 py-3 text-right font-bold w-32">Harga Satuan</th>
+                            <th class="px-4 py-3 text-right font-bold w-28">Potongan</th>
+                            <th class="px-4 py-3 text-right font-bold w-36">Subtotal</th>
+                            <th class="px-4 py-3 text-center font-bold w-12"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="items-body" class="bg-white/30 divide-y divide-slate-100">
+                        @php
+                            $oldItems = old('items');
+                            $items = $oldItems ?? (isset($sale) ? $sale->items->map(function($i){
+                                return [
+                                    'product_id' => $i->product_id,
+                                    'quantity' => $i->quantity,
+                                    'bonus' => $i->bonus ?? 0,
+                                    'price' => $i->price,
+                                    'discount' => $i->discount ?? 0,
+                                ];
+                            })->toArray() : []);
+                            if (empty($items)) {
+                                $items = [[ 'product_id' => $products->first()?->id, 'quantity' => 1, 'bonus' => 0, 'price' => 0, 'discount' => 0 ]];
+                            }
+                        @endphp
+                        @foreach($items as $idx => $it)
+                        <tr class="item-row hover:bg-white/80 transition-colors">
+                            <td class="px-4 py-3">
+                                <select name="items[{{ $idx }}][product_id]" class="item-product w-full border border-slate-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500/50 bg-white">
+                                    @foreach($products as $p)
+                                        <option value="{{ $p->id }}" {{ (string)($it['product_id'] ?? '') === (string)$p->id ? 'selected' : '' }} data-default-price="{{ $p->price }}">
+                                            {{ $p->name }} ({{ $p->code }})
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </td>
+                            <td class="px-4 py-3 text-center">
+                                <input type="number" min="1" name="items[{{ $idx }}][quantity]" value="{{ $it['quantity'] ?? 1 }}" class="item-qty w-full border border-slate-200 rounded-lg px-2 py-2 text-center text-xs focus:outline-none focus:ring-2 focus:ring-blue-500/50 bg-white font-bold">
+                            </td>
+                            <td class="px-4 py-3 text-center">
+                                <input type="number" min="0" name="items[{{ $idx }}][bonus]" value="{{ $it['bonus'] ?? 0 }}" class="item-bonus w-full border border-slate-200 rounded-lg px-2 py-2 text-center text-xs focus:outline-none focus:ring-2 focus:ring-blue-500/50 bg-white text-emerald-600 font-bold">
+                            </td>
+                            <td class="px-4 py-3 text-right">
+                                <input type="number" min="0" name="items[{{ $idx }}][price]" value="{{ $it['price'] ?? 0 }}" class="item-price w-full border border-slate-200 rounded-lg px-2 py-2 text-right text-xs focus:outline-none focus:ring-2 focus:ring-blue-500/50 bg-white font-mono font-bold">
+                            </td>
+                            <td class="px-4 py-3 text-right">
+                                <input type="number" min="0" name="items[{{ $idx }}][discount]" value="{{ $it['discount'] ?? 0 }}" class="item-discount w-full border border-slate-200 rounded-lg px-2 py-2 text-right text-xs focus:outline-none focus:ring-2 focus:ring-blue-500/50 bg-white text-red-500 font-mono">
+                            </td>
+                            <td class="px-4 py-3 text-right font-bold text-slate-800 item-subtotal font-mono">Rp 0</td>
+                            <td class="px-4 py-3 text-center">
+                                <button type="button" class="remove-item p-1.5 rounded-lg hover:bg-red-50 text-slate-400 hover:text-red-500 transition-colors">
+                                    <i data-lucide="trash-2" style="width:14px;height:14px;"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        @error('items') <div class="text-sm text-red-500 mb-6 font-medium p-3 bg-red-50 rounded-xl border border-red-100 flex items-center gap-2"><i data-lucide="alert-circle" class="w-4 h-4"></i> {{ $message }}</div> @enderror
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+            <div class="space-y-4">
                 <div>
-                    <div class="grid grid-cols-3 gap-3">
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-500 mb-1">Diskon (Rp)</label>
-                            <input type="number" min="0" name="discount" id="discount" value="{{ old('discount', $sale->discount ?? 0) }}" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                            @error('discount') <div class="text-xs text-red-500 mt-1">{{ $message }}</div> @enderror
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-500 mb-1">Pajak (Rp)</label>
-                            <input type="number" min="0" name="tax" id="tax" value="{{ old('tax', $sale->tax ?? 0) }}" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                            @error('tax') <div class="text-xs text-red-500 mt-1">{{ $message }}</div> @enderror
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-500 mb-1">Total (Rp)</label>
-                            <input type="number" readonly id="total" value="{{ old('total', $sale->total ?? 0) }}" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none">
-                        </div>
+                    <label class="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wide">Catatan Transaksi</label>
+                    <textarea name="notes" rows="4" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all bg-slate-50/50 hover:bg-slate-50" 
+                              placeholder="Masukkan keterangan tambahan jika ada...">{{ old('notes', $sale->notes ?? '') }}</textarea>
+                    @error('notes') <div class="text-xs text-red-500 mt-1.5 font-medium">{{ $message }}</div> @enderror
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wide">Termin Pembayaran</label>
+                        <input name="payment_term" value="{{ old('payment_term', $sale->payment_term ?? '') }}" 
+                               class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all bg-white"
+                               placeholder="Contoh: COD / 7 Hari">
+                        @error('payment_term') <div class="text-xs text-red-500 mt-1.5 font-medium">{{ $message }}</div> @enderror
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wide">Uang Muka (DP)</label>
+                        <input type="number" name="down_payment" value="{{ old('down_payment', $sale->down_payment ?? 0) }}" 
+                               class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all bg-white font-mono">
+                        @error('down_payment') <div class="text-xs text-red-500 mt-1.5 font-medium">{{ $message }}</div> @enderror
                     </div>
                 </div>
             </div>
 
-            <div class="flex gap-2 pt-2">
-                <button class="bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition">
-                    Simpan
-                </button>
-                <a href="{{ route('sale.index') }}" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-semibold px-4 py-2.5 rounded-lg transition">
-                    Batal
-                </a>
+            <div class="bg-slate-50 rounded-2xl p-8 border border-slate-200 space-y-4">
+                <div class="flex items-center justify-between text-sm">
+                    <span class="text-slate-500 font-semibold uppercase tracking-wider text-[10px]">Pilih Status Bayar</span>
+                    <div class="flex bg-white p-1 rounded-xl border border-slate-200 ring-1 ring-black/5">
+                        @php($v = old('status', $sale->status ?? 'unpaid'))
+                        <label class="cursor-pointer">
+                            <input type="radio" name="status" value="unpaid" class="hidden peer" {{ $v==='unpaid'?'checked':'' }}>
+                            <span class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all inline-block peer-checked:bg-red-500 peer-checked:text-white text-slate-400">UNPAID</span>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="status" value="partial" class="hidden peer" {{ $v==='partial'?'checked':'' }}>
+                            <span class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all inline-block peer-checked:bg-amber-500 peer-checked:text-white text-slate-400">PARTIAL</span>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="status" value="paid" class="hidden peer" {{ $v==='paid'?'checked':'' }}>
+                            <span class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all inline-block peer-checked:bg-emerald-500 peer-checked:text-white text-slate-400">PAID</span>
+                        </label>
+                    </div>
+                </div>
+                @error('status') <div class="text-xs text-red-500 mt-1 font-medium text-right">{{ $message }}</div> @enderror
+
+                <div class="space-y-3 pt-2">
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm font-bold text-slate-500">Potongan Invoice (Rp)</span>
+                        <input type="number" min="0" name="discount" id="discount" value="{{ old('discount', $sale->discount ?? 0) }}" 
+                               class="w-40 border border-slate-200 rounded-xl px-3 py-2 text-right text-sm focus:outline-none focus:ring-2 focus:ring-red-500/50 bg-white font-mono text-red-600 font-bold">
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm font-bold text-slate-500">Pajak / PPN (Rp)</span>
+                        <input type="number" min="0" name="tax" id="tax" value="{{ old('tax', $sale->tax ?? 0) }}" 
+                               class="w-40 border border-slate-200 rounded-xl px-3 py-2 text-right text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 bg-white font-mono font-bold">
+                    </div>
+                    <div class="pt-4 border-t border-slate-200 flex justify-between items-center">
+                        <span class="font-black text-slate-800 uppercase tracking-tighter text-lg">Total Akhir</span>
+                        <div class="text-right">
+                            <input type="number" readonly id="total" value="{{ old('total', $sale->total ?? 0) }}" 
+                                   class="bg-transparent border-none text-right text-2xl font-black text-blue-600 focus:outline-none w-56 font-mono tracking-tighter">
+                            <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Sistem Otomatis Terkalkulasi</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </form>
-    </div>
+        </div>
+
+        <div class="flex items-center gap-3 mt-10 pt-6 border-t border-slate-100">
+            <button type="submit" class="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-bold py-3 px-10 rounded-xl text-sm transition-all shadow-lg hover:shadow-indigo-500/25 hover:-translate-y-0.5 flex items-center gap-2">
+                <i data-lucide="save" style="width:18px;height:18px;"></i> {{ isset($sale) ? 'Update Transaksi' : 'Simpan Transaksi' }}
+            </button>
+            <a href="{{ route('sale.index') }}" class="bg-white border border-slate-200 hover:bg-slate-50 hover:border-slate-300 text-slate-600 font-bold py-3 px-8 rounded-xl text-sm transition-all flex items-center gap-2">
+                Batal
+            </a>
+        </div>
+    </form>
 </div>
 @endsection
 

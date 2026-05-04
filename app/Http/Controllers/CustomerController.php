@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Models\Salesman;
 use Illuminate\Http\Request;
+use App\Traits\CodeGenerator;
 
 class CustomerController extends Controller
 {
+    use CodeGenerator;
+
     /**
      * Display a listing of the resource.
      */
@@ -16,14 +19,15 @@ class CustomerController extends Controller
         $customers = Customer::with('salesman')->orderBy('code')->get();
         return view('customer.index', compact('customers'));
     }
-
+    
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
         $salesmen = Salesman::orderBy('name')->get();
-        return view('customer.form', compact('salesmen'));
+        $autoCode = $this->generateCode(Customer::class, 'CST');
+        return view('customer.form', compact('salesmen', 'autoCode'));
     }
 
     /**
@@ -51,9 +55,9 @@ class CustomerController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Customer $customer)
     {
-        return redirect()->route('customer.index');
+        return view('customer.show', compact('customer'));
     }
 
     /**
