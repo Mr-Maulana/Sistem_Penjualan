@@ -5,6 +5,16 @@
 @section('page-subtitle', 'Evaluasi & penutupan periode')
 
 @section('content')
+<div class="bg-white rounded-2xl shadow-sm border border-slate-200/60 p-6 flex items-center justify-between mb-8">
+    <div>
+        <h3 class="font-bold text-slate-800 text-lg">Ringkasan Closing</h3>
+        <p class="text-xs text-slate-500 mt-1">Laporan evaluasi performa dan ringkasan keuangan</p>
+    </div>
+    <a href="{{ route('report.closing.export.pdf') }}" class="bg-red-600 hover:bg-red-700 text-white text-sm font-bold px-6 py-2.5 rounded-xl flex items-center gap-2 transition-all shadow-md shadow-red-100 hover:-translate-y-0.5 active:scale-95">
+        <i data-lucide="file-text" style="width:18px;height:18px;"></i> Download PDF
+    </a>
+</div>
+
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
     <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200/60 relative overflow-hidden group">
         <div class="absolute -right-4 -top-4 w-24 h-24 bg-blue-500/5 rounded-full blur-2xl group-hover:bg-blue-500/10 transition-colors"></div>

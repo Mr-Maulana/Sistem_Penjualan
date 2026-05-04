@@ -11,9 +11,14 @@
             <h3 class="font-bold text-slate-800 text-lg">Rekap Kas / Bank</h3>
             <p class="text-xs text-slate-500 mt-1">Laporan historis seluruh pergerakan dana kas dan bank</p>
         </div>
-        <a href="{{ route('cash-flow.index') }}" class="bg-slate-50 hover:bg-slate-100 text-slate-600 text-sm font-bold px-4 py-2.5 rounded-xl flex items-center gap-2 transition-all border border-slate-200 shadow-sm">
-            <i data-lucide="eye" style="width:16px;height:16px;"></i> Detail Mutasi
-        </a>
+        <div class="flex items-center gap-3">
+            <a href="{{ route('report.cash-flow.export.pdf') }}" class="bg-red-600 hover:bg-red-700 text-white text-sm font-bold px-4 py-2.5 rounded-xl flex items-center gap-2 transition-all shadow-md shadow-red-100 hover:-translate-y-0.5 active:scale-95">
+                <i data-lucide="file-text" style="width:16px;height:16px;"></i> PDF
+            </a>
+            <a href="{{ route('cash-flow.index') }}" class="bg-slate-50 hover:bg-slate-100 text-slate-600 text-sm font-bold px-4 py-2.5 rounded-xl flex items-center gap-2 transition-all border border-slate-200 shadow-sm">
+                <i data-lucide="eye" style="width:16px;height:16px;"></i> Detail Mutasi
+            </a>
+        </div>
     </div>
     <div class="overflow-x-auto">
         <table class="w-full text-sm">

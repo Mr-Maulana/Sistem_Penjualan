@@ -41,10 +41,12 @@ Route::middleware('auth')->group(function () {
 
     // Laporan
     Route::get('report/closing', [ReportController::class, 'closing'])->name('report.closing');
+    Route::get('report/closing/export/pdf', [ReportController::class, 'closingExportPdf'])->name('report.closing.export.pdf');
     Route::get('report/sales', [ReportController::class, 'sales'])->name('report.sales');
     Route::get('report/sales/export/csv', [ReportController::class, 'salesExportCsv'])->name('report.sales.export.csv');
     Route::get('report/sales/export/pdf', [ReportController::class, 'salesExportPdf'])->name('report.sales.export.pdf');
     Route::get('report/cash-flow', [ReportController::class, 'cashFlow'])->name('report.cash-flow');
+    Route::get('report/cash-flow/export/pdf', [ReportController::class, 'cashFlowExportPdf'])->name('report.cash-flow.export.pdf');
 
     // User Management (Admin only)
     Route::middleware('role:admin')->group(function () {

@@ -9,7 +9,9 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>[x-cloak] { display: none !important; }</style>
 </head>
 <body class="h-full bg-slate-100">
     <div class="h-full w-full flex overflow-hidden">
@@ -100,7 +102,7 @@
         </aside>
 
         <main class="flex-1 flex flex-col h-full overflow-hidden bg-slate-50">
-            <header class="bg-white border-b border-slate-200 px-8 py-4 flex items-center justify-between flex-shrink-0 z-10">
+            <header class="bg-white border-b border-slate-200 px-8 py-4 flex items-center justify-between flex-shrink-0 z-30">
                 <div>
                     <h1 class="text-xl font-extrabold text-slate-800 tracking-tight">@yield('page-title', 'Dashboard')</h1>
                     <p class="text-sm text-slate-500 mt-0.5">@yield('page-subtitle', 'Ringkasan data penjualan')</p>
@@ -125,7 +127,7 @@
                             <i data-lucide="chevron-down" style="width:16px;height:16px;" class="text-slate-400"></i>
                         </button>
 
-                        <div x-show="open" x-transition.origin.top.right @click.outside="open=false" style="display: none;"
+                        <div x-show="open" x-cloak x-transition.origin.top.right @click.outside="open=false"
                             class="absolute right-0 mt-3 w-56 bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden z-50">
                             <div class="p-4 border-b border-slate-50">
                                 <p class="text-sm font-semibold text-slate-800 truncate">{{ $uTop?->name }}</p>
@@ -147,7 +149,7 @@
                 </div>
             </header>
 
-            <div class="flex-1 p-6 overflow-auto fade-in">
+            <div class="flex-1 p-6 overflow-auto fade-in relative z-0">
                 @if(session('success'))
                     <div class="bg-emerald-100 border border-emerald-400 text-emerald-700 px-4 py-3 rounded-lg mb-4">
                         {{ session('success') }}

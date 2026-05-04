@@ -55,7 +55,33 @@
     </div>
 </div>
 
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200/60 p-6">
+        <div class="flex items-center justify-between mb-6">
+            <h3 class="font-bold text-slate-800 flex items-center gap-2">
+                <i data-lucide="trending-up" class="w-5 h-5 text-blue-600"></i> Tren Penjualan
+            </h3>
+            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">7 Hari Terakhir</span>
+        </div>
+        <div class="h-[300px]">
+            <canvas id="salesChart"></canvas>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200/60 p-6">
+        <div class="flex items-center justify-between mb-6">
+            <h3 class="font-bold text-slate-800 flex items-center gap-2">
+                <i data-lucide="landmark" class="w-5 h-5 text-emerald-600"></i> Arus Kas (In vs Out)
+            </h3>
+            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">7 Hari Terakhir</span>
+        </div>
+        <div class="h-[300px]">
+            <canvas id="cashFlowChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
     <div class="bg-white rounded-2xl shadow-sm border border-slate-200/60 overflow-hidden">
         <div class="px-6 py-5 border-b border-slate-100 flex items-center justify-between bg-white">
             <div class="flex items-center gap-3">
@@ -95,6 +121,19 @@
         </div>
     </div>
 
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200/60 p-6">
+        <div class="flex items-center justify-between mb-6">
+            <h3 class="font-bold text-slate-800 flex items-center gap-2">
+                <i data-lucide="award" class="w-5 h-5 text-amber-500"></i> Performa Salesman
+            </h3>
+        </div>
+        <div class="h-[300px]">
+            <canvas id="salesmanChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 gap-8">
     <div class="bg-white rounded-2xl shadow-sm border border-slate-200/60 overflow-hidden">
         <div class="px-6 py-5 border-b border-slate-100 flex items-center justify-between bg-white">
             <div class="flex items-center gap-3">
@@ -139,5 +178,98 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Sales Chart
+    const salesCtx = document.getElementById('salesChart').getContext('2d');
+    new Chart(salesCtx, {
+        type: 'line',
+        data: {
+            labels: {!! json_encode($chartData->pluck('date')) !!},
+            datasets: [{
+                label: 'Penjualan',
+                data: {!! json_encode($chartData->pluck('total')) !!},
+                borderColor: '#2563eb',
+                backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { beginAtZero: true, grid: { display: false } },
+                x: { grid: { display: false } }
+            }
+        }
+    });
+
+    // Cash Flow Chart
+    const cashFlowCtx = document.getElementById('cashFlowChart').getContext('2d');
+    new Chart(cashFlowCtx, {
+        type: 'line',
+        data: {
+            labels: {!! json_encode($cashFlowChart->pluck('date')) !!},
+            datasets: [
+                {
+                    label: 'Kas Masuk',
+                    data: {!! json_encode($cashFlowChart->pluck('cash_in')) !!},
+                    borderColor: '#10b981',
+                    backgroundColor: 'transparent',
+                    borderWidth: 2,
+                    tension: 0.4
+                },
+                {
+                    label: 'Kas Keluar',
+                    data: {!! json_encode($cashFlowChart->pluck('cash_out')) !!},
+                    borderColor: '#ef4444',
+                    backgroundColor: 'transparent',
+                    borderWidth: 2,
+                    tension: 0.4
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: { beginAtZero: true, grid: { display: false } },
+                x: { grid: { display: false } }
+            }
+        }
+    });
+
+    // Salesman Performance Chart
+    const salesmanCtx = document.getElementById('salesmanChart').getContext('2d');
+    new Chart(salesmanCtx, {
+        type: 'bar',
+        data: {
+            labels: {!! json_encode($salesmanPerformance->pluck('name')) !!},
+            datasets: [{
+                label: '% Pencapaian',
+                data: {!! json_encode($salesmanPerformance->pluck('percentage')) !!},
+                backgroundColor: '#f59e0b',
+                borderRadius: 8
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { max: 100, beginAtZero: true, grid: { display: false } },
+                y: { grid: { display: false } }
+            }
+        }
+    });
+});
+</script>
+@endpush
 @endsection
 

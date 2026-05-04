@@ -12,6 +12,7 @@ class DatabaseSeeder extends Seeder
             DistributorSeeder::class,
             SalesmanSeeder::class,
             CategorySeeder::class,
+            DemoDataSeeder::class,
         ]);
     }
 }
