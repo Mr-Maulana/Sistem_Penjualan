@@ -30,7 +30,7 @@ class DashboardController extends Controller
             $totalTarget = Salesman::sum('target');
             
             // Kas
-            $lastCashFlow = CashFlow::latest()->first();
+            $lastCashFlow = CashFlow::orderBy('date', 'desc')->orderBy('id', 'desc')->first();
             $currentBalance = $lastCashFlow ? $lastCashFlow->balance : 0;
             $totalCashIn = CashFlow::where('type', 'in')->sum('amount');
             $totalCashOut = CashFlow::where('type', 'out')->sum('amount');

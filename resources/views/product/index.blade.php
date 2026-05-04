@@ -15,6 +15,49 @@
             <i data-lucide="plus" style="width:16px;height:16px;"></i> Tambah Produk
         </a>
     </div>
+
+    <!-- Search & Filter -->
+    <div class="px-6 py-4 bg-slate-50/50 border-b border-slate-100">
+        <form action="{{ route('product.index') }}" method="GET" class="flex flex-col md:flex-row gap-4">
+            <div class="flex-1 relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <i data-lucide="search" class="h-4 w-4 text-slate-400"></i>
+                </div>
+                <input type="text" name="search" value="{{ request('search') }}" 
+                    class="block w-full pl-10 pr-3 py-2 border border-slate-200 rounded-xl text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all" 
+                    placeholder="Cari kode atau nama produk...">
+            </div>
+            <div class="w-full md:w-48">
+                <select name="category_id" onchange="this.form.submit()" 
+                    class="block w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all">
+                    <option value="">Semua Kategori</option>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="w-full md:w-48">
+                <select name="distributor_id" onchange="this.form.submit()" 
+                    class="block w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all">
+                    <option value="">Semua Distributor</option>
+                    @foreach($distributors as $distributor)
+                        <option value="{{ $distributor->id }}" {{ request('distributor_id') == $distributor->id ? 'selected' : '' }}>{{ $distributor->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="flex gap-2">
+                <button type="submit" class="bg-slate-800 text-white text-sm font-semibold px-4 py-2 rounded-xl hover:bg-slate-700 transition-all">
+                    Filter
+                </button>
+                @if(request()->anyFilled(['search', 'category_id', 'distributor_id']))
+                    <a href="{{ route('product.index') }}" class="bg-slate-200 text-slate-600 text-sm font-semibold px-4 py-2 rounded-xl hover:bg-slate-300 transition-all">
+                        Reset
+                    </a>
+                @endif
+            </div>
+        </form>
+    </div>
+
     <div class="overflow-x-auto">
         <table class="w-full text-sm">
             <thead>

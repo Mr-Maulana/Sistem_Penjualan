@@ -15,6 +15,61 @@
             <i data-lucide="plus" style="width:16px;height:16px;"></i> Tambah Customer
         </a>
     </div>
+
+    <!-- Search & Filter -->
+    <div class="px-6 py-4 bg-slate-50/50 border-b border-slate-100">
+        <form action="{{ route('customer.index') }}" method="GET" class="flex flex-col gap-4">
+            <div class="flex flex-col md:flex-row gap-4">
+                <div class="flex-1 relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i data-lucide="search" class="h-4 w-4 text-slate-400"></i>
+                    </div>
+                    <input type="text" name="search" value="{{ request('search') }}" 
+                        class="block w-full pl-10 pr-3 py-2 border border-slate-200 rounded-xl text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all" 
+                        placeholder="Cari kode, nama, alamat, atau telepon...">
+                </div>
+                <div class="w-full md:w-48">
+                    <select name="status" onchange="this.form.submit()" 
+                        class="block w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
+                        <option value="">Semua Status</option>
+                        <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Aktif</option>
+                        <option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>Nonaktif</option>
+                    </select>
+                </div>
+            </div>
+            <div class="flex flex-col md:flex-row gap-4">
+                <div class="w-full md:w-1/2">
+                    <select name="salesman_id" onchange="this.form.submit()" 
+                        class="block w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
+                        <option value="">Semua Salesman</option>
+                        @foreach($salesmen as $s)
+                            <option value="{{ $s->id }}" {{ request('salesman_id') == $s->id ? 'selected' : '' }}>{{ $s->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="w-full md:w-1/2">
+                    <select name="group" onchange="this.form.submit()" 
+                        class="block w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
+                        <option value="">Semua Group</option>
+                        @foreach($groups as $g)
+                            <option value="{{ $g }}" {{ request('group') == $g ? 'selected' : '' }}>{{ $g }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="flex gap-2">
+                    <button type="submit" class="bg-slate-800 text-white text-sm font-semibold px-4 py-2 rounded-xl hover:bg-slate-700 transition-all whitespace-nowrap">
+                        Filter
+                    </button>
+                    @if(request()->anyFilled(['search', 'status', 'salesman_id', 'group']))
+                        <a href="{{ route('customer.index') }}" class="bg-slate-200 text-slate-600 text-sm font-semibold px-4 py-2 rounded-xl hover:bg-slate-300 transition-all whitespace-nowrap">
+                            Reset
+                        </a>
+                    @endif
+                </div>
+            </div>
+        </form>
+    </div>
+
     <div class="overflow-x-auto">
         <table class="w-full text-sm">
             <thead>

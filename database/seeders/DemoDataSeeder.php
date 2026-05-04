@@ -156,32 +156,56 @@ class DemoDataSeeder extends Seeder
                 'subtotal' => $subtotal,
                 'total' => $subtotal - $sale->discount,
             ]);
+        }
 
-            // 9. Cash Flow (Income)
-            if ($sale->status === 'paid') {
-                CashFlow::create([
-                    'code' => 'CF-IN-' . Carbon::now()->format('Ymd') . '-' . str_pad($i, 4, '0', STR_PAD_LEFT),
-                    'date' => $sale->date,
-                    'type' => 'in',
-                    'description' => 'Pembayaran invoice ' . $sale->invoice_number,
-                    'amount' => $sale->total,
-                    'balance' => 0,
-                    'reference_type' => 'sale',
-                    'reference_id' => $sale->id,
-                ]);
-            }
+        // 9. Create Cash Flows based on paid sales and expenses
+        $cashFlowData = [];
+        $sales = Sale::where('status', 'paid')->get();
+        foreach ($sales as $index => $sale) {
+            $cashFlowData[] = [
+                'code' => 'CF-IN-' . $sale->date->format('Ymd') . '-' . str_pad($index + 1, 4, '0', STR_PAD_LEFT),
+                'date' => $sale->date,
+                'type' => 'in',
+                'description' => 'Pembayaran invoice ' . $sale->invoice_number,
+                'amount' => $sale->total,
+                'reference_type' => 'sale',
+                'reference_id' => $sale->id,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
         }
 
         // Extra Cash Flow (Expenses)
         for ($i = 1; $i <= 5; $i++) {
-            CashFlow::create([
-                'code' => 'CF-OUT-' . Carbon::now()->format('Ymd') . '-' . str_pad($i, 4, '0', STR_PAD_LEFT),
-                'date' => Carbon::now()->subDays($faker->numberBetween(0, 30)),
+            $date = Carbon::now()->subDays($faker->numberBetween(0, 30));
+            $cashFlowData[] = [
+                'code' => 'CF-OUT-' . $date->format('Ymd') . '-' . str_pad($i, 4, '0', STR_PAD_LEFT),
+                'date' => $date,
                 'type' => 'out',
-                'description' => $faker->randomElement(['Listrik', 'Gaji', 'Sewa']),
+                'description' => $faker->randomElement(['Listrik', 'Gaji', 'Sewa', 'Internet', 'Kebersihan']),
                 'amount' => $faker->numberBetween(100000, 500000),
-                'balance' => 0,
-            ]);
+                'reference_type' => null,
+                'reference_id' => null,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+        }
+
+        // Sort by date to calculate running balance
+        usort($cashFlowData, function($a, $b) {
+            return $a['date'] <=> $b['date'];
+        });
+
+        $runningBalance = 0;
+        foreach ($cashFlowData as $data) {
+            if ($data['type'] === 'in') {
+                $runningBalance += $data['amount'];
+            } else {
+                $runningBalance -= $data['amount'];
+            }
+            
+            $data['balance'] = $runningBalance;
+            CashFlow::create($data);
         }
     }
 }

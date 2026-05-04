@@ -14,10 +14,37 @@ class CustomerController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $customers = Customer::with('salesman')->orderBy('code')->get();
-        return view('customer.index', compact('customers'));
+        $query = Customer::with('salesman');
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('code', 'like', "%{$search}%")
+                  ->orWhere('city', 'like', "%{$search}%")
+                  ->orWhere('phone', 'like', "%{$search}%");
+            });
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->filled('group')) {
+            $query->where('group', $request->group);
+        }
+
+        if ($request->filled('salesman_id')) {
+            $query->where('salesman_id', $request->salesman_id);
+        }
+
+        $customers = $query->orderBy('code')->get();
+        $salesmen = Salesman::orderBy('name')->get();
+        $groups = Customer::whereNotNull('group')->distinct()->pluck('group');
+
+        return view('customer.index', compact('customers', 'salesmen', 'groups'));
     }
     
     /**

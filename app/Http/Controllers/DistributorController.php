@@ -9,10 +9,27 @@ class DistributorController extends Controller
 {
     use CodeGenerator;
 
-    public function index()
+    public function index(Request $request)
     {
-        $distributors = Distributor::orderBy('code')->get();
-        return view('distributor.index', compact('distributors'));
+        $query = Distributor::query();
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('code', 'like', "%{$search}%")
+                  ->orWhere('city', 'like', "%{$search}%");
+            });
+        }
+
+        if ($request->filled('city')) {
+            $query->where('city', $request->city);
+        }
+
+        $distributors = $query->orderBy('code')->get();
+        $cities = Distributor::select('city')->distinct()->pluck('city');
+
+        return view('distributor.index', compact('distributors', 'cities'));
     }
     
     public function create()

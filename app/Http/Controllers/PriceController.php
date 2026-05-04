@@ -48,14 +48,29 @@ class PriceController extends Controller
         ]);
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $prices = Price::with('product')
-            ->orderBy('effective_date', 'desc')
+        $query = Price::with('product');
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->whereHas('product', function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('code', 'like', "%{$search}%");
+            });
+        }
+
+        if ($request->filled('group')) {
+            $query->where('customer_group', $request->group);
+        }
+
+        $prices = $query->orderBy('effective_date', 'desc')
             ->orderBy('id', 'desc')
             ->get();
 
-        return view('price.index', compact('prices'));
+        $groups = Price::whereNotNull('customer_group')->distinct()->pluck('customer_group');
+
+        return view('price.index', compact('prices', 'groups'));
     }
 
     public function create()
