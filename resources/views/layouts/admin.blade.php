@@ -20,9 +20,9 @@
                class="fixed inset-y-0 left-0 w-64 bg-gradient-to-b from-slate-900 to-slate-800 text-white flex flex-col flex-shrink-0 h-full z-50 transition-transform duration-300 lg:static lg:translate-x-0">
             <div class="p-5 border-b border-white/10 flex items-center justify-between">
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-emerald-500 flex items-center justify-center font-bold text-lg">S</div>
+                    <img src="{{ asset('images/logo.png') }}" alt="Logo" class="w-10 h-10 rounded-xl object-cover">
                     <div>
-                        <div class="font-bold text-sm leading-tight">Sistem Penjualan</div>
+                        <div class="font-bold text-sm leading-tight text-white">Sistem Penjualan</div>
                         <div class="text-xs text-slate-400">PT. Maju Bersama</div>
                     </div>
                 </div>

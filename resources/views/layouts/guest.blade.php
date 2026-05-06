@@ -25,11 +25,16 @@
 
             <div class="relative w-full max-w-md">
                 <div class="mb-8 text-center">
-                    <div class="inline-flex flex-col items-center gap-4">
-                        <div class="w-16 h-16 rounded-[2rem] bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center font-black text-white text-3xl shadow-xl shadow-indigo-500/20 rotate-3 hover:rotate-0 transition-transform duration-500">S</div>
+                    <div class="inline-flex flex-col items-center gap-6">
+                        <div class="relative group">
+                            <div class="absolute -inset-1 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+                            <div class="relative p-2 bg-white/10 backdrop-blur-2xl rounded-full border border-white/20 shadow-2xl">
+                                <img src="{{ asset('images/logo.png') }}" alt="Logo" class="w-24 h-24 rounded-full object-cover transition-transform duration-500 group-hover:scale-110">
+                            </div>
+                        </div>
                         <div>
-                            <h1 class="text-white text-2xl font-black tracking-tight">Sistem Penjualan</h1>
-                            <p class="text-slate-400 text-sm font-medium mt-1">Management Dashboard v2.0</p>
+                            <h1 class="text-white text-3xl font-black tracking-tight">Sistem<span class="text-blue-400">Penjualan</span></h1>
+                            <p class="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] mt-2">Management Dashboard v2.0</p>
                         </div>
                     </div>
                 </div>
