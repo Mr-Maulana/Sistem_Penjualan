@@ -13,10 +13,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>[x-cloak] { display: none !important; }</style>
 </head>
-<body class="h-full bg-slate-100">
-    <div class="h-full w-full flex overflow-hidden">
-        <aside class="w-64 bg-gradient-to-b from-slate-900 to-slate-800 text-white flex flex-col flex-shrink-0 h-full">
-            <div class="p-5 border-b border-white/10">
+<body class="h-full bg-slate-100" x-data="{ sidebarOpen: false }">
+    <div class="h-full w-full flex overflow-hidden relative">
+        <!-- Sidebar -->
+        <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'"
+               class="fixed inset-y-0 left-0 w-64 bg-gradient-to-b from-slate-900 to-slate-800 text-white flex flex-col flex-shrink-0 h-full z-50 transition-transform duration-300 lg:static lg:translate-x-0">
+            <div class="p-5 border-b border-white/10 flex items-center justify-between">
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-xl bg-emerald-500 flex items-center justify-center font-bold text-lg">S</div>
                     <div>
@@ -24,6 +26,10 @@
                         <div class="text-xs text-slate-400">PT. Maju Bersama</div>
                     </div>
                 </div>
+                <!-- Close Button (Mobile Only) -->
+                <button @click="sidebarOpen = false" class="lg:hidden p-1 hover:bg-white/10 rounded-lg text-slate-400">
+                    <i data-lucide="x" style="width:20px;height:20px;"></i>
+                </button>
             </div>
 
             <nav class="flex-1 py-4 overflow-auto">
@@ -101,11 +107,22 @@
             </div>
         </aside>
 
+        <!-- Overlay (Mobile Only) -->
+        <div x-show="sidebarOpen" x-cloak
+             @click="sidebarOpen = false"
+             class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-40 lg:hidden"></div>
+
         <main class="flex-1 flex flex-col h-full overflow-hidden bg-slate-50">
-            <header class="bg-white border-b border-slate-200 px-8 py-4 flex items-center justify-between flex-shrink-0 z-30">
-                <div>
-                    <h1 class="text-xl font-extrabold text-slate-800 tracking-tight">@yield('page-title', 'Dashboard')</h1>
-                    <p class="text-sm text-slate-500 mt-0.5">@yield('page-subtitle', 'Ringkasan data penjualan')</p>
+            <header class="bg-white border-b border-slate-200 px-4 lg:px-8 py-4 flex items-center justify-between flex-shrink-0 z-30">
+                <div class="flex items-center gap-4">
+                    <!-- Burger Menu (Mobile Only) -->
+                    <button @click="sidebarOpen = true" class="lg:hidden p-2 text-slate-600 hover:bg-slate-100 rounded-xl transition-colors">
+                        <i data-lucide="menu" style="width:24px;height:24px;"></i>
+                    </button>
+                    <div>
+                        <h1 class="text-lg lg:text-xl font-extrabold text-slate-800 tracking-tight">@yield('page-title', 'Dashboard')</h1>
+                        <p class="hidden sm:block text-sm text-slate-500 mt-0.5">@yield('page-subtitle', 'Ringkasan data penjualan')</p>
+                    </div>
                 </div>
                 <div class="flex items-center gap-4">
                     @php($uTop = auth()->user())
@@ -149,7 +166,7 @@
                 </div>
             </header>
 
-            <div class="flex-1 p-6 overflow-auto fade-in relative z-0">
+            <div class="flex-1 p-4 lg:p-6 overflow-auto relative z-0 animate-slide-up">
                 @if(session('success'))
                     <div class="bg-emerald-100 border border-emerald-400 text-emerald-700 px-4 py-3 rounded-lg mb-4">
                         {{ session('success') }}
