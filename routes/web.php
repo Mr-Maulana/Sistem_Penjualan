@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\DistributorController;
+use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SalesmanController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProductController;
@@ -10,7 +10,10 @@ use App\Http\Controllers\PriceController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\CashFlowController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\TeamController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AreaController;
+use App\Http\Controllers\Api\SupplierInfoController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -27,10 +30,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Master Data
-    Route::resource('distributor', DistributorController::class);
+    Route::resource('supplier', SupplierController::class);
     Route::resource('salesman', SalesmanController::class);
     Route::resource('customer', CustomerController::class);
+    Route::resource('area', AreaController::class);
     Route::resource('product', ProductController::class);
+    Route::get('/api/supplier/{id}/info', [SupplierInfoController::class, 'getInfo'])->name('api.supplier.info');
     Route::get('price/lookup', [PriceController::class, 'lookup'])->name('price.lookup');
     Route::resource('price', PriceController::class);
 
@@ -38,6 +43,13 @@ Route::middleware('auth')->group(function () {
     Route::get('sale/{sale}/print', [SaleController::class, 'print'])->name('sale.print');
     Route::resource('sale', SaleController::class);
     Route::resource('cash-flow', CashFlowController::class);
+
+    // Team & Transfer Routes
+    Route::get('team', [TeamController::class, 'index'])->name('team.index');
+    Route::post('team/transfer', [TeamController::class, 'requestTransfer'])->name('team.transfer');
+    Route::post('team/force-transfer', [TeamController::class, 'forceTransfer'])->name('team.force-transfer');
+    Route::get('team/approvals', [TeamController::class, 'approvals'])->name('team.approvals');
+    Route::post('team/approvals/{transfer}', [TeamController::class, 'processTransfer'])->name('team.process');
 
     // Laporan
     Route::get('report/closing', [ReportController::class, 'closing'])->name('report.closing');
@@ -51,6 +63,13 @@ Route::middleware('auth')->group(function () {
     // User Management (Admin only)
     Route::middleware('role:admin')->group(function () {
         Route::resource('user', UserController::class);
+        
+        // System Administration & Overview
+        Route::get('admin/settings', [\App\Http\Controllers\SystemAdminController::class, 'settings'])->name('admin.settings');
+        Route::post('admin/settings', [\App\Http\Controllers\SystemAdminController::class, 'saveSettings'])->name('admin.settings.save');
+        Route::get('admin/records', [\App\Http\Controllers\SystemAdminController::class, 'records'])->name('admin.records');
+        Route::get('admin/activity', [\App\Http\Controllers\SystemAdminController::class, 'activity'])->name('admin.activity');
+        Route::get('admin/health', [\App\Http\Controllers\SystemAdminController::class, 'health'])->name('admin.health');
     });
 });
 

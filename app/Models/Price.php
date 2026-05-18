@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Price extends Model
 {
     protected $fillable = [
-        'product_id',
+        'product_code',
         'customer_group',
         'price_large',
         'price_small',
@@ -17,16 +17,16 @@ class Price extends Model
     ];
 
     protected $casts = [
-        'price_large' => 'decimal:2',
-        'price_small' => 'decimal:2',
-        'discount' => 'decimal:2',
-        'tax' => 'decimal:2',
+        'price_large'    => 'decimal:2',
+        'price_small'    => 'decimal:2',
+        'discount'       => 'decimal:2',
+        'tax'            => 'decimal:2',
         'effective_date' => 'date',
     ];
 
     public function product()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class, 'product_code', 'code');
     }
 }
 

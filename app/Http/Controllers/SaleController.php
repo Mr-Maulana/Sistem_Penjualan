@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Customer;
-use App\Models\Product;
 use App\Models\Sale;
 use App\Models\SaleItem;
+use App\Models\Customer;
 use App\Models\Salesman;
+use App\Models\Product;
+use App\Services\CashFlowService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -21,7 +22,35 @@ class SaleController extends Controller
      */
     public function index()
     {
-        $sales = Sale::with(['customer', 'salesman'])->orderBy('date', 'desc')->get();
+        $query = Sale::with(['customer', 'salesman'])->orderBy('date', 'desc');
+
+        // Logic Filter
+        if (auth()->user()->role === 'sales') {
+            $query->where('salesman_id', auth()->user()->salesman_id);
+        } elseif (auth()->user()->role === 'supervisor') {
+            $supervisorSalesmanId = auth()->user()->salesman_id;
+            
+            // Get subordinates IDs (Sales)
+            $subordinateIds = \App\Models\Salesman::where('supervisor_id', $supervisorSalesmanId)->pluck('id')->toArray();
+            
+            // Can see own sales + subordinates sales
+            $allowedIds = array_merge([$supervisorSalesmanId], $subordinateIds);
+            $query->whereIn('salesman_id', $allowedIds);
+        } elseif (auth()->user()->role === 'manager') {
+            $managerSalesmanId = auth()->user()->salesman_id;
+            
+            // Get subordinates (Supervisors)
+            $supervisorIds = \App\Models\Salesman::where('supervisor_id', $managerSalesmanId)->pluck('id')->toArray();
+            
+            // Get their subordinates (Sales)
+            $salesIds = \App\Models\Salesman::whereIn('supervisor_id', $supervisorIds)->pluck('id')->toArray();
+            
+            // Can see own sales + supervisors + sales
+            $allowedIds = array_merge([$managerSalesmanId], $supervisorIds, $salesIds);
+            $query->whereIn('salesman_id', $allowedIds);
+        }
+
+        $sales = $query->get();
         return view('sale.index', compact('sales'));
     }
 
@@ -31,8 +60,25 @@ class SaleController extends Controller
     public function create()
     {
         $customers = Customer::orderBy('name')->get();
-        $salesmen = Salesman::orderBy('name')->get();
         $products = Product::orderBy('name')->get();
+        
+        $salesmenQuery = Salesman::orderBy('name');
+        if (auth()->user()->role === 'sales') {
+            $salesmenQuery->where('id', auth()->user()->salesman_id);
+        } elseif (auth()->user()->role === 'supervisor') {
+            $supervisorSalesmanId = auth()->user()->salesman_id;
+            $subordinateIds = Salesman::where('supervisor_id', $supervisorSalesmanId)->pluck('id')->toArray();
+            $allowedIds = array_merge([$supervisorSalesmanId], $subordinateIds);
+            $salesmenQuery->whereIn('id', $allowedIds);
+        } elseif (auth()->user()->role === 'manager') {
+            $managerSalesmanId = auth()->user()->salesman_id;
+            $supervisorIds = Salesman::where('supervisor_id', $managerSalesmanId)->pluck('id')->toArray();
+            $salesIds = Salesman::whereIn('supervisor_id', $supervisorIds)->pluck('id')->toArray();
+            $allowedIds = array_merge([$managerSalesmanId], $supervisorIds, $salesIds);
+            $salesmenQuery->whereIn('id', $allowedIds);
+        }
+        $salesmen = $salesmenQuery->get();
+
         $autoInvoice = $this->generateDatedCode(Sale::class, 'INV');
         return view('sale.form', compact('customers', 'salesmen', 'products', 'autoInvoice'));
     }
@@ -54,12 +100,17 @@ class SaleController extends Controller
             'status' => 'required|in:paid,unpaid,partial',
             'notes' => 'nullable|string',
             'items' => 'required|array|min:1',
-            'items.*.product_id' => 'required|exists:products,id',
+            'items.*.product_code' => 'required|exists:products,code',
             'items.*.quantity' => 'required|integer|min:1',
             'items.*.price' => 'required|numeric|min:0',
             'items.*.discount' => 'nullable|numeric|min:0',
             'items.*.bonus' => 'nullable|integer|min:0',
         ]);
+
+        // Force salesman_id for Sales role
+        if (auth()->user()->role === 'sales') {
+            $validated['salesman_id'] = auth()->user()->salesman_id;
+        }
 
         $validated['down_payment'] = $validated['down_payment'] ?? 0;
         $validated['discount'] = $validated['discount'] ?? 0;
@@ -84,7 +135,7 @@ class SaleController extends Controller
                 ]));
 
                 foreach ($items as $item) {
-                    $product = Product::lockForUpdate()->findOrFail($item['product_id']);
+                    $product = Product::where('code', $item['product_code'])->lockForUpdate()->firstOrFail();
                     $qty = (int) $item['quantity'];
                     $bonus = (int) ($item['bonus'] ?? 0);
                     $stockOut = $qty + $bonus;
@@ -98,7 +149,7 @@ class SaleController extends Controller
 
                     SaleItem::create([
                         'sale_id' => $sale->id,
-                        'product_id' => $product->id,
+                        'product_code' => $product->code,
                         'quantity' => $qty,
                         'price' => (float) $item['price'],
                         'discount' => $lineDiscount,
@@ -108,6 +159,10 @@ class SaleController extends Controller
 
                     $product->decrement('stock', $stockOut);
                 }
+
+                // Trigger CashFlow sync
+                $cashFlowService = new \App\Services\CashFlowService();
+                $cashFlowService->syncFromSale($sale);
             });
         } catch (\Throwable $e) {
             return back()->withInput()->withErrors(['items' => $e->getMessage()]);
@@ -122,6 +177,7 @@ class SaleController extends Controller
      */
     public function show(Sale $sale)
     {
+        $this->authorize('view', $sale);
         $sale->load(['customer', 'salesman', 'items.product']);
         return view('sale.show', compact('sale'));
     }
@@ -142,9 +198,27 @@ class SaleController extends Controller
      */
     public function edit(Sale $sale)
     {
+        $this->authorize('update', $sale);
         $customers = Customer::orderBy('name')->get();
-        $salesmen = Salesman::orderBy('name')->get();
         $products = Product::orderBy('name')->get();
+
+        $salesmenQuery = Salesman::orderBy('name');
+        if (auth()->user()->role === 'sales') {
+            $salesmenQuery->where('id', auth()->user()->salesman_id);
+        } elseif (auth()->user()->role === 'supervisor') {
+            $supervisorSalesmanId = auth()->user()->salesman_id;
+            $subordinateIds = Salesman::where('supervisor_id', $supervisorSalesmanId)->pluck('id')->toArray();
+            $allowedIds = array_merge([$supervisorSalesmanId], $subordinateIds);
+            $salesmenQuery->whereIn('id', $allowedIds);
+        } elseif (auth()->user()->role === 'manager') {
+            $managerSalesmanId = auth()->user()->salesman_id;
+            $supervisorIds = Salesman::where('supervisor_id', $managerSalesmanId)->pluck('id')->toArray();
+            $salesIds = Salesman::whereIn('supervisor_id', $supervisorIds)->pluck('id')->toArray();
+            $allowedIds = array_merge([$managerSalesmanId], $supervisorIds, $salesIds);
+            $salesmenQuery->whereIn('id', $allowedIds);
+        }
+        $salesmen = $salesmenQuery->get();
+
         $sale->load(['items.product']);
         return view('sale.form', compact('sale', 'customers', 'salesmen', 'products'));
     }
@@ -154,6 +228,7 @@ class SaleController extends Controller
      */
     public function update(Request $request, Sale $sale)
     {
+        $this->authorize('update', $sale);
         $validated = $request->validate([
             'invoice_number' => 'required|unique:sales,invoice_number,' . $sale->id,
             'date' => 'required|date',
@@ -166,12 +241,17 @@ class SaleController extends Controller
             'status' => 'required|in:paid,unpaid,partial',
             'notes' => 'nullable|string',
             'items' => 'required|array|min:1',
-            'items.*.product_id' => 'required|exists:products,id',
+            'items.*.product_code' => 'required|exists:products,code',
             'items.*.quantity' => 'required|integer|min:1',
             'items.*.price' => 'required|numeric|min:0',
             'items.*.discount' => 'nullable|numeric|min:0',
             'items.*.bonus' => 'nullable|integer|min:0',
         ]);
+
+        // Force salesman_id for Sales role
+        if (auth()->user()->role === 'sales') {
+            $validated['salesman_id'] = auth()->user()->salesman_id;
+        }
 
         $validated['down_payment'] = $validated['down_payment'] ?? 0;
         $validated['discount'] = $validated['discount'] ?? 0;
@@ -186,7 +266,7 @@ class SaleController extends Controller
 
             // Restore stock from existing items
             foreach ($sale->items as $existing) {
-                $product = Product::lockForUpdate()->find($existing->product_id);
+                $product = Product::where('code', $existing->product_code)->lockForUpdate()->first();
                 if ($product) {
                     $product->increment('stock', (int) $existing->quantity + (int) ($existing->bonus ?? 0));
                 }
@@ -207,7 +287,7 @@ class SaleController extends Controller
             ]));
 
                 foreach ($items as $item) {
-                    $product = Product::lockForUpdate()->findOrFail($item['product_id']);
+                    $product = Product::where('code', $item['product_code'])->lockForUpdate()->firstOrFail();
                     $qty = (int) $item['quantity'];
                     $bonus = (int) ($item['bonus'] ?? 0);
                     $stockOut = $qty + $bonus;
@@ -221,7 +301,7 @@ class SaleController extends Controller
 
                     SaleItem::create([
                         'sale_id' => $sale->id,
-                        'product_id' => $product->id,
+                        'product_code' => $product->code,
                         'quantity' => $qty,
                         'price' => (float) $item['price'],
                         'discount' => $lineDiscount,
@@ -231,6 +311,10 @@ class SaleController extends Controller
 
                     $product->decrement('stock', $stockOut);
                 }
+
+                // Trigger CashFlow sync
+                $cashFlowService = new \App\Services\CashFlowService();
+                $cashFlowService->syncFromSale($sale);
             });
         } catch (\Throwable $e) {
             return back()->withInput()->withErrors(['items' => $e->getMessage()]);
@@ -245,15 +329,20 @@ class SaleController extends Controller
      */
     public function destroy(Sale $sale)
     {
+        $this->authorize('delete', $sale);
         DB::transaction(function () use ($sale) {
             $sale->load('items');
             foreach ($sale->items as $existing) {
-                $product = Product::lockForUpdate()->find($existing->product_id);
+                $product = Product::where('code', $existing->product_code)->lockForUpdate()->first();
                 if ($product) {
                     $product->increment('stock', (int) $existing->quantity + (int) ($existing->bonus ?? 0));
                 }
             }
             $sale->delete();
+
+            // Trigger CashFlow sync
+            $cashFlowService = new CashFlowService();
+            $cashFlowService->syncFromSale($sale);
         });
 
         return redirect()->route('sale.index')

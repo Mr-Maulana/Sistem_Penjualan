@@ -1,64 +1,108 @@
 @extends('layouts.admin')
 
 @section('title', 'Detail Produk')
-@section('page-title', 'Detail Produk')
-@section('page-subtitle', 'Informasi detail produk / barang')
+@section('page-title', 'Katalog Produk')
+@section('page-subtitle', 'Detail informasi produk ' . $product->name)
 
 @section('content')
-<div class="bg-white rounded-2xl shadow-sm border border-slate-200/60 overflow-hidden max-w-4xl mx-auto">
-    <div class="px-8 py-6 border-b border-slate-100 bg-white flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div class="flex items-center gap-4">
-            <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-xl ring-1 ring-blue-500/20">
-                <i data-lucide="package" style="width:24px;height:24px;"></i>
-            </div>
-            <div>
-                <h3 class="font-extrabold text-slate-800 text-xl tracking-tight">{{ $product->name }}</h3>
-                <p class="text-sm text-slate-500 flex items-center gap-1.5 mt-0.5">
-                    Kategori: {{ $product->category->name ?? 'Tanpa Kategori' }}
-                </p>
-            </div>
-        </div>
-        <div class="flex items-center gap-3">
-            <a href="{{ route('product.edit', $product) }}" class="bg-white border border-slate-200 hover:bg-slate-50 hover:border-slate-300 text-slate-700 text-sm font-semibold px-4 py-2 rounded-xl flex items-center gap-2 transition-all shadow-sm">
-                <i data-lucide="pencil" style="width:16px;height:16px;"></i> Edit
-            </a>
-            <a href="{{ route('product.index') }}" class="bg-slate-100 hover:bg-slate-200 text-slate-600 text-sm font-semibold px-4 py-2 rounded-xl flex items-center gap-2 transition-all">
-                <i data-lucide="arrow-left" style="width:16px;height:16px;"></i> Kembali
-            </a>
-        </div>
+<div class="max-w-4xl mx-auto space-y-6">
+    <!-- Back Button -->
+    <div class="flex justify-start">
+        <a href="{{ route('product.index', ['supplier_id' => $product->supplier_code]) }}" class="flex items-center gap-2 text-slate-400 hover:text-blue-600 transition-colors font-black text-[10px] uppercase tracking-widest group">
+            <i data-lucide="arrow-left" class="w-4 h-4 group-hover:-translate-x-1 transition-transform"></i>
+            Kembali ke Katalog {{ $product->supplier->name }}
+        </a>
     </div>
-    
-    <div class="p-8">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-y-8 gap-x-12">
-            <div>
-                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Kode Produk</p>
-                <div class="flex items-center gap-2">
-                    <i data-lucide="barcode" style="width:18px;height:18px;" class="text-blue-500"></i>
-                    <p class="font-mono text-slate-800 font-semibold text-lg">{{ $product->code }}</p>
-                </div>
-            </div>
-            
-            <div>
-                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Distributor (Supplier)</p>
-                <div class="flex items-center gap-2">
-                    <i data-lucide="truck" style="width:18px;height:18px;" class="text-slate-400"></i>
-                    <p class="text-slate-800 font-semibold text-base">{{ $product->distributor->name ?? '-' }}</p>
-                </div>
-            </div>
 
-            <div class="bg-blue-50/50 rounded-2xl p-6 border border-blue-100">
-                <p class="text-xs font-bold text-blue-400 uppercase tracking-wider mb-2">Harga Dasar</p>
-                <div class="flex items-center gap-2.5">
-                    <i data-lucide="tag" style="width:24px;height:24px;" class="text-blue-500 mt-0.5"></i>
-                    <p class="text-slate-800 text-2xl font-extrabold tracking-tight">Rp {{ number_format($product->price, 0, ',', '.') }}</p>
+    <!-- Main Detail Card -->
+    <div class="bg-white rounded-[3rem] shadow-sm border border-slate-200/60 overflow-hidden">
+        <div class="p-10">
+            <div class="flex flex-col md:flex-row gap-10">
+                <!-- Product Illustration/Icon -->
+                <div class="w-full md:w-1/3">
+                    <div class="aspect-square rounded-[2.5rem] bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white shadow-2xl shadow-blue-100">
+                        <i data-lucide="package" class="w-24 h-24"></i>
+                    </div>
+                    <div class="mt-6 flex flex-col gap-3">
+                        <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                            <div class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Kode Produk</div>
+                            <div class="text-xl font-black text-slate-800 tracking-tight mt-1">{{ $product->code }}</div>
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                            <div class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Kategori</div>
+                            <div class="text-base font-black text-slate-800 tracking-tight mt-1">{{ $product->category->name ?? 'UMUM' }}</div>
+                        </div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="{{ $product->stock > 10 ? 'bg-emerald-50/50 border-emerald-100' : ($product->stock > 0 ? 'bg-amber-50/50 border-amber-100' : 'bg-red-50/50 border-red-100') }} rounded-2xl p-6 border">
-                <p class="text-xs font-bold {{ $product->stock > 10 ? 'text-emerald-500' : ($product->stock > 0 ? 'text-amber-500' : 'text-red-500') }} uppercase tracking-wider mb-2">Stok Saat Ini</p>
-                <div class="flex items-center gap-2.5">
-                    <i data-lucide="boxes" style="width:24px;height:24px;" class="{{ $product->stock > 10 ? 'text-emerald-500' : ($product->stock > 0 ? 'text-amber-500' : 'text-red-500') }} mt-0.5"></i>
-                    <p class="text-slate-800 text-2xl font-extrabold tracking-tight">{{ $product->stock }} <span class="text-base font-semibold text-slate-500 ml-1">unit</span></p>
+                <!-- Product Info -->
+                <div class="flex-1 space-y-8">
+                    <div>
+                        <span class="px-3 py-1 rounded-lg bg-blue-50 text-blue-600 text-[10px] font-black uppercase tracking-widest border border-blue-100">
+                            Official Product
+                        </span>
+                        <h2 class="text-4xl font-black text-slate-800 tracking-tighter mt-4 leading-tight">{{ $product->name }}</h2>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="space-y-1">
+                            <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Stok Saat Ini</div>
+                            <div class="flex items-center gap-2">
+                                <div class="text-3xl font-black text-slate-800">{{ $product->stock }}</div>
+                                <div class="text-xs font-bold text-slate-400 uppercase">Unit</div>
+                            </div>
+                            <div class="mt-2">
+                                <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                                    <div class="bg-emerald-500 h-full rounded-full" style="width: {{ min(($product->stock / 100) * 100, 100) }}%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-y-1">
+                            <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Harga Jual Dasar</div>
+                            <div class="flex items-baseline gap-1">
+                                <div class="text-xs font-bold text-slate-400">Rp</div>
+                                <div class="text-3xl font-black text-slate-800 tracking-tighter">{{ number_format($product->price, 0, ',', '.') }}</div>
+                            </div>
+                            <p class="text-[9px] text-emerald-600 font-black uppercase tracking-widest mt-2 flex items-center gap-1">
+                                <i data-lucide="trending-up" class="w-3 h-3"></i>
+                                Harga Stabil
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="p-6 bg-slate-50 rounded-3xl border border-slate-100 flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-white shadow-sm flex items-center justify-center text-blue-600 font-black">
+                                {{ substr($product->supplier->name, 0, 1) }}
+                            </div>
+                            <div>
+                                <div class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Supplier Utama</div>
+                                <div class="text-sm font-black text-slate-800 uppercase">{{ $product->supplier->name }}</div>
+                            </div>
+                        </div>
+                        <a href="{{ route('product.index', ['supplier_id' => $product->supplier_code]) }}" class="text-[9px] font-black text-blue-600 uppercase tracking-widest hover:underline">
+                            Lihat Katalog Lainnya
+                        </a>
+                    </div>
+
+                    <div class="flex items-center gap-3 pt-6">
+                        <a href="{{ route('sale.index', ['search' => $product->code]) }}" class="flex-1 h-14 bg-blue-600 text-white rounded-2xl flex items-center justify-center gap-3 font-black uppercase tracking-widest text-[10px] hover:bg-blue-700 transition-all shadow-xl shadow-blue-100 active:scale-95">
+                            <i data-lucide="shopping-cart" class="w-4 h-4"></i> Riwayat Penjualan Produk
+                        </a>
+                        @can('update', $product)
+                        <a href="{{ route('product.edit', $product) }}" class="flex-1 h-14 bg-slate-900 text-white rounded-2xl flex items-center justify-center gap-3 font-black uppercase tracking-widest text-[10px] hover:bg-slate-800 transition-all shadow-xl shadow-slate-200 active:scale-95">
+                            <i data-lucide="pencil" class="w-4 h-4"></i> Edit Informasi Produk
+                        </a>
+                        @endcan
+                        @can('delete', $product)
+                        <form action="{{ route('product.destroy', $product) }}" method="POST" onsubmit="return confirm('Hapus produk ini?')">
+                            @csrf @method('DELETE')
+                            <button type="submit" class="w-14 h-14 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center hover:bg-red-100 transition-all border border-red-100 active:scale-95">
+                                <i data-lucide="trash-2" class="w-5 h-5"></i>
+                            </button>
+                        </form>
+                        @endcan
+                    </div>
                 </div>
             </div>
         </div>

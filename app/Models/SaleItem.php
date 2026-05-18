@@ -5,13 +5,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class SaleItem extends Model
 {
-    protected $fillable = ['sale_id', 'product_id', 'quantity', 'price', 'discount', 'bonus', 'subtotal'];
+    protected $fillable = ['sale_id', 'product_code', 'quantity', 'price', 'discount', 'bonus', 'subtotal'];
     
     protected $casts = [
         'quantity' => 'integer',
-        'price' => 'decimal:2',
+        'price'    => 'decimal:2',
         'discount' => 'decimal:2',
-        'bonus' => 'integer',
+        'bonus'    => 'integer',
         'subtotal' => 'decimal:2',
     ];
     
@@ -22,6 +22,6 @@ class SaleItem extends Model
     
     public function product()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class, 'product_code', 'code');
     }
 }

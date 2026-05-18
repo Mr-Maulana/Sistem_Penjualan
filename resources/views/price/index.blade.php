@@ -11,9 +11,11 @@
             <h3 class="font-bold text-slate-800 text-lg">Master Harga</h3>
             <p class="text-xs text-slate-500 mt-1">Atur penetapan harga produk berdasarkan grup customer</p>
         </div>
+        @can('create', App\Models\Price::class)
         <a href="{{ route('price.create') }}" class="bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl flex items-center gap-2 transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5">
             <i data-lucide="plus" style="width:16px;height:16px;"></i> Tambah Harga
         </a>
+        @endcan
     </div>
 
     <!-- Search & Filter -->
@@ -86,9 +88,12 @@
                         <a href="{{ route('price.show', $p) }}" class="p-2 rounded-lg hover:bg-slate-100 text-slate-500 hover:text-slate-700 transition-colors" title="Lihat Detail">
                             <i data-lucide="eye" style="width:16px;height:16px;"></i>
                         </a>
+                        @can('update', $p)
                         <a href="{{ route('price.edit', $p) }}" class="p-2 rounded-lg hover:bg-blue-50 text-slate-500 hover:text-blue-600 transition-colors" title="Edit">
                             <i data-lucide="pencil" style="width:16px;height:16px;"></i>
                         </a>
+                        @endcan
+                        @can('delete', $p)
                         <form action="{{ route('price.destroy', $p) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus harga ini?')">
                             @csrf
                             @method('DELETE')
@@ -96,6 +101,7 @@
                                 <i data-lucide="trash-2" style="width:16px;height:16px;"></i>
                             </button>
                         </form>
+                        @endcan
                     </td>
                 </tr>
                 @empty

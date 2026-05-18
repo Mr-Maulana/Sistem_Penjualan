@@ -19,9 +19,14 @@
             </div>
         </div>
         <div class="flex items-center gap-3">
+            <a href="{{ route('sale.index', ['customer_id' => $customer->id]) }}" class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2 rounded-xl flex items-center gap-2 transition-all shadow-md shadow-blue-100">
+                <i data-lucide="shopping-cart" style="width:16px;height:16px;"></i> Riwayat Penjualan
+            </a>
+            @can('update', $customer)
             <a href="{{ route('customer.edit', $customer) }}" class="bg-white border border-slate-200 hover:bg-slate-50 hover:border-slate-300 text-slate-700 text-sm font-semibold px-4 py-2 rounded-xl flex items-center gap-2 transition-all shadow-sm">
                 <i data-lucide="pencil" style="width:16px;height:16px;"></i> Edit
             </a>
+            @endcan
             <a href="{{ route('customer.index') }}" class="bg-slate-100 hover:bg-slate-200 text-slate-600 text-sm font-semibold px-4 py-2 rounded-xl flex items-center gap-2 transition-all">
                 <i data-lucide="arrow-left" style="width:16px;height:16px;"></i> Kembali
             </a>
@@ -51,6 +56,22 @@
                 <div class="flex items-center gap-2">
                     <i data-lucide="phone" style="width:18px;height:18px;" class="text-slate-400"></i>
                     <p class="text-slate-800 font-semibold text-base">{{ $customer->phone }}</p>
+                </div>
+            </div>
+
+            <div>
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">NIK Kependudukan</p>
+                <div class="flex items-center gap-2">
+                    <i data-lucide="credit-card" style="width:18px;height:18px;" class="text-slate-400"></i>
+                    <p class="font-mono text-slate-800 font-semibold text-base">{{ $customer->nik ?? '-' }}</p>
+                </div>
+            </div>
+            
+            <div>
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">NPWP</p>
+                <div class="flex items-center gap-2">
+                    <i data-lucide="file-text" style="width:18px;height:18px;" class="text-slate-400"></i>
+                    <p class="font-mono text-slate-800 font-semibold text-base">{{ $customer->npwp ?? '-' }}</p>
                 </div>
             </div>
             

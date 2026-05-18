@@ -23,9 +23,11 @@
                 <a href="{{ route('sale.print', $sale) }}" target="_blank" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-600 text-sm font-semibold px-4 py-2 rounded-xl flex items-center gap-2 transition-all ring-1 ring-indigo-500/20">
                     <i data-lucide="printer" style="width:16px;height:16px;"></i> Cetak Invoice
                 </a>
+                @can('update', $sale)
                 <a href="{{ route('sale.edit', $sale) }}" class="bg-white border border-slate-200 hover:bg-slate-50 hover:border-slate-300 text-slate-700 text-sm font-semibold px-4 py-2 rounded-xl flex items-center gap-2 transition-all shadow-sm">
                     <i data-lucide="pencil" style="width:16px;height:16px;"></i> Edit
                 </a>
+                @endcan
                 <a href="{{ route('sale.index') }}" class="bg-slate-100 hover:bg-slate-200 text-slate-600 text-sm font-semibold px-4 py-2 rounded-xl flex items-center gap-2 transition-all">
                     <i data-lucide="arrow-left" style="width:16px;height:16px;"></i> Kembali
                 </a>

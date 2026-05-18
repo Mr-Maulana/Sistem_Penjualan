@@ -50,16 +50,26 @@
                         <a href="{{ route('sale.print', $sale) }}" target="_blank" class="p-2 rounded-lg hover:bg-indigo-50 text-slate-500 hover:text-indigo-600 transition-colors" title="Cetak Invoice">
                             <i data-lucide="printer" style="width:16px;height:16px;"></i>
                         </a>
-                        <a href="{{ route('sale.edit', $sale) }}" class="p-2 rounded-lg hover:bg-blue-50 text-slate-500 hover:text-blue-600 transition-colors" title="Edit">
-                            <i data-lucide="pencil" style="width:16px;height:16px;"></i>
-                        </a>
-                        <form action="{{ route('sale.destroy', $sale) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus transaksi ini?')">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="p-2 rounded-lg hover:bg-red-50 text-slate-500 hover:text-red-500 transition-colors" title="Hapus">
-                                <i data-lucide="trash-2" style="width:16px;height:16px;"></i>
+                        
+                        @if(auth()->user()->can('update', $sale))
+                            <a href="{{ route('sale.edit', $sale) }}" class="p-2 rounded-lg hover:bg-blue-50 text-slate-500 hover:text-blue-600 transition-colors" title="Edit">
+                                <i data-lucide="pencil" style="width:16px;height:16px;"></i>
+                            </a>
+                        @elseif(in_array(auth()->user()->role, ['sales', 'supervisor']) && (auth()->user()->role === 'supervisor' || $sale->salesman_id === auth()->user()->salesman_id))
+                            <button onclick="alert('Sudah di LOCK, mohon hubungi admin bila ingin diubah')" class="p-2 rounded-lg text-slate-300 cursor-not-allowed" title="Locked">
+                                <i data-lucide="lock" style="width:16px;height:16px;"></i>
                             </button>
-                        </form>
+                        @endif
+
+                        @if(auth()->user()->can('delete', $sale))
+                            <form action="{{ route('sale.destroy', $sale) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus transaksi ini?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="p-2 rounded-lg hover:bg-red-50 text-slate-500 hover:text-red-500 transition-colors" title="Hapus">
+                                    <i data-lucide="trash-2" style="width:16px;height:16px;"></i>
+                                </button>
+                            </form>
+                        @endif
                     </td>
                 </tr>
                 @empty

@@ -15,7 +15,29 @@ class CashFlowController extends Controller
      */
     public function index()
     {
-        $cashFlows = CashFlow::orderBy('date', 'desc')->orderBy('id', 'desc')->get();
+        $this->authorize('viewAny', CashFlow::class);
+        
+
+
+        $query = CashFlow::orderBy('date', 'desc')->orderBy('id', 'desc');
+
+        $role = auth()->user()->role;
+        $salesmanId = auth()->user()->salesman_id;
+
+        if ($role === 'sales') {
+            $query->whereHas('sale', function($q) use ($salesmanId) {
+                $q->where('salesman_id', $salesmanId);
+            });
+        } elseif ($role === 'supervisor') {
+            $subordinateIds = \App\Models\Salesman::where('supervisor_id', $salesmanId)->pluck('id')->toArray();
+            $allowedIds = array_merge([$salesmanId], $subordinateIds);
+            $query->whereHas('sale', function($q) use ($allowedIds) {
+                $q->whereIn('salesman_id', $allowedIds);
+            });
+        }
+        // Manager and Admin see all
+
+        $cashFlows = $query->get();
         return view('cash-flow.index', compact('cashFlows'));
     }
 
@@ -24,6 +46,11 @@ class CashFlowController extends Controller
      */
     public function create()
     {
+        $role = auth()->user()->role;
+        if (in_array($role, ['sales', 'supervisor'])) {
+            abort(403, 'Akses ditolak.');
+        }
+        $this->authorize('create', CashFlow::class);
         $last = CashFlow::orderBy('date', 'desc')->orderBy('id', 'desc')->first();
         $currentBalance = $last ? (float) $last->balance : 0;
         $autoCode = $this->generateDatedCode(CashFlow::class, 'CF', 'code');
@@ -35,6 +62,11 @@ class CashFlowController extends Controller
      */
     public function store(Request $request)
     {
+        $role = auth()->user()->role;
+        if (in_array($role, ['sales', 'supervisor'])) {
+            abort(403, 'Akses ditolak.');
+        }
+        $this->authorize('create', CashFlow::class);
         $validated = $request->validate([
             'code' => 'required|unique:cash_flows,code',
             'date' => 'required|date',
@@ -43,14 +75,13 @@ class CashFlowController extends Controller
             'amount' => 'required|numeric|min:0',
         ]);
 
-        $last = CashFlow::orderBy('date', 'desc')->orderBy('id', 'desc')->first();
-        $balance = $last ? (float) $last->balance : 0;
-        $balance = $validated['type'] === 'in' ? ($balance + (float) $validated['amount']) : ($balance - (float) $validated['amount']);
-
-        CashFlow::create([
+        $cf = CashFlow::create([
             ...$validated,
-            'balance' => $balance,
+            'balance' => 0,
         ]);
+
+        $cashFlowService = new \App\Services\CashFlowService();
+        $cashFlowService->rebalanceFromDate($cf->date);
 
         return redirect()->route('cash-flow.index')
             ->with('success', 'Transaksi kas/bank berhasil ditambahkan');
@@ -61,6 +92,7 @@ class CashFlowController extends Controller
      */
     public function show(CashFlow $cashFlow)
     {
+        $this->authorize('view', $cashFlow);
         return view('cash-flow.show', compact('cashFlow'));
     }
 
@@ -69,6 +101,11 @@ class CashFlowController extends Controller
      */
     public function edit(CashFlow $cash_flow)
     {
+        $role = auth()->user()->role;
+        if (in_array($role, ['sales', 'supervisor'])) {
+            abort(403, 'Akses ditolak.');
+        }
+        $this->authorize('update', $cash_flow);
         $currentBalance = (float) $cash_flow->balance;
         $cashFlow = $cash_flow;
         return view('cash-flow.form', compact('cashFlow', 'currentBalance'));
@@ -79,6 +116,11 @@ class CashFlowController extends Controller
      */
     public function update(Request $request, CashFlow $cash_flow)
     {
+        $role = auth()->user()->role;
+        if (in_array($role, ['sales', 'supervisor'])) {
+            abort(403, 'Akses ditolak.');
+        }
+        $this->authorize('update', $cash_flow);
         $validated = $request->validate([
             'code' => 'required|unique:cash_flows,code,' . $cash_flow->id,
             'date' => 'required|date',
@@ -87,21 +129,16 @@ class CashFlowController extends Controller
             'amount' => 'required|numeric|min:0',
         ]);
 
-        // Simpel: update transaksi + hitung ulang balance item ini berdasarkan balance sebelumnya (tanpa rebalancing seluruh history).
-        // Untuk akurasi penuh, sebaiknya lakukan rebalancing semua record setelah tanggal ini.
-        $previous = CashFlow::where('id', '<', $cash_flow->id)
-            ->orderBy('date', 'desc')
-            ->orderBy('id', 'desc')
-            ->first();
-        $prevBalance = $previous ? (float) $previous->balance : 0;
-        $newBalance = $validated['type'] === 'in'
-            ? ($prevBalance + (float) $validated['amount'])
-            : ($prevBalance - (float) $validated['amount']);
+        $oldDate = $cash_flow->date;
 
         $cash_flow->update([
             ...$validated,
-            'balance' => $newBalance,
+            'balance' => 0,
         ]);
+
+        $cashFlowService = new \App\Services\CashFlowService();
+        $earliestDate = $oldDate < $validated['date'] ? $oldDate : $validated['date'];
+        $cashFlowService->rebalanceFromDate($earliestDate);
 
         return redirect()->route('cash-flow.index')
             ->with('success', 'Transaksi kas/bank berhasil diupdate');
@@ -112,7 +149,16 @@ class CashFlowController extends Controller
      */
     public function destroy(CashFlow $cash_flow)
     {
+        $role = auth()->user()->role;
+        if (in_array($role, ['sales', 'supervisor'])) {
+            abort(403, 'Akses ditolak.');
+        }
+        $this->authorize('delete', $cash_flow);
+        $date = $cash_flow->date;
         $cash_flow->delete();
+
+        $cashFlowService = new \App\Services\CashFlowService();
+        $cashFlowService->rebalanceFromDate($date);
 
         return redirect()->route('cash-flow.index')
             ->with('success', 'Transaksi kas/bank berhasil dihapus');

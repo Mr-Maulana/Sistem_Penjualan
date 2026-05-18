@@ -63,16 +63,29 @@
                 </div>
                 
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wide">Salesman (Penanggung Jawab)</label>
+                    <label class="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wide flex items-center gap-2">
+                        Salesman (Penanggung Jawab)
+                        @if(auth()->user()->role === 'sales')
+                            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-orange-50 text-orange-500 border border-orange-100 text-[9px] font-black">
+                                <i data-lucide="lock" class="w-2.5 h-2.5"></i> TERKUNCI
+                            </span>
+                        @endif
+                    </label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
                             <i data-lucide="briefcase" style="width:16px;height:16px;" class="text-slate-400"></i>
                         </div>
-                        <select name="salesman_id" class="w-full border border-slate-200 rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all bg-slate-50/50 hover:bg-slate-50 appearance-none">
+                        @php $isSalesLocked = auth()->user()->role === 'sales'; @endphp
+                        <select name="{{ $isSalesLocked ? '' : 'salesman_id' }}" {{ $isSalesLocked ? 'disabled' : '' }} class="w-full border border-slate-200 rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all appearance-none {{ $isSalesLocked ? 'bg-slate-50 cursor-not-allowed text-slate-500 font-bold' : 'bg-slate-50/50 hover:bg-slate-50' }}">
                             @foreach($salesmen as $s)
-                                <option value="{{ $s->id }}" {{ (string)old('salesman_id', $sale->salesman_id ?? '') === (string)$s->id ? 'selected' : '' }}>{{ $s->name }}</option>
+                                <option value="{{ $s->id }}" {{ (string)old('salesman_id', $sale->salesman_id ?? '') === (string)$s->id ? 'selected' : '' }}>
+                                    {{ $s->name }} [{{ strtoupper($s->level) }} - {{ $s->area_display ?: ($s->city ?? $s->area) }}]
+                                </option>
                             @endforeach
                         </select>
+                        @if($isSalesLocked)
+                            <input type="hidden" name="salesman_id" value="{{ auth()->user()->salesman_id }}">
+                        @endif
                     </div>
                     @error('salesman_id') <div class="text-xs text-red-500 mt-1.5 font-medium">{{ $message }}</div> @enderror
                 </div>
@@ -107,7 +120,7 @@
                             $oldItems = old('items');
                             $items = $oldItems ?? (isset($sale) ? $sale->items->map(function($i){
                                 return [
-                                    'product_id' => $i->product_id,
+                                    'product_code' => $i->product_code,
                                     'quantity' => $i->quantity,
                                     'bonus' => $i->bonus ?? 0,
                                     'price' => $i->price,
@@ -115,16 +128,16 @@
                                 ];
                             })->toArray() : []);
                             if (empty($items)) {
-                                $items = [[ 'product_id' => $products->first()?->id, 'quantity' => 1, 'bonus' => 0, 'price' => 0, 'discount' => 0 ]];
+                                $items = [[ 'product_code' => $products->first()?->code, 'quantity' => 1, 'bonus' => 0, 'price' => 0, 'discount' => 0 ]];
                             }
                         @endphp
                         @foreach($items as $idx => $it)
                         <tr class="item-row hover:bg-white/80 transition-colors">
                             <td class="px-4 py-3">
-                                <select name="items[{{ $idx }}][product_id]" class="item-product w-full border border-slate-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500/50 bg-white">
+                                <select name="items[{{ $idx }}][product_code]" class="item-product w-full border border-slate-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500/50 bg-white">
                                     @foreach($products as $p)
-                                        <option value="{{ $p->id }}" {{ (string)($it['product_id'] ?? '') === (string)$p->id ? 'selected' : '' }} data-default-price="{{ $p->price }}">
-                                            {{ $p->name }} ({{ $p->code }})
+                                        <option value="{{ $p->code }}" {{ (string)($it['product_code'] ?? '') === (string)$p->code ? 'selected' : '' }} data-default-price="{{ $p->price }}">
+                                            [{{ $p->code }}] {{ $p->name }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -257,12 +270,12 @@
         return 'Rp ' + v.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     }
 
-    async function lookupPrice(productId) {
+    async function lookupPrice(productCode) {
         const customerId = customerEl?.value;
         const group = customerGroupById.get(String(customerId || '')) || '';
         const date = dateEl?.value || '';
         const url = new URL(@json(route('price.lookup')), window.location.origin);
-        url.searchParams.set('product_id', productId);
+        url.searchParams.set('product_id', productCode);
         if (group) url.searchParams.set('customer_group', group);
         if (date) url.searchParams.set('date', date);
         const res = await fetch(url.toString(), { headers: { 'Accept': 'application/json' } });
@@ -378,4 +391,3 @@
 })();
 </script>
 @endpush
-

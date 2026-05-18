@@ -11,9 +11,11 @@
             <h3 class="font-bold text-slate-800 text-lg">Data Customer</h3>
             <p class="text-xs text-slate-500 mt-1">Daftar semua customer yang terdaftar dalam sistem</p>
         </div>
+        @can('create', App\Models\Customer::class)
         <a href="{{ route('customer.create') }}" class="bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl flex items-center gap-2 transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5">
             <i data-lucide="plus" style="width:16px;height:16px;"></i> Tambah Customer
         </a>
+        @endcan
     </div>
 
     <!-- Search & Filter -->
@@ -43,17 +45,20 @@
                         class="block w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
                         <option value="">Semua Salesman</option>
                         @foreach($salesmen as $s)
-                            <option value="{{ $s->id }}" {{ request('salesman_id') == $s->id ? 'selected' : '' }}>{{ $s->name }}</option>
+                            <option value="{{ $s->id }}" {{ request('salesman_id') == $s->id ? 'selected' : '' }}>
+                                {{ $s->name }} [{{ strtoupper($s->level) }} - {{ $s->area_display ?: ($s->city ?? $s->area) }}]
+                            </option>
                         @endforeach
                     </select>
                 </div>
                 <div class="w-full md:w-1/2">
                     <select name="group" onchange="this.form.submit()" 
                         class="block w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
-                        <option value="">Semua Group</option>
-                        @foreach($groups as $g)
-                            <option value="{{ $g }}" {{ request('group') == $g ? 'selected' : '' }}>{{ $g }}</option>
-                        @endforeach
+                        <option value="">Semua Level</option>
+                        <option value="Reguler" {{ request('group') == 'Reguler' ? 'selected' : '' }}>Reguler</option>
+                        <option value="VIP" {{ request('group') == 'VIP' ? 'selected' : '' }}>VIP</option>
+                        <option value="Loyal" {{ request('group') == 'Loyal' ? 'selected' : '' }}>Loyal Customer</option>
+                        <option value="Distributor" {{ request('group') == 'Distributor' ? 'selected' : '' }}>Distributor</option>
                     </select>
                 </div>
                 <div class="flex gap-2">
@@ -94,9 +99,18 @@
                             </div>
                             <div>
                                 <div class="font-semibold text-slate-800">{{ $customer->name }}</div>
-                                @if($customer->group)
-                                    <div class="text-[10px] text-slate-500 uppercase tracking-wide mt-0.5">{{ $customer->group }}</div>
-                                @endif
+                                @php
+                                    $group = $customer->group ?? 'Reguler';
+                                    $groupClass = match($group) {
+                                        'VIP' => 'bg-amber-50 text-amber-700 ring-amber-600/20',
+                                        'Loyal' => 'bg-purple-50 text-purple-700 ring-purple-600/20',
+                                        'Distributor' => 'bg-blue-50 text-blue-700 ring-blue-600/20',
+                                        default => 'bg-slate-50 text-slate-600 ring-slate-500/10'
+                                    };
+                                @endphp
+                                <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ring-1 mt-1 {{ $groupClass }}">
+                                    {{ $group }}
+                                </span>
                             </div>
                         </div>
                     </td>
@@ -121,9 +135,12 @@
                         <a href="{{ route('customer.show', $customer) }}" class="p-2 rounded-lg hover:bg-slate-100 text-slate-500 hover:text-slate-700 transition-colors" title="Lihat Detail">
                             <i data-lucide="eye" style="width:16px;height:16px;"></i>
                         </a>
+                        @can('update', $customer)
                         <a href="{{ route('customer.edit', $customer) }}" class="p-2 rounded-lg hover:bg-blue-50 text-slate-500 hover:text-blue-600 transition-colors" title="Edit">
                             <i data-lucide="pencil" style="width:16px;height:16px;"></i>
                         </a>
+                        @endcan
+                        @can('delete', $customer)
                         <form action="{{ route('customer.destroy', $customer) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus customer ini?')">
                             @csrf
                             @method('DELETE')
@@ -131,6 +148,7 @@
                                 <i data-lucide="trash-2" style="width:16px;height:16px;"></i>
                             </button>
                         </form>
+                        @endcan
                     </td>
                 </tr>
                 @empty

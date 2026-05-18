@@ -30,7 +30,13 @@ class User extends Authenticatable
         'address',
         'gender',
         'birth_date',
+        'salesman_id',
     ];
+
+    public function salesman()
+    {
+        return $this->belongsTo(Salesman::class);
+    }
 
     /**
      * The attributes that should be hidden for serialization.

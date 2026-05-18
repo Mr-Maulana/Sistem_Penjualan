@@ -16,7 +16,28 @@ class CustomerController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('viewAny', Customer::class);
         $query = Customer::with('salesman');
+
+        // RBAC Global Filter
+        $user = auth()->user();
+        $allowedIds = [];
+        
+        if ($user->role === 'sales') {
+            $allowedIds = [$user->salesman_id];
+            $query->where('salesman_id', $user->salesman_id);
+        } elseif ($user->role === 'supervisor') {
+            $supervisorSalesmanId = $user->salesman_id;
+            $subordinateIds = \App\Models\Salesman::where('supervisor_id', $supervisorSalesmanId)->pluck('id')->toArray();
+            $allowedIds = array_merge([$supervisorSalesmanId], $subordinateIds);
+            $query->whereIn('salesman_id', $allowedIds);
+        } elseif ($user->role === 'manager') {
+            $managerSalesmanId = $user->salesman_id;
+            $supervisorIds = \App\Models\Salesman::where('supervisor_id', $managerSalesmanId)->pluck('id')->toArray();
+            $salesIds = \App\Models\Salesman::whereIn('supervisor_id', $supervisorIds)->pluck('id')->toArray();
+            $allowedIds = array_merge([$managerSalesmanId], $supervisorIds, $salesIds);
+            $query->whereIn('salesman_id', $allowedIds);
+        }
 
         if ($request->filled('search')) {
             $search = $request->search;
@@ -41,7 +62,14 @@ class CustomerController extends Controller
         }
 
         $customers = $query->orderBy('code')->get();
-        $salesmen = Salesman::orderBy('name')->get();
+        
+        // Filter dropdown salesmen based on role
+        if (in_array($user->role, ['sales', 'supervisor', 'manager'])) {
+            $salesmen = Salesman::whereIn('id', $allowedIds)->orderBy('name')->get();
+        } else {
+            $salesmen = Salesman::orderBy('name')->get();
+        }
+        
         $groups = Customer::whereNotNull('group')->distinct()->pluck('group');
 
         return view('customer.index', compact('customers', 'salesmen', 'groups'));
@@ -52,7 +80,16 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        $salesmen = Salesman::orderBy('name')->get();
+        $this->authorize('create', Customer::class);
+        
+        $user = auth()->user();
+        if (in_array($user->role, ['sales', 'supervisor', 'manager'])) {
+            $allowedIds = $this->getAllowedSalesmanIds($user);
+            $salesmen = Salesman::whereIn('id', $allowedIds)->orderBy('name')->get();
+        } else {
+            $salesmen = Salesman::orderBy('name')->get();
+        }
+
         $autoCode = $this->generateCode(Customer::class, 'CST');
         return view('customer.form', compact('salesmen', 'autoCode'));
     }
@@ -62,9 +99,13 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Customer::class);
+
         $validated = $request->validate([
             'code' => 'required|unique:customers,code',
             'name' => 'required',
+            'nik' => 'required|string|max:50',
+            'npwp' => 'required|string|max:50',
             'address' => 'required',
             'city' => 'nullable|string|max:100',
             'phone' => 'required',
@@ -84,16 +125,38 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer)
     {
+        $this->authorize('view', $customer);
         return view('customer.show', compact('customer'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Customer $customer)
     {
-        $salesmen = Salesman::orderBy('name')->get();
+        $this->authorize('update', $customer);
+        
+        $user = auth()->user();
+        if (in_array($user->role, ['sales', 'supervisor', 'manager'])) {
+            $allowedIds = $this->getAllowedSalesmanIds($user);
+            $salesmen = Salesman::whereIn('id', $allowedIds)->orderBy('name')->get();
+        } else {
+            $salesmen = Salesman::orderBy('name')->get();
+        }
+
         return view('customer.form', compact('customer', 'salesmen'));
+    }
+
+    private function getAllowedSalesmanIds($user)
+    {
+        if ($user->role === 'sales') {
+            return [$user->salesman_id];
+        } elseif ($user->role === 'supervisor') {
+            $subordinateIds = Salesman::where('supervisor_id', $user->salesman_id)->pluck('id')->toArray();
+            return array_merge([$user->salesman_id], $subordinateIds);
+        } elseif ($user->role === 'manager') {
+            $supervisorIds = Salesman::where('supervisor_id', $user->salesman_id)->pluck('id')->toArray();
+            $salesIds = Salesman::whereIn('supervisor_id', $supervisorIds)->pluck('id')->toArray();
+            return array_merge([$user->salesman_id], $supervisorIds, $salesIds);
+        }
+        return [];
     }
 
     /**
@@ -101,9 +164,13 @@ class CustomerController extends Controller
      */
     public function update(Request $request, Customer $customer)
     {
+        $this->authorize('update', $customer);
+
         $validated = $request->validate([
             'code' => 'required|unique:customers,code,' . $customer->id,
             'name' => 'required',
+            'nik' => 'required|string|max:50',
+            'npwp' => 'required|string|max:50',
             'address' => 'required',
             'city' => 'nullable|string|max:100',
             'phone' => 'required',
@@ -123,6 +190,8 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
+        $this->authorize('delete', $customer);
+        
         $customer->delete();
 
         return redirect()->route('customer.index')

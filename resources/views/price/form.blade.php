@@ -23,16 +23,16 @@
                     <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
                         <i data-lucide="package" style="width:16px;height:16px;" class="text-slate-400"></i>
                     </div>
-                    <select name="product_id" class="w-full border border-slate-200 rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 transition-all bg-slate-50/50 hover:bg-slate-50 appearance-none">
+                    <select name="product_code" class="w-full border border-slate-200 rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 transition-all bg-slate-50/50 hover:bg-slate-50 appearance-none">
                         <option value="">-- Pilih Produk --</option>
                         @foreach($products as $p)
-                            <option value="{{ $p->id }}" {{ (string)old('product_id', $price->product_id ?? '') === (string)$p->id ? 'selected' : '' }}>
-                                {{ $p->name }} ({{ $p->code }})
+                            <option value="{{ $p->code }}" {{ (string)old('product_code', $price->product_code ?? '') === (string)$p->code ? 'selected' : '' }}>
+                                [{{ $p->code }}] {{ $p->name }}
                             </option>
                         @endforeach
                     </select>
                 </div>
-                @error('product_id') <div class="text-xs text-red-500 mt-1.5 font-medium">{{ $message }}</div> @enderror
+                @error('product_code') <div class="text-xs text-red-500 mt-1.5 font-medium">{{ $message }}</div> @enderror
             </div>
             
             <div>

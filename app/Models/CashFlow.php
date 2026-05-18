@@ -12,4 +12,9 @@ class CashFlow extends Model
         'amount' => 'decimal:2',
         'balance' => 'decimal:2',
     ];
+
+    public function sale()
+    {
+        return $this->belongsTo(Sale::class, 'reference_id')->where('reference_type', Sale::class);
+    }
 }

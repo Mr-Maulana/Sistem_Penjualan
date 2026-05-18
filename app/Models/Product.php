@@ -2,10 +2,17 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Product extends Model
 {
-    protected $fillable = ['code', 'name', 'category_id', 'distributor_id', 'price', 'stock'];
+    use HasFactory;
+
+    protected $primaryKey = 'code';
+    public $incrementing = false;
+    protected $keyType = 'string';
+
+    protected $fillable = ['code', 'name', 'category_id', 'supplier_code', 'price', 'stock'];
     
     protected $casts = [
         'price' => 'decimal:2',
@@ -17,9 +24,9 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
     
-    public function distributor()
+    public function supplier()
     {
-        return $this->belongsTo(Distributor::class);
+        return $this->belongsTo(Supplier::class, 'supplier_code', 'code');
     }
     
     public function saleItems()

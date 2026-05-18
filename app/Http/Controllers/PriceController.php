@@ -12,7 +12,7 @@ class PriceController extends Controller
     public function lookup(Request $request)
     {
         $validated = $request->validate([
-            'product_id' => 'required|exists:products,id',
+            'product_id' => 'required|exists:products,code',
             'customer_group' => 'nullable|string|max:50',
             'date' => 'nullable|date',
         ]);
@@ -20,7 +20,7 @@ class PriceController extends Controller
         $date = !empty($validated['date']) ? Carbon::parse($validated['date'])->toDateString() : null;
         $group = $validated['customer_group'] ?? null;
 
-        $q = Price::query()->where('product_id', $validated['product_id']);
+        $q = Price::query()->where('product_code', $validated['product_id']);
 
         if ($group !== null && $group !== '') {
             $q->where('customer_group', $group);
@@ -34,22 +34,23 @@ class PriceController extends Controller
             });
         }
 
-        $price = $q->orderByRaw('effective_date is null') // prefer non-null effective_date
+        $price = $q->orderByRaw('effective_date is null')
             ->orderBy('effective_date', 'desc')
             ->orderBy('id', 'desc')
             ->first();
 
         return response()->json([
-            'found' => (bool) $price,
-            'price_large' => $price?->price_large,
-            'price_small' => $price?->price_small,
-            'discount' => $price?->discount ?? 0,
-            'tax' => $price?->tax ?? 0,
+            'found'        => (bool) $price,
+            'price_large'  => $price?->price_large,
+            'price_small'  => $price?->price_small,
+            'discount'     => $price?->discount ?? 0,
+            'tax'          => $price?->tax ?? 0,
         ]);
     }
 
     public function index(Request $request)
     {
+        $this->authorize('viewAny', Price::class);
         $query = Price::with('product');
 
         if ($request->filled('search')) {
@@ -75,14 +76,16 @@ class PriceController extends Controller
 
     public function create()
     {
+        $this->authorize('create', Price::class);
         $products = Product::orderBy('name')->get();
         return view('price.form', compact('products'));
     }
 
     public function store(Request $request)
     {
+        $this->authorize('create', Price::class);
         $validated = $request->validate([
-            'product_id' => 'required|exists:products,id',
+            'product_code' => 'required|exists:products,code',
             'customer_group' => 'nullable|string|max:50',
             'price_large' => 'nullable|numeric|min:0',
             'price_small' => 'nullable|numeric|min:0',
@@ -101,19 +104,22 @@ class PriceController extends Controller
 
     public function show(Price $price)
     {
+        $this->authorize('view', $price);
         return view('price.show', compact('price'));
     }
 
     public function edit(Price $price)
     {
+        $this->authorize('update', $price);
         $products = Product::orderBy('name')->get();
         return view('price.form', compact('price', 'products'));
     }
 
     public function update(Request $request, Price $price)
     {
+        $this->authorize('update', $price);
         $validated = $request->validate([
-            'product_id' => 'required|exists:products,id',
+            'product_code' => 'required|exists:products,code',
             'customer_group' => 'nullable|string|max:50',
             'price_large' => 'nullable|numeric|min:0',
             'price_small' => 'nullable|numeric|min:0',
@@ -132,6 +138,7 @@ class PriceController extends Controller
 
     public function destroy(Price $price)
     {
+        $this->authorize('delete', $price);
         $price->delete();
         return redirect()->route('price.index')->with('success', 'Harga berhasil dihapus');
     }

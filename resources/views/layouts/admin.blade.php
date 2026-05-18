@@ -40,29 +40,46 @@
                 </a>
 
                 <div class="px-4 mt-4 mb-2 text-[10px] tracking-widest uppercase text-slate-500 font-semibold">Master Data</div>
-                <a href="{{ route('distributor.index') }}" class="sidebar-item {{ request()->routeIs('distributor.*') ? 'active' : '' }} w-full text-left px-4 py-2.5 flex items-center gap-3 text-sm rounded-lg mx-2 mb-0.5" style="width:calc(100% - 16px)">
-                    <i data-lucide="building-2" style="width:18px;height:18px;"></i> Distributor
+                @if(!in_array(auth()->user()?->role, ['sales', 'supervisor']))
+                <a href="{{ route('supplier.index') }}" class="sidebar-item {{ request()->routeIs('supplier.*') ? 'active' : '' }} w-full text-left px-4 py-2.5 flex items-center gap-3 text-sm rounded-lg mx-2 mb-0.5" style="width:calc(100% - 16px)">
+                    <i data-lucide="truck" style="width:18px;height:18px;"></i> Supplier
                 </a>
+                @endif
                 <a href="{{ route('customer.index') }}" class="sidebar-item {{ request()->routeIs('customer.*') ? 'active' : '' }} w-full text-left px-4 py-2.5 flex items-center gap-3 text-sm rounded-lg mx-2 mb-0.5" style="width:calc(100% - 16px)">
                     <i data-lucide="users" style="width:18px;height:18px;"></i> Customer
                 </a>
+                @if(auth()->user()?->role !== 'sales')
                 <a href="{{ route('salesman.index') }}" class="sidebar-item {{ request()->routeIs('salesman.*') ? 'active' : '' }} w-full text-left px-4 py-2.5 flex items-center gap-3 text-sm rounded-lg mx-2 mb-0.5" style="width:calc(100% - 16px)">
                     <i data-lucide="user-check" style="width:18px;height:18px;"></i> Salesman
                 </a>
+                @endif
+                @if(!in_array(auth()->user()?->role, ['sales', 'supervisor']))
                 <a href="{{ route('product.index') }}" class="sidebar-item {{ request()->routeIs('product.*') ? 'active' : '' }} w-full text-left px-4 py-2.5 flex items-center gap-3 text-sm rounded-lg mx-2 mb-0.5" style="width:calc(100% - 16px)">
                     <i data-lucide="package" style="width:18px;height:18px;"></i> Produk
                 </a>
+                @endif
                 <a href="{{ route('price.index') }}" class="sidebar-item {{ request()->routeIs('price.*') ? 'active' : '' }} w-full text-left px-4 py-2.5 flex items-center gap-3 text-sm rounded-lg mx-2 mb-0.5" style="width:calc(100% - 16px)">
                     <i data-lucide="tag" style="width:18px;height:18px;"></i> Harga
+                </a>
+                @if(!in_array(auth()->user()?->role, ['sales', 'supervisor']))
+                <a href="{{ route('area.index') }}" class="sidebar-item {{ request()->routeIs('area.*') ? 'active' : '' }} w-full text-left px-4 py-2.5 flex items-center gap-3 text-sm rounded-lg mx-2 mb-0.5" style="width:calc(100% - 16px)">
+                    <i data-lucide="map" style="width:18px;height:18px;"></i> Wilayah / Area
+                </a>
+                @endif
+                
+                <a href="{{ route('team.index') }}" class="sidebar-item {{ request()->routeIs('team.*') ? 'active' : '' }} w-full text-left px-4 py-2.5 flex items-center gap-3 text-sm rounded-lg mx-2 mb-0.5" style="width:calc(100% - 16px)">
+                    <i data-lucide="network" style="width:18px;height:18px;"></i> Struktur Tim
                 </a>
 
                 <div class="px-4 mt-4 mb-2 text-[10px] tracking-widest uppercase text-slate-500 font-semibold">Transaksi</div>
                 <a href="{{ route('sale.index') }}" class="sidebar-item {{ request()->routeIs('sale.*') ? 'active' : '' }} w-full text-left px-4 py-2.5 flex items-center gap-3 text-sm rounded-lg mx-2 mb-0.5" style="width:calc(100% - 16px)">
                     <i data-lucide="shopping-cart" style="width:18px;height:18px;"></i> Penjualan
                 </a>
+                @if(in_array(auth()->user()?->role, ['admin', 'manager']))
                 <a href="{{ route('cash-flow.index') }}" class="sidebar-item {{ request()->routeIs('cash-flow.*') ? 'active' : '' }} w-full text-left px-4 py-2.5 flex items-center gap-3 text-sm rounded-lg mx-2 mb-0.5" style="width:calc(100% - 16px)">
                     <i data-lucide="landmark" style="width:18px;height:18px;"></i> Kas / Bank
                 </a>
+                @endif
 
                 <div class="px-4 mt-4 mb-2 text-[10px] tracking-widest uppercase text-slate-500 font-semibold">Laporan</div>
                 <a href="{{ route('report.closing') }}" class="sidebar-item {{ request()->routeIs('report.closing') ? 'active' : '' }} w-full text-left px-4 py-2.5 flex items-center gap-3 text-sm rounded-lg mx-2 mb-0.5" style="width:calc(100% - 16px)">
@@ -71,14 +88,30 @@
                 <a href="{{ route('report.sales') }}" class="sidebar-item {{ request()->routeIs('report.sales*') ? 'active' : '' }} w-full text-left px-4 py-2.5 flex items-center gap-3 text-sm rounded-lg mx-2 mb-0.5" style="width:calc(100% - 16px)">
                     <i data-lucide="bar-chart-3" style="width:18px;height:18px;"></i> Laporan Penjualan
                 </a>
+                @if(in_array(auth()->user()?->role, ['admin', 'manager']))
                 <a href="{{ route('report.cash-flow') }}" class="sidebar-item {{ request()->routeIs('report.cash-flow*') ? 'active' : '' }} w-full text-left px-4 py-2.5 flex items-center gap-3 text-sm rounded-lg mx-2 mb-0.5" style="width:calc(100% - 16px)">
                     <i data-lucide="wallet" style="width:18px;height:18px;"></i> Laporan Kas / Bank
                 </a>
+                @endif
 
                 @if(auth()->user()?->role === 'admin')
-                    <div class="px-4 mt-4 mb-2 text-[10px] tracking-widest uppercase text-slate-500 font-semibold">System</div>
+                    <div class="px-4 mt-4 mb-2 text-[10px] tracking-widest uppercase text-slate-500 font-semibold">System Administration</div>
                     <a href="{{ route('user.index') }}" class="sidebar-item {{ request()->routeIs('user.*') ? 'active' : '' }} w-full text-left px-4 py-2.5 flex items-center gap-3 text-sm rounded-lg mx-2 mb-0.5" style="width:calc(100% - 16px)">
                         <i data-lucide="shield" style="width:18px;height:18px;"></i> User & Role
+                    </a>
+                    <a href="{{ route('admin.settings') }}" class="sidebar-item {{ request()->routeIs('admin.settings') ? 'active' : '' }} w-full text-left px-4 py-2.5 flex items-center gap-3 text-sm rounded-lg mx-2 mb-0.5" style="width:calc(100% - 16px)">
+                        <i data-lucide="settings" style="width:18px;height:18px;"></i> Pengaturan Sistem
+                    </a>
+
+                    <div class="px-4 mt-4 mb-2 text-[10px] tracking-widest uppercase text-slate-500 font-semibold">System Overview</div>
+                    <a href="{{ route('admin.records') }}" class="sidebar-item {{ request()->routeIs('admin.records') ? 'active' : '' }} w-full text-left px-4 py-2.5 flex items-center gap-3 text-sm rounded-lg mx-2 mb-0.5" style="width:calc(100% - 16px)">
+                        <i data-lucide="database" style="width:18px;height:18px;"></i> Data Records
+                    </a>
+                    <a href="{{ route('admin.activity') }}" class="sidebar-item {{ request()->routeIs('admin.activity') ? 'active' : '' }} w-full text-left px-4 py-2.5 flex items-center gap-3 text-sm rounded-lg mx-2 mb-0.5" style="width:calc(100% - 16px)">
+                        <i data-lucide="activity" style="width:18px;height:18px;"></i> Activity
+                    </a>
+                    <a href="{{ route('admin.health') }}" class="sidebar-item {{ request()->routeIs('admin.health') ? 'active' : '' }} w-full text-left px-4 py-2.5 flex items-center gap-3 text-sm rounded-lg mx-2 mb-0.5" style="width:calc(100% - 16px)">
+                        <i data-lucide="heart-pulse" style="width:18px;height:18px;"></i> Health Status
                     </a>
                 @endif
             </nav>
@@ -183,6 +216,7 @@
         lucide.createIcons();
     </script>
 
+    @stack('modals')
     @stack('scripts')
 </body>
 </html>

@@ -12,13 +12,90 @@
             <p class="text-xs text-slate-500 mt-1">Daftar seluruh transaksi penjualan yang terekam dalam sistem</p>
         </div>
         <div class="flex items-center gap-3">
-            <a href="{{ route('report.sales.export.csv') }}" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-sm font-bold px-4 py-2.5 rounded-xl flex items-center gap-2 transition-all border border-emerald-100 shadow-sm">
+            <a href="{{ route('report.sales.export.csv', request()->query()) }}" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-sm font-bold px-4 py-2.5 rounded-xl flex items-center gap-2 transition-all border border-emerald-100 shadow-sm">
                 <i data-lucide="file-spreadsheet" style="width:16px;height:16px;"></i> Export CSV
             </a>
-            <a href="{{ route('report.sales.export.pdf') }}" class="bg-slate-900 hover:bg-slate-800 text-white text-sm font-bold px-4 py-2.5 rounded-xl flex items-center gap-2 transition-all shadow-md">
+            <a href="{{ route('report.sales.export.pdf', request()->query()) }}" class="bg-slate-900 hover:bg-slate-800 text-white text-sm font-bold px-4 py-2.5 rounded-xl flex items-center gap-2 transition-all shadow-md">
                 <i data-lucide="file-text" style="width:16px;height:16px;"></i> Unduh PDF
             </a>
         </div>
+    </div>
+    <div class="px-6 py-5 border-b border-slate-100 bg-slate-50/30">
+        <form method="GET" action="{{ route('report.sales') }}" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3">
+            <div class="xl:col-span-2">
+                <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-1">Cari Invoice / Customer</label>
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Contoh: INV atau nama customer" class="w-full h-10 rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 transition-all">
+            </div>
+            <div>
+                <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-1">Supplier</label>
+                <select name="supplier_code" class="w-full h-10 rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 transition-all">
+                    <option value="">Semua Supplier</option>
+                    @foreach($suppliers as $supplier)
+                        <option value="{{ $supplier->code }}" @selected(request('supplier_code') == $supplier->code)>
+                            {{ $supplier->name }}{{ $supplier->company_name ? ' - ' . $supplier->company_name : '' }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <div>
+                <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-1">Kategori Produk</label>
+                <select name="category_id" class="w-full h-10 rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 transition-all">
+                    <option value="">Semua Kategori</option>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}" @selected((string) request('category_id') === (string) $category->id)>{{ $category->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div>
+                <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-1">Status</label>
+                <select name="status" class="w-full h-10 rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 transition-all">
+                    <option value="">Semua Status</option>
+                    <option value="paid" @selected(request('status') === 'paid')>Lunas</option>
+                    <option value="partial" @selected(request('status') === 'partial')>Sebagian</option>
+                    <option value="unpaid" @selected(request('status') === 'unpaid')>Belum Lunas</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-1">Customer</label>
+                <select name="customer_id" class="w-full h-10 rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 transition-all">
+                    <option value="">Semua Customer</option>
+                    @foreach($customers as $customer)
+                        <option value="{{ $customer->id }}" @selected((string) request('customer_id') === (string) $customer->id)>{{ $customer->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div>
+                <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-1">Salesman</label>
+                @if(auth()->user()->role === 'sales' && $salesmen->count() > 0)
+                    <input type="hidden" name="salesman_id" value="{{ $salesmen->first()->id }}">
+                    <input type="text" readonly value="{{ $salesmen->first()->name }}" class="w-full h-10 rounded-xl border border-slate-200 bg-slate-100 px-3 text-sm text-slate-500 cursor-not-allowed">
+                @else
+                    <select name="salesman_id" class="w-full h-10 rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 transition-all">
+                        <option value="">Semua Salesman</option>
+                        @foreach($salesmen as $salesman)
+                            <option value="{{ $salesman->id }}" @selected((string) request('salesman_id') === (string) $salesman->id)>{{ $salesman->name }}</option>
+                        @endforeach
+                    </select>
+                @endif
+            </div>
+            <div>
+                <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-1">Dari Tanggal</label>
+                <input type="date" name="start_date" value="{{ request('start_date') }}" class="w-full h-10 rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 transition-all">
+            </div>
+            <div>
+                <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-1">Sampai Tanggal</label>
+                <input type="date" name="end_date" value="{{ request('end_date') }}" class="w-full h-10 rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 transition-all">
+            </div>
+            <div class="xl:col-span-4 flex flex-wrap items-center gap-2 pt-1">
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-4 h-10 rounded-xl flex items-center gap-2 transition-all">
+                    <i data-lucide="filter" style="width:14px;height:14px;"></i> Terapkan Filter
+                </button>
+                <a href="{{ route('report.sales') }}" class="bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-bold px-4 h-10 rounded-xl flex items-center gap-2 transition-all">
+                    <i data-lucide="refresh-ccw" style="width:14px;height:14px;"></i> Reset
+                </a>
+                <span class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Total Data: {{ $sales->count() }}</span>
+            </div>
+        </form>
     </div>
     <div class="overflow-x-auto">
         <table class="w-full text-sm">

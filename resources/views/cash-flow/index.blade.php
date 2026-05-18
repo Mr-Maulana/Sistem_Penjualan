@@ -11,9 +11,11 @@
             <h3 class="font-bold text-slate-800 text-lg">Mutasi Kas / Bank</h3>
             <p class="text-xs text-slate-500 mt-1">Lacak dan pantau semua aliran dana masuk dan keluar</p>
         </div>
+        @can('create', App\Models\CashFlow::class)
         <a href="{{ route('cash-flow.create') }}" class="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl flex items-center gap-2 transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5">
             <i data-lucide="plus" style="width:16px;height:16px;"></i> Tambah Transaksi
         </a>
+        @endcan
     </div>
     <div class="overflow-x-auto">
         <table class="w-full text-sm">
@@ -42,6 +44,11 @@
                     <td class="px-6 py-4 text-slate-600 min-w-[200px]">
                         <div class="line-clamp-1 group-hover:line-clamp-none transition-all duration-300">
                             {{ $cf->description }}
+                            @if($cf->reference_type)
+                                <span class="ml-2 inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-blue-50 text-blue-600 text-[9px] font-bold uppercase tracking-wider ring-1 ring-blue-500/20">
+                                    <i data-lucide="link" style="width:10px;height:10px;"></i> Auto
+                                </span>
+                            @endif
                         </div>
                     </td>
                     <td class="px-6 py-4 text-right font-bold {{ $cf->type === 'in' ? 'text-emerald-600' : 'text-red-600' }}">
@@ -54,16 +61,27 @@
                         <a href="{{ route('cash-flow.show', $cf) }}" class="p-2 rounded-lg hover:bg-slate-100 text-slate-500 hover:text-slate-700 transition-colors" title="Lihat Detail">
                             <i data-lucide="eye" style="width:16px;height:16px;"></i>
                         </a>
-                        <a href="{{ route('cash-flow.edit', $cf) }}" class="p-2 rounded-lg hover:bg-blue-50 text-slate-500 hover:text-blue-600 transition-colors" title="Edit">
-                            <i data-lucide="pencil" style="width:16px;height:16px;"></i>
-                        </a>
-                        <form action="{{ route('cash-flow.destroy', $cf) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus transaksi ini?')">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="p-2 rounded-lg hover:bg-red-50 text-slate-400 hover:text-red-500 transition-colors" title="Hapus">
-                                <i data-lucide="trash-2" style="width:16px;height:16px;"></i>
+                        
+                        @if($cf->reference_type)
+                            <button onclick="alert('Transaksi ini terhubung otomatis. Silakan edit atau hapus dari modul sumber (Penjualan).')" class="p-2 rounded-lg text-slate-300 cursor-not-allowed" title="Auto-generated">
+                                <i data-lucide="lock" style="width:16px;height:16px;"></i>
                             </button>
-                        </form>
+                        @else
+                        @can('update', $cf)
+                            <a href="{{ route('cash-flow.edit', $cf) }}" class="p-2 rounded-lg hover:bg-blue-50 text-slate-500 hover:text-blue-600 transition-colors" title="Edit">
+                                <i data-lucide="pencil" style="width:16px;height:16px;"></i>
+                            </a>
+                        @endcan
+                        @can('delete', $cf)
+                            <form action="{{ route('cash-flow.destroy', $cf) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus transaksi ini?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="p-2 rounded-lg hover:bg-red-50 text-slate-400 hover:text-red-500 transition-colors" title="Hapus">
+                                    <i data-lucide="trash-2" style="width:16px;height:16px;"></i>
+                                </button>
+                            </form>
+                        @endcan
+                        @endif
                     </td>
                 </tr>
                 @empty

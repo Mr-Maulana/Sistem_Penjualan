@@ -20,9 +20,11 @@
                 </div>
             </div>
             <div class="flex items-center gap-3">
+                @if(!in_array(auth()->user()->role, ['sales', 'supervisor']))
                 <a href="{{ route('cash-flow.edit', $cashFlow) }}" class="bg-white border border-slate-200 hover:bg-slate-50 hover:border-slate-300 text-slate-700 text-sm font-semibold px-4 py-2 rounded-xl flex items-center gap-2 transition-all shadow-sm">
                     <i data-lucide="pencil" style="width:16px;height:16px;"></i> Edit
                 </a>
+                @endif
                 <a href="{{ route('cash-flow.index') }}" class="bg-slate-100 hover:bg-slate-200 text-slate-600 text-sm font-semibold px-4 py-2 rounded-xl flex items-center gap-2 transition-all">
                     <i data-lucide="arrow-left" style="width:16px;height:16px;"></i> Kembali
                 </a>
