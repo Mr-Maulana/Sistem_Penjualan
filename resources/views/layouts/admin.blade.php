@@ -188,7 +188,7 @@
                 <a href="{{ route('price.index') }}" class="sidebar-item {{ request()->routeIs('price.*') ? 'active' : '' }} w-full text-left px-4 py-2.5 flex items-center gap-3 text-sm rounded-lg mx-2 mb-0.5" style="width:calc(100% - 16px)">
                     <i data-lucide="tag" style="width:18px;height:18px;"></i> Harga
                 </a>
-                @if(!in_array(auth()->user()?->role, ['sales', 'supervisor']))
+                @if(!in_array(auth()->user()?->role, ['sales', 'supervisor', 'manager']))
                 <a href="{{ route('area.index') }}" class="sidebar-item {{ request()->routeIs('area.*') ? 'active' : '' }} w-full text-left px-4 py-2.5 flex items-center gap-3 text-sm rounded-lg mx-2 mb-0.5" style="width:calc(100% - 16px)">
                     <i data-lucide="map" style="width:18px;height:18px;"></i> Wilayah / Area
                 </a>

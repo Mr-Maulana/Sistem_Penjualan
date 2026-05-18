@@ -92,10 +92,17 @@
                         <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-orange-500 transition-colors">
                             <i data-lucide="map-pin" class="w-4 h-4"></i>
                         </div>
-                        <input type="text" name="city" value="{{ old('city', $supplier->city ?? '') }}" required
-                               class="w-full pl-11 pr-4 py-3.5 bg-white border-slate-200 rounded-2xl text-sm font-black text-slate-800 focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 transition-all shadow-sm"
-                               placeholder="Contoh: Lhokseumawe">
+                        <select name="city" required class="w-full pl-11 pr-10 py-3.5 bg-white border border-slate-200 rounded-2xl text-sm font-black text-slate-800 focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 transition-all appearance-none shadow-sm">
+                            <option value="">-- Pilih Kota --</option>
+                            @foreach($cities as $c)
+                                <option value="{{ $c }}" {{ old('city', $supplier->city ?? '') == $c ? 'selected' : '' }}>{{ strtoupper($c) }}</option>
+                            @endforeach
+                        </select>
+                        <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400">
+                            <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                        </div>
                     </div>
+                    @error('city') <div class="text-xs text-red-500 mt-1 font-medium">{{ $message }}</div> @enderror
                 </div>
 
                 <div>

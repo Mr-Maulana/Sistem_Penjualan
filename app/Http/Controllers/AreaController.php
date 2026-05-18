@@ -10,6 +10,8 @@ class AreaController extends Controller
 {
     public function index(Request $request)
     {
+        abort_if(auth()->user()->role !== 'admin', 403, 'Hanya Admin yang diizinkan untuk melihat wilayah.');
+
         if ($request->filled('search')) {
             $search = $request->search;
             $searchResults = Area::where('name', 'like', "%{$search}%")

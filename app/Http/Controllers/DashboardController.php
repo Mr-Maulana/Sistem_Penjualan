@@ -81,8 +81,31 @@ class DashboardController extends Controller
                 ];
             });
         
-        // Stok Hampir Habis (Products are usually global)
-        $lowStockProducts = Product::where('stock', '<=', 10)->limit(5)->get();
+        // Stok Hampir Habis (Scoped if manager, supervisor, or sales)
+        $productQuery = Product::query()->where('stock', '<=', 10);
+        if (in_array($user->role, ['manager', 'supervisor', 'sales']) && $user->salesman_id) {
+            $province = null;
+            if ($user->role === 'manager') {
+                $salesman = Salesman::find($user->salesman_id);
+                $province = $salesman ? $salesman->area : null;
+            } elseif ($user->role === 'supervisor') {
+                $salesman = Salesman::find($user->salesman_id);
+                $manager = $salesman ? Salesman::find($salesman->supervisor_id) : null;
+                $province = $manager ? $manager->area : null;
+            } else { // sales
+                $salesman = Salesman::find($user->salesman_id);
+                $supervisor = $salesman ? Salesman::find($salesman->supervisor_id) : null;
+                $manager = $supervisor ? Salesman::find($supervisor->supervisor_id) : null;
+                $province = $manager ? $manager->area : null;
+            }
+
+            if ($province) {
+                $cities = \App\Models\Area::where('province', $province)->pluck('city')->unique()->filter()->values()->toArray();
+                $supplierCodes = \App\Models\Supplier::whereIn('city', $cities)->pluck('code')->toArray();
+                $productQuery->whereIn('supplier_code', $supplierCodes);
+            }
+        }
+        $lowStockProducts = $productQuery->limit(5)->get();
         
         // Chart Data (Penjualan 7 hari terakhir)
         $chartData = (clone $querySales)->select(
@@ -131,8 +154,17 @@ class DashboardController extends Controller
     private function getAllowedSalesmanIds()
     {
         $user = auth()->user();
-        if ($user->role === 'admin' || $user->role === 'manager') {
+        if ($user->role === 'admin') {
             return null;
+        }
+        if ($user->role === 'manager') {
+            $managerSalesmanId = $user->salesman_id;
+            if (!$managerSalesmanId) {
+                return [];
+            }
+            $supervisorIds = Salesman::where('supervisor_id', $managerSalesmanId)->pluck('id')->toArray();
+            $salesIds = Salesman::whereIn('supervisor_id', $supervisorIds)->pluck('id')->toArray();
+            return array_merge([$managerSalesmanId], $supervisorIds, $salesIds);
         }
         if ($user->role === 'supervisor') {
             $subordinateIds = Salesman::where('supervisor_id', $user->salesman_id)->pluck('id')->toArray();

@@ -23,7 +23,7 @@
                         placeholder="Cari supplier...">
                 </form>
             </div>
-            @if(auth()->user()?->role === 'admin')
+            @if(in_array(auth()->user()?->role, ['admin', 'manager']))
             <a href="{{ route('supplier.create') }}" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold rounded-xl transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5">
                 <i data-lucide="plus" class="w-4 h-4 text-white"></i> Tambah Supplier
             </a>
@@ -106,15 +106,19 @@
                                 <a href="{{ route('product.index', ['supplier_id' => $sup->code]) }}" class="w-10 h-10 flex items-center justify-center rounded-2xl bg-white border border-slate-100 text-slate-400 hover:text-emerald-500 hover:border-emerald-100 hover:shadow-lg hover:shadow-emerald-100 transition-all active:scale-90" title="Lihat Katalog Produk">
                                     <i data-lucide="package" class="w-4 h-4"></i>
                                 </a>
+                                @can('update', $sup)
                                 <a href="{{ route('supplier.edit', $sup) }}" class="w-10 h-10 flex items-center justify-center rounded-2xl bg-white border border-slate-100 text-slate-400 hover:text-orange-500 hover:border-orange-100 hover:shadow-lg hover:shadow-orange-100 transition-all active:scale-90" title="Edit">
                                     <i data-lucide="pencil" class="w-4 h-4"></i>
                                 </a>
+                                @endcan
+                                @can('delete', $sup)
                                 <form action="{{ route('supplier.destroy', $sup) }}" method="POST" class="inline" onsubmit="return confirm('Hapus data supplier ini?')">
                                     @csrf @method('DELETE')
                                     <button type="submit" class="w-10 h-10 flex items-center justify-center rounded-2xl bg-white border border-slate-100 text-slate-400 hover:text-red-500 hover:border-red-100 hover:shadow-lg hover:shadow-red-100 transition-all active:scale-90" title="Hapus">
                                         <i data-lucide="trash-2" class="w-4 h-4"></i>
                                     </button>
                                 </form>
+                                @endcan
                             </div>
                         </td>
                     </tr>

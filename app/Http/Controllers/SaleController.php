@@ -112,6 +112,14 @@ class SaleController extends Controller
             $validated['salesman_id'] = auth()->user()->salesman_id;
         }
 
+        $user = auth()->user();
+        if (in_array($user->role, ['sales', 'supervisor', 'manager'])) {
+            $allowedIds = $this->getAllowedSalesmanIds($user);
+            if (!in_array($validated['salesman_id'], $allowedIds)) {
+                return back()->withInput()->withErrors(['salesman_id' => 'Salesman yang dipilih harus berada dalam tim Anda.']);
+            }
+        }
+
         $validated['down_payment'] = $validated['down_payment'] ?? 0;
         $validated['discount'] = $validated['discount'] ?? 0;
         $validated['tax'] = $validated['tax'] ?? 0;
@@ -178,12 +186,14 @@ class SaleController extends Controller
     public function show(Sale $sale)
     {
         $this->authorize('view', $sale);
+        $this->validateTeamAccess($sale);
         $sale->load(['customer', 'salesman', 'items.product']);
         return view('sale.show', compact('sale'));
     }
 
     public function print(Sale $sale)
     {
+        $this->validateTeamAccess($sale);
         $sale->load(['customer', 'salesman', 'items.product']);
 
         $pdf = Pdf::loadView('sale.invoice-pdf', [
@@ -199,6 +209,7 @@ class SaleController extends Controller
     public function edit(Sale $sale)
     {
         $this->authorize('update', $sale);
+        $this->validateTeamAccess($sale);
         $customers = Customer::orderBy('name')->get();
         $products = Product::orderBy('name')->get();
 
@@ -229,6 +240,7 @@ class SaleController extends Controller
     public function update(Request $request, Sale $sale)
     {
         $this->authorize('update', $sale);
+        $this->validateTeamAccess($sale);
         $validated = $request->validate([
             'invoice_number' => 'required|unique:sales,invoice_number,' . $sale->id,
             'date' => 'required|date',
@@ -251,6 +263,14 @@ class SaleController extends Controller
         // Force salesman_id for Sales role
         if (auth()->user()->role === 'sales') {
             $validated['salesman_id'] = auth()->user()->salesman_id;
+        }
+
+        $user = auth()->user();
+        if (in_array($user->role, ['sales', 'supervisor', 'manager'])) {
+            $allowedIds = $this->getAllowedSalesmanIds($user);
+            if (!in_array($validated['salesman_id'], $allowedIds)) {
+                return back()->withInput()->withErrors(['salesman_id' => 'Salesman yang dipilih harus berada dalam tim Anda.']);
+            }
         }
 
         $validated['down_payment'] = $validated['down_payment'] ?? 0;
@@ -330,6 +350,7 @@ class SaleController extends Controller
     public function destroy(Sale $sale)
     {
         $this->authorize('delete', $sale);
+        $this->validateTeamAccess($sale);
         DB::transaction(function () use ($sale) {
             $sale->load('items');
             foreach ($sale->items as $existing) {
@@ -347,5 +368,29 @@ class SaleController extends Controller
 
         return redirect()->route('sale.index')
             ->with('success', 'Penjualan berhasil dihapus');
+    }
+
+    private function validateTeamAccess(Sale $sale)
+    {
+        $user = auth()->user();
+        if (in_array($user->role, ['sales', 'supervisor', 'manager'])) {
+            $allowedIds = $this->getAllowedSalesmanIds($user);
+            abort_unless(in_array($sale->salesman_id, $allowedIds), 403, 'Anda tidak memiliki hak akses untuk transaksi di luar wilayah kerja tim Anda.');
+        }
+    }
+
+    private function getAllowedSalesmanIds($user)
+    {
+        if ($user->role === 'sales') {
+            return [$user->salesman_id];
+        } elseif ($user->role === 'supervisor') {
+            $subordinateIds = Salesman::where('supervisor_id', $user->salesman_id)->pluck('id')->toArray();
+            return array_merge([$user->salesman_id], $subordinateIds);
+        } elseif ($user->role === 'manager') {
+            $supervisorIds = Salesman::where('supervisor_id', $user->salesman_id)->pluck('id')->toArray();
+            $salesIds = Salesman::whereIn('supervisor_id', $supervisorIds)->pluck('id')->toArray();
+            return array_merge([$user->salesman_id], $supervisorIds, $salesIds);
+        }
+        return [];
     }
 }

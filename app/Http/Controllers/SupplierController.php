@@ -14,6 +14,13 @@ class SupplierController extends Controller
         $this->authorize('viewAny', Supplier::class);
         $query = Supplier::query();
 
+        $user = auth()->user();
+        $province = $this->getProvinceForUser($user);
+        if ($province) {
+            $allowedCities = \App\Models\Area::where('province', $province)->pluck('city')->unique()->toArray();
+            $query->whereIn('city', $allowedCities);
+        }
+
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function($q) use ($search) {
@@ -29,7 +36,14 @@ class SupplierController extends Controller
         }
 
         $suppliers = $query->orderBy('code')->get();
-        $cities = Supplier::select('city')->distinct()->pluck('city');
+        
+        $province = $this->getProvinceForUser($user);
+        if ($province) {
+            $allowedCities = \App\Models\Area::where('province', $province)->pluck('city')->unique()->toArray();
+            $cities = Supplier::whereIn('city', $allowedCities)->select('city')->distinct()->pluck('city');
+        } else {
+            $cities = Supplier::select('city')->distinct()->pluck('city');
+        }
 
         return view('supplier.index', compact('suppliers', 'cities'));
     }
@@ -38,7 +52,17 @@ class SupplierController extends Controller
     {
         $this->authorize('create', Supplier::class);
         $autoCode = $this->generateCode(Supplier::class, 'SUP');
-        return view('supplier.form', compact('autoCode'));
+        
+        $user = auth()->user();
+        $province = $this->getProvinceForUser($user);
+        if ($province) {
+            $cities = \App\Models\Area::where('province', $province)
+                ->select('city')->distinct()->orderBy('city')->pluck('city');
+        } else {
+            $cities = \App\Models\Area::select('city')->distinct()->orderBy('city')->pluck('city');
+        }
+        
+        return view('supplier.form', compact('autoCode', 'cities'));
     }
     
     public function store(Request $request)
@@ -56,6 +80,15 @@ class SupplierController extends Controller
             'status' => 'required|in:active,inactive',
         ]);
         
+        $user = auth()->user();
+        $province = $this->getProvinceForUser($user);
+        if ($province) {
+            $allowedCities = \App\Models\Area::where('province', $province)->pluck('city')->unique()->toArray();
+            if (!in_array($request->city, $allowedCities)) {
+                return back()->withInput()->withErrors(['city' => 'Kota suplier harus berada di provinsi Anda (' . $province . ').']);
+            }
+        }
+        
         Supplier::create($request->all());
         
         return redirect()->route('supplier.index')
@@ -65,18 +98,31 @@ class SupplierController extends Controller
     public function edit(Supplier $supplier)
     {
         $this->authorize('update', $supplier);
-        return view('supplier.form', compact('supplier'));
+        $this->validateTeamAccess($supplier);
+
+        $user = auth()->user();
+        $province = $this->getProvinceForUser($user);
+        if ($province) {
+            $cities = \App\Models\Area::where('province', $province)
+                ->select('city')->distinct()->orderBy('city')->pluck('city');
+        } else {
+            $cities = \App\Models\Area::select('city')->distinct()->orderBy('city')->pluck('city');
+        }
+
+        return view('supplier.form', compact('supplier', 'cities'));
     }
 
     public function show(Supplier $supplier)
     {
         $this->authorize('view', $supplier);
+        $this->validateTeamAccess($supplier);
         return view('supplier.show', compact('supplier'));
     }
     
     public function update(Request $request, Supplier $supplier)
     {
         $this->authorize('update', $supplier);
+        $this->validateTeamAccess($supplier);
         $request->validate([
             'code' => 'required|unique:suppliers,code,' . $supplier->id,
             'name' => 'required',
@@ -89,6 +135,15 @@ class SupplierController extends Controller
             'status' => 'required|in:active,inactive',
         ]);
         
+        $user = auth()->user();
+        $province = $this->getProvinceForUser($user);
+        if ($province) {
+            $allowedCities = \App\Models\Area::where('province', $province)->pluck('city')->unique()->toArray();
+            if (!in_array($request->city, $allowedCities)) {
+                return back()->withInput()->withErrors(['city' => 'Kota suplier harus berada di provinsi Anda (' . $province . ').']);
+            }
+        }
+        
         $supplier->update($request->all());
         
         return redirect()->route('supplier.index')
@@ -98,9 +153,41 @@ class SupplierController extends Controller
     public function destroy(Supplier $supplier)
     {
         $this->authorize('delete', $supplier);
+        $this->validateTeamAccess($supplier);
         $supplier->delete();
         
         return redirect()->route('supplier.index')
             ->with('success', 'Supplier berhasil dihapus');
+    }
+
+    private function validateTeamAccess(Supplier $supplier)
+    {
+        $user = auth()->user();
+        $province = $this->getProvinceForUser($user);
+        if ($province) {
+            $allowedCities = \App\Models\Area::where('province', $province)->pluck('city')->unique()->toArray();
+            abort_unless(in_array($supplier->city, $allowedCities), 403, 'Anda tidak memiliki hak akses untuk data supplier di luar wilayah kerja tim Anda.');
+        }
+    }
+
+    private function getProvinceForUser($user)
+    {
+        if (!$user || !$user->salesman) {
+            return null;
+        }
+
+        if ($user->role === 'manager') {
+            return $user->salesman->area;
+        } elseif ($user->role === 'supervisor') {
+            $manager = \App\Models\Salesman::find($user->salesman->supervisor_id);
+            return $manager ? $manager->area : null;
+        } elseif ($user->role === 'sales') {
+            $supervisor = \App\Models\Salesman::find($user->salesman->supervisor_id);
+            if ($supervisor) {
+                $manager = \App\Models\Salesman::find($supervisor->supervisor_id);
+                return $manager ? $manager->area : null;
+            }
+        }
+        return null;
     }
 }

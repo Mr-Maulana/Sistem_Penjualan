@@ -132,6 +132,7 @@
         <!-- Right Column (Hierarchy & Stats) -->
         <div class="lg:col-span-4 space-y-6">
             <!-- Target Card -->
+            @if($salesman->level !== 'manager')
             <div class="bg-white rounded-3xl p-6 lg:p-8 border border-slate-200 shadow-sm relative overflow-hidden">
                 <div class="absolute -right-8 -bottom-8 w-32 h-32 bg-orange-500/5 rounded-full blur-2xl"></div>
                 <div class="relative space-y-6">
@@ -150,6 +151,7 @@
                     </div>
                 </div>
             </div>
+            @endif
 
             <!-- Team Section -->
             <div class="bg-white rounded-3xl border border-slate-200 p-6 lg:p-8 shadow-sm">

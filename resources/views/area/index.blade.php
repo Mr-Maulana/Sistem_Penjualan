@@ -147,7 +147,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     @forelse($provinces as $prov)
                         @php 
-                            $citiesCount = \App\Models\Area::where('province', $prov)->select('city')->distinct()->count();
+                            $citiesCount = \App\Models\Area::where('province', $prov)->distinct()->count('city');
                             $provCode = \App\Models\Area::getProvinceCodeByName($prov);
                         @endphp
                         <div class="group relative flex flex-col bg-white rounded-3xl border border-slate-200/60 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden">

@@ -9,16 +9,36 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::orderBy('name')->get();
-        return view('user.index', compact('users'));
+        $query = User::query();
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhere('role', 'like', "%{$search}%")
+                  ->orWhere('nip', 'like', "%{$search}%")
+                  ->orWhere('nik', 'like', "%{$search}%")
+                  ->orWhere('phone', 'like', "%{$search}%");
+            });
+        }
+
+        $users = $query->orderBy('name')->get();
+        $unlinkedSalesmen = \App\Models\Salesman::whereNotIn('id', User::whereNotNull('salesman_id')->pluck('salesman_id'))
+            ->whereNotIn('email', User::pluck('email'))
+            ->get();
+        return view('user.index', compact('users', 'unlinkedSalesmen'));
     }
 
     public function create()
     {
-        $roles = ['admin', 'supervisor', 'sales'];
-        return view('user.form', compact('roles'));
+        $roles = ['admin', 'manager', 'supervisor', 'sales'];
+        $unlinkedSalesmen = \App\Models\Salesman::whereNotIn('id', User::whereNotNull('salesman_id')->pluck('salesman_id'))
+            ->whereNotIn('email', User::pluck('email'))
+            ->get();
+        return view('user.form', compact('roles', 'unlinkedSalesmen'));
     }
 
     public function store(Request $request)
@@ -26,7 +46,7 @@ class UserController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
-            'role' => 'required|in:admin,supervisor,sales',
+            'role' => 'required|in:admin,manager,supervisor,sales',
             'password' => 'required|string|min:8|confirmed',
             'nik' => 'nullable|string|max:16',
             'nip' => 'nullable|string|max:20',
@@ -35,6 +55,7 @@ class UserController extends Controller
             'address' => 'nullable|string',
             'gender' => 'nullable|in:L,P',
             'birth_date' => 'nullable|date',
+            'salesman_id' => 'nullable|exists:salesmen,id',
         ]);
 
         User::create([
@@ -49,6 +70,7 @@ class UserController extends Controller
             'address' => $validated['address'],
             'gender' => $validated['gender'],
             'birth_date' => $validated['birth_date'],
+            'salesman_id' => $validated['salesman_id'] ?? null,
         ]);
 
         return redirect()->route('user.index')->with('success', 'User berhasil ditambahkan');
@@ -61,8 +83,19 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        $roles = ['admin', 'supervisor', 'sales'];
-        return view('user.form', compact('user', 'roles'));
+        $roles = ['admin', 'manager', 'supervisor', 'sales'];
+        
+        // Unlinked salesmen + the one linked to this user (if any)
+        $unlinkedSalesmen = \App\Models\Salesman::whereNotIn('id', 
+            User::whereNotNull('salesman_id')
+                ->where('id', '!=', $user->id)
+                ->pluck('salesman_id')
+        )->whereNotIn('email', 
+            User::where('id', '!=', $user->id)
+                ->pluck('email')
+        )->get();
+
+        return view('user.form', compact('user', 'roles', 'unlinkedSalesmen'));
     }
 
     public function update(Request $request, User $user)
@@ -70,7 +103,7 @@ class UserController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
-            'role' => 'required|in:admin,supervisor,sales',
+            'role' => 'required|in:admin,manager,supervisor,sales',
             'password' => 'nullable|string|min:8|confirmed',
             'nik' => 'nullable|string|max:16',
             'nip' => 'nullable|string|max:20',
@@ -79,6 +112,7 @@ class UserController extends Controller
             'address' => 'nullable|string',
             'gender' => 'nullable|in:L,P',
             'birth_date' => 'nullable|date',
+            'salesman_id' => 'nullable|exists:salesmen,id',
         ]);
 
         $payload = [
@@ -92,6 +126,7 @@ class UserController extends Controller
             'address' => $validated['address'],
             'gender' => $validated['gender'],
             'birth_date' => $validated['birth_date'],
+            'salesman_id' => $validated['salesman_id'] ?? null,
         ];
         if (!empty($validated['password'])) {
             $payload['password'] = Hash::make($validated['password']);
@@ -100,6 +135,45 @@ class UserController extends Controller
         $user->update($payload);
 
         return redirect()->route('user.index')->with('success', 'User berhasil diupdate');
+    }
+
+    public function storeSalesmanAccount(Request $request)
+    {
+        $validated = $request->validate([
+            'salesman_id' => 'required|exists:salesmen,id',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $salesman = \App\Models\Salesman::findOrFail($validated['salesman_id']);
+
+        if (User::where('email', $salesman->email)->exists()) {
+            return redirect()->route('user.index')->with('error', 'Email salesman (' . $salesman->email . ') sudah digunakan oleh user lain.');
+        }
+
+        if (User::where('salesman_id', $salesman->id)->exists()) {
+            return redirect()->route('user.index')->with('error', 'Salesman ini sudah memiliki akun user.');
+        }
+
+        $role = 'sales';
+        if ($salesman->level === 'manager') {
+            $role = 'manager';
+        } elseif ($salesman->level === 'supervisor') {
+            $role = 'supervisor';
+        }
+
+        User::create([
+            'name' => $salesman->name,
+            'email' => $salesman->email,
+            'role' => $role,
+            'password' => Hash::make($validated['password']),
+            'nik' => $salesman->nik,
+            'phone' => $salesman->phone,
+            'address' => $salesman->address,
+            'salesman_id' => $salesman->id,
+            'profesi' => 'Salesman ' . ucfirst($salesman->level),
+        ]);
+
+        return redirect()->route('user.index')->with('success', 'Akun user untuk salesman ' . $salesman->name . ' berhasil dibuat');
     }
 
     public function destroy(User $user)

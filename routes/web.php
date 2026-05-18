@@ -64,6 +64,7 @@ Route::middleware('auth')->group(function () {
 
     // User Management (Admin only)
     Route::middleware('role:admin')->group(function () {
+        Route::post('user/store-salesman', [UserController::class, 'storeSalesmanAccount'])->name('user.store-salesman');
         Route::resource('user', UserController::class);
         
         // System Administration & Overview

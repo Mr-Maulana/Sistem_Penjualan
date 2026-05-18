@@ -101,15 +101,19 @@
                                 <a href="{{ route('product.show', $product) }}" class="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-50 text-slate-400 hover:text-emerald-600 hover:bg-white hover:shadow-md border border-transparent hover:border-emerald-100 transition-all active:scale-90" title="Lihat Detail">
                                     <i data-lucide="eye" class="w-4 h-4"></i>
                                 </a>
+                                @can('update', $product)
                                 <a href="{{ route('product.edit', $product) }}" class="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-50 text-slate-400 hover:text-blue-600 hover:bg-white hover:shadow-md border border-transparent hover:border-blue-100 transition-all active:scale-90" title="Edit Produk">
                                     <i data-lucide="pencil" class="w-4 h-4"></i>
                                 </a>
+                                @endcan
+                                @can('delete', $product)
                                 <form action="{{ route('product.destroy', $product) }}" method="POST" onsubmit="return confirm('Hapus produk ini dari katalog?')">
                                     @csrf @method('DELETE')
                                     <button type="submit" class="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-50 text-slate-400 hover:text-red-500 hover:bg-white hover:shadow-md border border-transparent hover:border-red-100 transition-all active:scale-90" title="Hapus Produk">
                                         <i data-lucide="trash-2" class="w-4 h-4"></i>
                                     </button>
                                 </form>
+                                @endcan
                             </div>
                         </td>
                     </tr>

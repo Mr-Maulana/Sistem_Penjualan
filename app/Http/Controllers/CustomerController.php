@@ -114,6 +114,14 @@ class CustomerController extends Controller
             'status' => 'required|in:active,inactive',
         ]);
 
+        $user = auth()->user();
+        if ($request->filled('salesman_id') && in_array($user->role, ['sales', 'supervisor', 'manager'])) {
+            $allowedIds = $this->getAllowedSalesmanIds($user);
+            if (!in_array($request->salesman_id, $allowedIds)) {
+                return back()->withInput()->withErrors(['salesman_id' => 'Salesman yang dipilih harus berada dalam tim Anda.']);
+            }
+        }
+
         Customer::create($validated);
 
         return redirect()->route('customer.index')
@@ -126,12 +134,14 @@ class CustomerController extends Controller
     public function show(Customer $customer)
     {
         $this->authorize('view', $customer);
+        $this->validateTeamAccess($customer);
         return view('customer.show', compact('customer'));
     }
 
     public function edit(Customer $customer)
     {
         $this->authorize('update', $customer);
+        $this->validateTeamAccess($customer);
         
         $user = auth()->user();
         if (in_array($user->role, ['sales', 'supervisor', 'manager'])) {
@@ -165,6 +175,7 @@ class CustomerController extends Controller
     public function update(Request $request, Customer $customer)
     {
         $this->authorize('update', $customer);
+        $this->validateTeamAccess($customer);
 
         $validated = $request->validate([
             'code' => 'required|unique:customers,code,' . $customer->id,
@@ -179,6 +190,14 @@ class CustomerController extends Controller
             'status' => 'required|in:active,inactive',
         ]);
 
+        $user = auth()->user();
+        if ($request->filled('salesman_id') && in_array($user->role, ['sales', 'supervisor', 'manager'])) {
+            $allowedIds = $this->getAllowedSalesmanIds($user);
+            if (!in_array($request->salesman_id, $allowedIds)) {
+                return back()->withInput()->withErrors(['salesman_id' => 'Salesman yang dipilih harus berada dalam tim Anda.']);
+            }
+        }
+
         $customer->update($validated);
 
         return redirect()->route('customer.index')
@@ -191,10 +210,20 @@ class CustomerController extends Controller
     public function destroy(Customer $customer)
     {
         $this->authorize('delete', $customer);
+        $this->validateTeamAccess($customer);
         
         $customer->delete();
 
         return redirect()->route('customer.index')
             ->with('success', 'Customer berhasil dihapus');
+    }
+
+    private function validateTeamAccess(Customer $customer)
+    {
+        $user = auth()->user();
+        if (in_array($user->role, ['sales', 'supervisor', 'manager'])) {
+            $allowedIds = $this->getAllowedSalesmanIds($user);
+            abort_unless(in_array($customer->salesman_id, $allowedIds), 403, 'Anda tidak memiliki hak akses untuk data customer di luar wilayah kerja tim Anda.');
+        }
     }
 }

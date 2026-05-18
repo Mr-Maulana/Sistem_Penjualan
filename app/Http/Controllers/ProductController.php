@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Area;
 use App\Models\Category;
 use App\Models\Supplier;
 use App\Models\Product;
@@ -15,17 +16,34 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $this->authorize('viewAny', Product::class);
-        
+
+        $user = auth()->user();
+        $allowedSupplierCodes = null;
+
+        $province = $this->getProvinceForUser($user);
+        if ($province) {
+            $allowedCities = Area::where('province', $province)->pluck('city')->unique()->toArray();
+            $allowedSupplierCodes = Supplier::whereIn('city', $allowedCities)->pluck('code')->toArray();
+        }
+
         $selectedSupplier = null;
         if ($request->filled('supplier_id')) {
-            $selectedSupplier = Supplier::with(['products' => function($q) use ($request) {
+            $selectedSupplierQuery = Supplier::with(['products' => function($q) use ($request) {
                 if ($request->filled('search')) {
                     $q->where('name', 'like', "%{$request->search}%");
                 }
-            }])->where('code', $request->supplier_id)->first();
+            }])->where('code', $request->supplier_id);
+
+            if ($allowedSupplierCodes !== null) {
+                $selectedSupplierQuery->whereIn('code', $allowedSupplierCodes);
+            }
+            $selectedSupplier = $selectedSupplierQuery->first();
         }
 
         $suppliersQuery = Supplier::withCount('products');
+        if ($allowedSupplierCodes !== null) {
+            $suppliersQuery->whereIn('code', $allowedSupplierCodes);
+        }
         if ($request->filled('search') && !$request->filled('supplier_id')) {
             $suppliersQuery->where(function($q) use ($request) {
                 $q->where('name', 'like', "%{$request->search}%")
@@ -46,9 +64,17 @@ class ProductController extends Controller
     {
         $this->authorize('create', Product::class);
         $categories = Category::orderBy('name')->get();
-        $suppliers = Supplier::orderBy('name')->get();
-        // We'll handle the autoCode generation via JS based on supplier prefix
-        $autoCode = ''; 
+
+        $user = auth()->user();
+        $province = $this->getProvinceForUser($user);
+        if ($province) {
+            $allowedCities = Area::where('province', $province)->pluck('city')->unique()->toArray();
+            $suppliers = Supplier::whereIn('city', $allowedCities)->orderBy('name')->get();
+        } else {
+            $suppliers = Supplier::orderBy('name')->get();
+        }
+
+        $autoCode = '';
         return view('product.form', compact('categories', 'suppliers', 'autoCode'));
     }
 
@@ -104,14 +130,25 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $this->authorize('update', $product);
+        $this->validateTeamAccess($product);
         $categories = Category::orderBy('name')->get();
-        $suppliers = Supplier::orderBy('name')->get();
+
+        $user = auth()->user();
+        $province = $this->getProvinceForUser($user);
+        if ($province) {
+            $allowedCities = Area::where('province', $province)->pluck('city')->unique()->toArray();
+            $suppliers = Supplier::whereIn('city', $allowedCities)->orderBy('name')->get();
+        } else {
+            $suppliers = Supplier::orderBy('name')->get();
+        }
+
         return view('product.form', compact('product', 'categories', 'suppliers'));
     }
 
     public function update(Request $request, Product $product)
     {
         $this->authorize('update', $product);
+        $this->validateTeamAccess($product);
         $request->validate([
             'name' => 'required',
             'category_id' => 'required|exists:categories,id',
@@ -156,9 +193,43 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         $this->authorize('delete', $product);
+        $this->validateTeamAccess($product);
         $product->delete();
 
         return redirect()->route('product.index')
             ->with('success', 'Produk berhasil dihapus');
+    }
+
+    private function validateTeamAccess(Product $product)
+    {
+        $user = auth()->user();
+        $province = $this->getProvinceForUser($user);
+        if ($province) {
+            $allowedCities = Area::where('province', $province)->pluck('city')->unique()->toArray();
+            $allowedSupplierCodes = Supplier::whereIn('city', $allowedCities)->pluck('code')->toArray();
+            abort_unless(in_array($product->supplier_code, $allowedSupplierCodes), 403,
+                'Anda tidak memiliki hak akses untuk produk di luar wilayah kerja tim Anda.');
+        }
+    }
+
+    private function getProvinceForUser($user)
+    {
+        if (!$user || !$user->salesman) {
+            return null;
+        }
+
+        if ($user->role === 'manager') {
+            return $user->salesman->area;
+        } elseif ($user->role === 'supervisor') {
+            $manager = \App\Models\Salesman::find($user->salesman->supervisor_id);
+            return $manager ? $manager->area : null;
+        } elseif ($user->role === 'sales') {
+            $supervisor = \App\Models\Salesman::find($user->salesman->supervisor_id);
+            if ($supervisor) {
+                $manager = \App\Models\Salesman::find($supervisor->supervisor_id);
+                return $manager ? $manager->area : null;
+            }
+        }
+        return null;
     }
 }

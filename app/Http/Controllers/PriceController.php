@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Area;
 use App\Models\Price;
 use App\Models\Product;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
@@ -51,7 +53,20 @@ class PriceController extends Controller
     public function index(Request $request)
     {
         $this->authorize('viewAny', Price::class);
+
+        $user = auth()->user();
+        $allowedProductCodes = null;
+        $province = $this->getProvinceForUser($user);
+        if ($province) {
+            $allowedCities = Area::where('province', $province)->pluck('city')->unique()->toArray();
+            $allowedSupplierCodes = Supplier::whereIn('city', $allowedCities)->pluck('code')->toArray();
+            $allowedProductCodes = Product::whereIn('supplier_code', $allowedSupplierCodes)->pluck('code')->toArray();
+        }
+
         $query = Price::with('product');
+        if ($allowedProductCodes !== null) {
+            $query->whereIn('product_code', $allowedProductCodes);
+        }
 
         if ($request->filled('search')) {
             $search = $request->search;
@@ -77,7 +92,17 @@ class PriceController extends Controller
     public function create()
     {
         $this->authorize('create', Price::class);
-        $products = Product::orderBy('name')->get();
+
+        $user = auth()->user();
+        $province = $this->getProvinceForUser($user);
+        if ($province) {
+            $allowedCities = Area::where('province', $province)->pluck('city')->unique()->toArray();
+            $allowedSupplierCodes = Supplier::whereIn('city', $allowedCities)->pluck('code')->toArray();
+            $products = Product::whereIn('supplier_code', $allowedSupplierCodes)->orderBy('name')->get();
+        } else {
+            $products = Product::orderBy('name')->get();
+        }
+
         return view('price.form', compact('products'));
     }
 
@@ -111,13 +136,25 @@ class PriceController extends Controller
     public function edit(Price $price)
     {
         $this->authorize('update', $price);
-        $products = Product::orderBy('name')->get();
+        $this->validateTeamAccess($price);
+
+        $user = auth()->user();
+        $province = $this->getProvinceForUser($user);
+        if ($province) {
+            $allowedCities = Area::where('province', $province)->pluck('city')->unique()->toArray();
+            $allowedSupplierCodes = Supplier::whereIn('city', $allowedCities)->pluck('code')->toArray();
+            $products = Product::whereIn('supplier_code', $allowedSupplierCodes)->orderBy('name')->get();
+        } else {
+            $products = Product::orderBy('name')->get();
+        }
+
         return view('price.form', compact('price', 'products'));
     }
 
     public function update(Request $request, Price $price)
     {
         $this->authorize('update', $price);
+        $this->validateTeamAccess($price);
         $validated = $request->validate([
             'product_code' => 'required|exists:products,code',
             'customer_group' => 'nullable|string|max:50',
@@ -139,8 +176,42 @@ class PriceController extends Controller
     public function destroy(Price $price)
     {
         $this->authorize('delete', $price);
+        $this->validateTeamAccess($price);
         $price->delete();
         return redirect()->route('price.index')->with('success', 'Harga berhasil dihapus');
     }
-}
 
+    private function validateTeamAccess(Price $price)
+    {
+        $user = auth()->user();
+        $province = $this->getProvinceForUser($user);
+        if ($province) {
+            $allowedCities = Area::where('province', $province)->pluck('city')->unique()->toArray();
+            $allowedSupplierCodes = Supplier::whereIn('city', $allowedCities)->pluck('code')->toArray();
+            $allowedProductCodes = Product::whereIn('supplier_code', $allowedSupplierCodes)->pluck('code')->toArray();
+            abort_unless(in_array($price->product_code, $allowedProductCodes), 403,
+                'Anda tidak memiliki hak akses untuk harga di luar wilayah kerja tim Anda.');
+        }
+    }
+
+    private function getProvinceForUser($user)
+    {
+        if (!$user || !$user->salesman) {
+            return null;
+        }
+
+        if ($user->role === 'manager') {
+            return $user->salesman->area;
+        } elseif ($user->role === 'supervisor') {
+            $manager = \App\Models\Salesman::find($user->salesman->supervisor_id);
+            return $manager ? $manager->area : null;
+        } elseif ($user->role === 'sales') {
+            $supervisor = \App\Models\Salesman::find($user->salesman->supervisor_id);
+            if ($supervisor) {
+                $manager = \App\Models\Salesman::find($supervisor->supervisor_id);
+                return $manager ? $manager->area : null;
+            }
+        }
+        return null;
+    }
+}

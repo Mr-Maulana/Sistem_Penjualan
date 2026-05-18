@@ -158,13 +158,13 @@
                                     <option value="manager" {{ $lvl==='manager'?'selected':'' }}>MANAGER (Provinsi)</option>
                                 </select>
                             </div>
-                            <div>
+                            <div id="target_section">
                                 <label class="block text-[10px] font-bold text-slate-500 mb-2 uppercase">Target Bulanan (Rp)</label>
                                 <div class="relative">
                                     <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
                                         <i data-lucide="target" class="w-4 h-4"></i>
                                     </div>
-                                    <input type="number" name="target" value="{{ old('target', $salesman->target ?? 0) }}" 
+                                    <input type="number" name="target" id="target_input" value="{{ old('target', $salesman->target ?? 0) }}" 
                                            class="w-full pl-11 pr-4 py-3.5 bg-white border-slate-200 rounded-2xl text-sm font-black text-slate-800 focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 transition-all shadow-sm font-mono"
                                            required placeholder="0">
                                 </div>
@@ -313,6 +313,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const areaSales = document.getElementById('area_sales');
     const citySales = document.getElementById('city_sales');
 
+    const targetSection = document.getElementById('target_section');
+    const targetInput = document.getElementById('target_input');
+
     function handleAreaFields() {
         const level = levelSelect.value;
 
@@ -330,13 +333,21 @@ document.addEventListener('DOMContentLoaded', function() {
         if (level === 'manager') {
             managerSection.classList.remove('hidden');
             areaProvince.setAttribute('name', 'area');
+            
+            // Managers have no targets
+            if (targetSection) targetSection.classList.add('hidden');
+            if (targetInput) targetInput.value = 0;
         } else if (level === 'supervisor') {
             supervisorSection.classList.remove('hidden');
             citySupervisor.setAttribute('name', 'city');
+            
+            if (targetSection) targetSection.classList.remove('hidden');
         } else if (level === 'sales') {
             salesSection.classList.remove('hidden');
             areaSales.setAttribute('name', 'area');
             citySales.setAttribute('name', 'city');
+            
+            if (targetSection) targetSection.classList.remove('hidden');
         }
 
         // Run supervisor filter whenever fields adjust

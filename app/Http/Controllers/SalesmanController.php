@@ -15,8 +15,17 @@ class SalesmanController extends Controller
         $this->authorize('viewAny', Salesman::class);
         $query = Salesman::with(['supervisor']);
 
-        if (auth()->user() && auth()->user()->role === 'supervisor') {
-            $query->where('supervisor_id', auth()->user()->salesman_id);
+        if (auth()->user()) {
+            $user = auth()->user();
+            if ($user->role === 'supervisor') {
+                $query->where('supervisor_id', $user->salesman_id);
+            } elseif ($user->role === 'manager') {
+                $managerSalesmanId = $user->salesman_id;
+                $supervisorIds = Salesman::where('supervisor_id', $managerSalesmanId)->pluck('id')->toArray();
+                $salesIds = Salesman::whereIn('supervisor_id', $supervisorIds)->pluck('id')->toArray();
+                $allowedIds = array_merge([$managerSalesmanId], $supervisorIds, $salesIds);
+                $query->whereIn('id', $allowedIds);
+            }
         }
 
         if ($request->filled('search')) {
@@ -54,8 +63,18 @@ class SalesmanController extends Controller
     {
         $this->authorize('create', Salesman::class);
         $autoCode = $this->generateCode(Salesman::class, 'SLS');
-        $supervisors = Salesman::whereIn('level', ['supervisor', 'manager'])
-            ->orderBy('name')->get();
+        
+        $user = auth()->user();
+        if ($user && $user->role === 'manager') {
+            $supervisors = Salesman::where(function($q) use ($user) {
+                $q->where('supervisor_id', $user->salesman_id)
+                  ->orWhere('id', $user->salesman_id);
+            })->whereIn('level', ['supervisor', 'manager'])->orderBy('name')->get();
+        } else {
+            $supervisors = Salesman::whereIn('level', ['supervisor', 'manager'])
+                ->orderBy('name')->get();
+        }
+        
         $areas = \App\Models\Area::orderBy('city')->orderBy('code')->get();
         return view('salesman.form', compact('autoCode', 'supervisors', 'areas'));
     }
@@ -154,6 +173,8 @@ class SalesmanController extends Controller
     public function show(Salesman $salesman)
     {
         $this->authorize('view', $salesman);
+        $this->validateTeamAccess($salesman);
+        
         $salesman->load(['supervisor', 'subordinates']);
         return view('salesman.show', compact($salesman->id ? 'salesman' : []))->with('salesman', $salesman);
     }
@@ -164,9 +185,22 @@ class SalesmanController extends Controller
     public function edit(Salesman $salesman)
     {
         $this->authorize('update', $salesman);
-        $supervisors = Salesman::whereIn('level', ['supervisor', 'manager'])
-            ->where('id', '!=', $salesman->id)
-            ->orderBy('name')->get();
+        $this->validateTeamAccess($salesman);
+
+        $user = auth()->user();
+        if ($user->role === 'manager') {
+            $supervisors = Salesman::where(function($q) use ($user) {
+                $q->where('supervisor_id', $user->salesman_id)
+                  ->orWhere('id', $user->salesman_id);
+            })->whereIn('level', ['supervisor', 'manager'])
+              ->where('id', '!=', $salesman->id)
+              ->orderBy('name')->get();
+        } else {
+            $supervisors = Salesman::whereIn('level', ['supervisor', 'manager'])
+                ->where('id', '!=', $salesman->id)
+                ->orderBy('name')->get();
+        }
+
         $areas = \App\Models\Area::orderBy('city')->orderBy('code')->get();
         return view('salesman.form', compact('salesman', 'supervisors', 'areas'));
     }
@@ -174,6 +208,7 @@ class SalesmanController extends Controller
     public function update(Request $request, Salesman $salesman)
     {
         $this->authorize('update', $salesman);
+        $this->validateTeamAccess($salesman);
         
         $level = $request->input('level', 'sales');
         
@@ -298,9 +333,32 @@ class SalesmanController extends Controller
     public function destroy(Salesman $salesman)
     {
         $this->authorize('delete', $salesman);
+        $this->validateTeamAccess($salesman);
+
         $salesman->delete();
 
         return redirect()->route('salesman.index')
             ->with('success', 'Salesman berhasil dihapus');
+    }
+
+    private function validateTeamAccess(Salesman $salesman)
+    {
+        $user = auth()->user();
+        if (!$user) {
+            abort(401);
+        }
+
+        if ($user->role === 'supervisor') {
+            $allowedIds = [$user->salesman_id];
+            $subordinateIds = Salesman::where('supervisor_id', $user->salesman_id)->pluck('id')->toArray();
+            $allowedIds = array_merge($allowedIds, $subordinateIds);
+            abort_unless(in_array($salesman->id, $allowedIds), 403, 'Anda tidak memiliki hak akses untuk data salesman di luar tim Anda.');
+        } elseif ($user->role === 'manager') {
+            $managerSalesmanId = $user->salesman_id;
+            $supervisorIds = Salesman::where('supervisor_id', $managerSalesmanId)->pluck('id')->toArray();
+            $salesIds = Salesman::whereIn('supervisor_id', $supervisorIds)->pluck('id')->toArray();
+            $allowedIds = array_merge([$managerSalesmanId], $supervisorIds, $salesIds);
+            abort_unless(in_array($salesman->id, $allowedIds), 403, 'Anda tidak memiliki hak akses untuk data salesman di luar tim Anda.');
+        }
     }
 }
