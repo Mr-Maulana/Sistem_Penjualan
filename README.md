@@ -5,7 +5,7 @@ Implementasi fitur mengacu ke:
 - `Referensi/SRS.md`
 
 ## Fitur Utama
-- Master data: **Distributor, Salesman, Customer (kota & grup), Produk, Harga (per grup customer + tanggal efektif)**
+- Master data: **Supplier, Salesman, Customer (kota & grup), Produk, Harga (per grup customer + tanggal efektif)**
 - Transaksi: **Faktur penjualan (header + detail item)**, diskon/pajak/bonus, **validasi stok**, **cetak invoice PDF**
 - Laporan: rekap penjualan, export **PDF** dan **CSV**
 - User management: **login/register**, profile, **role** (`admin|supervisor|sales`) + menu **User & Role** (admin-only)
