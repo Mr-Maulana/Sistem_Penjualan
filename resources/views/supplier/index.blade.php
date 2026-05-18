@@ -9,24 +9,25 @@
     <!-- Action Bar -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div class="flex flex-col">
-            <h2 class="text-2xl font-bold text-slate-700 tracking-tight">Master Supplier</h2>
+            <h2 class="text-xl font-extrabold text-slate-800 tracking-tight">Master Supplier</h2>
             <p class="text-xs text-slate-500 font-semibold uppercase tracking-widest mt-1">Total {{ $suppliers->count() }} Pemasok Terdaftar</p>
         </div>
-        <div class="flex items-center gap-3">
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
             <div class="relative group">
                 <form action="{{ route('supplier.index') }}" method="GET">
-                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-orange-500 transition-colors">
+                    <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 group-focus-within:text-orange-500 transition-colors">
                         <i data-lucide="search" class="w-4 h-4"></i>
                     </div>
                     <input type="text" name="search" value="{{ request('search') }}" 
-                        class="w-full md:w-64 pl-11 pr-4 py-3 bg-white border-slate-200 rounded-2xl text-sm font-bold focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 transition-all shadow-sm" 
+                        class="block w-full md:w-64 pl-10 pr-3 py-2 border border-slate-200 rounded-xl text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all bg-white font-medium" 
                         placeholder="Cari supplier...">
                 </form>
             </div>
-            <a href="{{ route('supplier.create') }}" class="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-orange-500 text-white font-bold rounded-2xl hover:bg-orange-600 transition-all shadow-xl shadow-orange-100 group active:scale-95">
-                <i data-lucide="plus" class="w-4 h-4 group-hover:rotate-90 transition-transform text-white"></i>
-                TAMBAH SUPPLIER
+            @if(auth()->user()?->role === 'admin')
+            <a href="{{ route('supplier.create') }}" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold rounded-xl transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5">
+                <i data-lucide="plus" class="w-4 h-4 text-white"></i> Tambah Supplier
             </a>
+            @endif
         </div>
     </div>
 

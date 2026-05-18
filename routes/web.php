@@ -60,6 +60,8 @@ Route::middleware('auth')->group(function () {
     Route::get('report/cash-flow', [ReportController::class, 'cashFlow'])->name('report.cash-flow');
     Route::get('report/cash-flow/export/pdf', [ReportController::class, 'cashFlowExportPdf'])->name('report.cash-flow.export.pdf');
 
+    Route::post('admin/settings/toggle-dark', [\App\Http\Controllers\SystemAdminController::class, 'toggleDarkMode'])->name('admin.settings.toggle-dark');
+
     // User Management (Admin only)
     Route::middleware('role:admin')->group(function () {
         Route::resource('user', UserController::class);

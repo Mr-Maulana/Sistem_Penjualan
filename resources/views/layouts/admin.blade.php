@@ -5,14 +5,141 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
-    <title>{{ config('app.name', 'Sistem Penjualan') }} - @yield('title', 'Dashboard')</title>
+    <link rel="icon" type="image/png" href="{{ \App\Helpers\SettingsHelper::logoUrl() }}">
+    <title>{{ \App\Helpers\SettingsHelper::get('app_name', config('app.name', 'Sistem Penjualan')) }} - @yield('title', 'Dashboard')</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>[x-cloak] { display: none !important; }</style>
+    
+    @php($theme = \App\Helpers\SettingsHelper::getThemeDetails())
+    <style>
+        [x-cloak] { display: none !important; }
+        
+        :root {
+            --theme-primary: {{ $theme['primary'] }};
+            --theme-hover: {{ $theme['hover'] }};
+            --theme-light: {{ $theme['light'] }};
+            --theme-gradient-from: {{ $theme['gradient_from'] }};
+            --theme-gradient-to: {{ $theme['gradient_to'] }};
+        }
+
+        /* Override bg-indigo-600 */
+        .bg-indigo-600 {
+            background-color: var(--theme-primary) !important;
+        }
+        /* Override text-indigo-600 and text-indigo-700 */
+        .text-indigo-600, .text-indigo-700 {
+            color: var(--theme-primary) !important;
+        }
+        /* Override hover backgrounds */
+        .hover\:bg-indigo-50:hover, .hover\:bg-emerald-50:hover {
+            background-color: var(--theme-light) !important;
+        }
+        /* Override active sidebar item */
+        .sidebar-item.active {
+            background-color: var(--theme-primary) !important;
+            color: white !important;
+        }
+        /* Override emerald text/colors where used for indicators */
+        .text-emerald-600 {
+            color: var(--theme-primary) !important;
+        }
+        .bg-emerald-50 {
+            background-color: var(--theme-light) !important;
+        }
+        .border-emerald-100 {
+            border-color: var(--theme-light) !important;
+        }
+        /* Gradient buttons / backgrounds */
+        .bg-gradient-to-r.from-indigo-600.to-indigo-700,
+        .bg-gradient-to-r.from-emerald-500.to-teal-500,
+        .bg-gradient-to-r.from-blue-600.to-indigo-700 {
+            background-image: linear-gradient(to right, var(--theme-gradient-from), var(--theme-gradient-to)) !important;
+        }
+        /* Theme button text */
+        .hover\:text-emerald-600:hover {
+            color: var(--theme-primary) !important;
+        }
+        .hover\:bg-emerald-50:hover {
+            background-color: var(--theme-light) !important;
+        }
+        .bg-emerald-600 {
+            background-color: var(--theme-primary) !important;
+        }
+        .bg-indigo-50 {
+            background-color: var(--theme-light) !important;
+        }
+        .text-indigo-700 {
+            color: var(--theme-primary) !important;
+        }
+
+        /* Dark Mode Theme Overrides */
+        @if(\App\Helpers\SettingsHelper::get('dark_mode', false))
+        body, .bg-slate-100 {
+            background-color: #0b0f19 !important;
+            color: #f1f5f9 !important;
+        }
+        main, .bg-slate-50 {
+            background-color: #0b0f19 !important;
+        }
+        /* Cards */
+        .bg-white {
+            background-color: #111827 !important;
+            border-color: #1f2937 !important;
+        }
+        /* Headers and subheadings */
+        .text-slate-800, .text-slate-900, .text-slate-700 {
+            color: #f8fafc !important;
+        }
+        .text-slate-500, .text-slate-600, .text-slate-400 {
+            color: #94a3b8 !important;
+        }
+        .bg-slate-50, .bg-slate-50\/50, .bg-slate-50\/30 {
+            background-color: #1f2937 !important;
+        }
+        /* Borders */
+        .border-slate-200\/60, .border-slate-100, .border-slate-200, .border-slate-100\/80, .border-slate-200\/80, .border-b, .border-t, .border-l, .border-r {
+            border-color: #1f2937 !important;
+        }
+        /* Input fields and selects */
+        input[type="text"], input[type="email"], input[type="number"], input[type="password"], input[type="search"], select, textarea {
+            background-color: #1f2937 !important;
+            border-color: #374151 !important;
+            color: #f3f4f6 !important;
+        }
+        /* Tables */
+        table th {
+            background-color: #1f2937 !important;
+            color: #94a3b8 !important;
+            border-color: #374151 !important;
+        }
+        table td {
+            color: #e5e7eb !important;
+            border-color: #1f2937 !important;
+        }
+        /* Header border */
+        header {
+            background-color: #111827 !important;
+            border-color: #1f2937 !important;
+        }
+        /* Profile dropdown button */
+        .hover\:bg-slate-50:hover {
+            background-color: #1f2937 !important;
+            border-color: #374151 !important;
+        }
+        /* Active states / lists */
+        .bg-slate-100 {
+            background-color: #1f2937 !important;
+        }
+        /* Modals and overlay dialog boxes */
+        [x-show="modalOpen"] .bg-white, .modal-content {
+            background-color: #111827 !important;
+            border-color: #1f2937 !important;
+        }
+        @endif
+    </style>
 </head>
 <body class="h-full bg-slate-100" x-data="{ sidebarOpen: false }">
     <div class="h-full w-full flex overflow-hidden relative">
@@ -21,7 +148,7 @@
                class="fixed inset-y-0 left-0 w-64 bg-gradient-to-b from-slate-900 to-slate-800 text-white flex flex-col flex-shrink-0 h-full z-50 transition-transform duration-300 lg:static lg:translate-x-0">
             <div class="p-5 border-b border-white/10 flex items-center justify-between">
                 <div class="flex items-center gap-3">
-                    <img src="{{ asset('images/logo.png') }}" alt="Logo" class="w-10 h-10 rounded-xl object-cover">
+                    <img src="{{ \App\Helpers\SettingsHelper::logoUrl() }}" alt="Logo" class="w-10 h-10 rounded-xl object-cover">
                     <div>
                         <div class="font-bold text-sm leading-tight text-white">Sistem Penjualan</div>
                         <div class="text-xs text-slate-400">PT. Maju Bersama</div>
@@ -159,6 +286,18 @@
                     </div>
                 </div>
                 <div class="flex items-center gap-4">
+                    <!-- Quick Dark Mode Toggle -->
+                    <form action="{{ route('admin.settings.toggle-dark') }}" method="POST" class="inline-block">
+                        @csrf
+                        <button type="submit" class="w-10 h-10 rounded-full bg-slate-50 border border-slate-200 text-slate-600 hover:text-slate-950 flex items-center justify-center transition-all hover:bg-slate-100 shadow-sm" style="background-color: var(--bg-white, inherit);" title="Toggle Dark Mode">
+                            @if(\App\Helpers\SettingsHelper::get('dark_mode', false))
+                                <i data-lucide="sun" class="w-5 h-5 text-amber-500"></i>
+                            @else
+                                <i data-lucide="moon" class="w-5 h-5"></i>
+                            @endif
+                        </button>
+                    </form>
+
                     @php($uTop = auth()->user())
                     @php($topPhoto = $uTop?->profile_photo_path ? \Illuminate\Support\Facades\Storage::url($uTop->profile_photo_path) : null)
                     <div x-data="{ open:false }" class="relative">

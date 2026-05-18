@@ -5,18 +5,33 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
-        <title>{{ config('app.name', 'Sistem Penjualan') }}</title>
+        <link rel="icon" type="image/png" href="{{ \App\Helpers\SettingsHelper::logoUrl() }}">
+        <title>{{ \App\Helpers\SettingsHelper::get('app_name', config('app.name', 'Sistem Penjualan')) }}</title>
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
         <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+        
+        @php($theme = \App\Helpers\SettingsHelper::getThemeDetails())
+        <style>
+            :root {
+                --theme-gradient-from: {{ $theme['gradient_from'] }};
+                --theme-gradient-to: {{ $theme['gradient_to'] }};
+            }
+            /* Override gradient blue to indigo buttons */
+            .from-blue-600.to-indigo-700 {
+                background-image: linear-gradient(to right, var(--theme-gradient-from), var(--theme-gradient-to)) !important;
+            }
+            .text-blue-400 {
+                color: {{ $theme['primary'] }} !important;
+            }
+        </style>
     </head>
     <body class="h-full font-sans antialiased">
         <div class="min-h-screen relative overflow-hidden flex items-center justify-center p-6 bg-slate-900">
             <!-- Background Image with Overlay -->
             <div class="absolute inset-0 z-0">
-                <img src="{{ asset('images/login-bg.png') }}" alt="Background" class="w-full h-full object-cover">
+                <img src="{{ \App\Helpers\SettingsHelper::loginBgUrl() }}" alt="Background" class="w-full h-full object-cover">
                 <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-[2px]"></div>
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-slate-950/40"></div>
             </div>
@@ -30,7 +45,7 @@
                         <div class="relative group">
                             <div class="absolute -inset-1 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
                             <div class="relative p-2 bg-white/10 backdrop-blur-2xl rounded-full border border-white/20 shadow-2xl">
-                                <img src="{{ asset('images/logo.png') }}" alt="Logo" class="w-24 h-24 rounded-full object-cover transition-transform duration-500 group-hover:scale-110">
+                                <img src="{{ \App\Helpers\SettingsHelper::logoUrl() }}" alt="Logo" class="w-24 h-24 rounded-full object-cover transition-transform duration-500 group-hover:scale-110">
                             </div>
                         </div>
                         <div>

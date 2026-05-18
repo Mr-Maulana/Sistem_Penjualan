@@ -10,18 +10,18 @@
     <!-- Product Table View (Like Price Menu) -->
     <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-200/60 overflow-hidden">
         <!-- Header -->
-        <div class="px-10 py-8 flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-slate-100 bg-white">
-            <div class="flex items-center gap-6">
-                <a href="{{ route('product.index') }}" class="w-12 h-12 flex items-center justify-center rounded-2xl bg-slate-50 text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-all active:scale-90 shadow-sm" title="Kembali ke Supplier">
-                    <i data-lucide="arrow-left" class="w-6 h-6"></i>
+        <div class="px-8 py-5 flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-slate-100 bg-white">
+            <div class="flex items-center gap-4">
+                <a href="{{ route('product.index') }}" class="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-50 text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-all active:scale-90 shadow-sm" title="Kembali ke Supplier">
+                    <i data-lucide="arrow-left" class="w-5 h-5"></i>
                 </a>
                 <div>
-                    <div class="flex items-center gap-3">
-                        <h3 class="font-semibold text-xl text-slate-500 tracking-tight uppercase">{{ $selectedSupplier->name }}</h3>
-                        <span class="px-3 py-1 rounded-lg bg-amber-50 text-amber-600 text-[10px] font-black uppercase tracking-widest border border-amber-100 shadow-sm">{{ $selectedSupplier->product_code }}</span>
+                    <div class="flex items-center gap-2">
+                        <h3 class="font-bold text-lg text-slate-800 tracking-tight uppercase leading-tight">{{ $selectedSupplier->name }}</h3>
+                        <span class="px-2 py-0.5 rounded bg-amber-50 text-amber-600 text-[9px] font-bold uppercase border border-amber-100 shadow-sm">{{ $selectedSupplier->product_code }}</span>
                     </div>
-                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1.5 flex items-center gap-2">
-                        <i data-lucide="building-2" class="w-3.5 h-3.5"></i>
+                    <p class="text-xs text-slate-400 mt-1 flex items-center gap-1.5">
+                        <i data-lucide="building-2" class="w-3.5 h-3.5 text-slate-300"></i>
                         {{ $selectedSupplier->company_name }}
                     </p>
                 </div>
@@ -29,30 +29,30 @@
             
             <div class="flex items-center gap-3">
                 @can('create', App\Models\Product::class)
-                <a href="{{ route('product.create', ['supplier_id' => $selectedSupplier->code]) }}" class="h-14 px-8 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl flex items-center gap-3 transition-all active:scale-95 shadow-xl shadow-blue-100 font-black uppercase tracking-widest text-[10px]">
-                    <i data-lucide="plus" class="w-4 h-4"></i> Tambah Produk Baru
+                <a href="{{ route('product.create', ['supplier_id' => $selectedSupplier->code]) }}" class="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-xl flex items-center gap-2 transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5">
+                    <i data-lucide="plus" class="w-4 h-4 text-white"></i> Tambah Produk Baru
                 </a>
                 @endcan
             </div>
         </div>
 
         <!-- Search & Filter Area -->
-        <div class="px-10 py-6 bg-slate-50/50 border-b border-slate-100">
-            <form action="{{ route('product.index') }}" method="GET" class="flex flex-col md:flex-row gap-4">
+        <div class="px-8 py-4 bg-slate-50/50 border-b border-slate-100">
+            <form action="{{ route('product.index') }}" method="GET" class="flex flex-col sm:flex-row gap-3">
                 <input type="hidden" name="supplier_id" value="{{ $selectedSupplier->code }}">
                 <div class="flex-1 relative">
-                    <div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
-                        <i data-lucide="search" class="w-5 h-5 text-slate-400"></i>
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i data-lucide="search" class="w-4 h-4 text-slate-400"></i>
                     </div>
                     <input type="text" name="search" value="{{ request('search') }}" 
-                        class="block w-full pl-14 pr-6 py-4 bg-white border border-slate-200 rounded-2xl text-sm font-bold placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all shadow-sm" 
+                        class="block w-full pl-9 pr-3 py-2 bg-white border border-slate-200 rounded-xl text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-medium" 
                         placeholder="Cari nama produk di katalog ini...">
                 </div>
-                <button type="submit" class="h-14 px-8 bg-white border border-slate-200 text-slate-700 rounded-2xl font-black uppercase tracking-widest text-[10px] hover:bg-slate-50 transition-all shadow-sm">
+                <button type="submit" class="px-4 py-2 bg-white border border-slate-200 text-slate-700 rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-slate-50 transition-all shadow-sm">
                     Cari Produk
                 </button>
                 @if(request()->filled('search'))
-                    <a href="{{ route('product.index', ['supplier_id' => $selectedSupplier->code]) }}" class="h-14 px-8 bg-slate-100 text-slate-500 rounded-2xl font-black uppercase tracking-widest text-[10px] flex items-center hover:bg-slate-200 transition-all">
+                    <a href="{{ route('product.index', ['supplier_id' => $selectedSupplier->code]) }}" class="px-4 py-2 bg-slate-100 text-slate-500 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center hover:bg-slate-200 transition-all">
                         Reset
                     </a>
                 @endif

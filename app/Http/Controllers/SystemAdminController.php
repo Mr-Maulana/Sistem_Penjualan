@@ -29,9 +29,37 @@ class SystemAdminController extends Controller
             'company_phone' => 'required|string|max:50',
             'company_address' => 'required|string',
             'app_locale' => 'required|in:id,en',
+            'theme' => 'required|in:indigo,emerald,blue,amber,rose,slate',
+            'logo' => 'nullable|image|max:2048',
+            'login_bg' => 'nullable|image|max:5120',
         ]);
 
-        return redirect()->route('admin.settings')->with('success', 'Pengaturan sistem berhasil diperbarui (Simulasi)');
+        \App\Helpers\SettingsHelper::set('app_name', $request->input('app_name'));
+        \App\Helpers\SettingsHelper::set('company_name', $request->input('company_name'));
+        \App\Helpers\SettingsHelper::set('company_email', $request->input('company_email'));
+        \App\Helpers\SettingsHelper::set('company_phone', $request->input('company_phone'));
+        \App\Helpers\SettingsHelper::set('company_address', $request->input('company_address'));
+        \App\Helpers\SettingsHelper::set('app_locale', $request->input('app_locale'));
+        \App\Helpers\SettingsHelper::set('theme', $request->input('theme'));
+        \App\Helpers\SettingsHelper::set('dark_mode', $request->has('dark_mode'));
+
+        // Handle Logo Upload
+        if ($request->hasFile('logo')) {
+            $logoFile = $request->file('logo');
+            $logoName = 'logo_' . time() . '.' . $logoFile->getClientOriginalExtension();
+            $logoFile->move(public_path('uploads'), $logoName);
+            \App\Helpers\SettingsHelper::set('logo_path', 'uploads/' . $logoName);
+        }
+
+        // Handle Login Background Upload
+        if ($request->hasFile('login_bg')) {
+            $bgFile = $request->file('login_bg');
+            $bgName = 'login_bg_' . time() . '.' . $bgFile->getClientOriginalExtension();
+            $bgFile->move(public_path('uploads'), $bgName);
+            \App\Helpers\SettingsHelper::set('login_bg_path', 'uploads/' . $bgName);
+        }
+
+        return redirect()->route('admin.settings')->with('success', 'Pengaturan sistem berhasil diperbarui');
     }
 
     public function records()
@@ -138,5 +166,12 @@ class SystemAdminController extends Controller
         } catch (\Exception $e) {}
 
         return view('admin.health', compact('health'));
+    }
+
+    public function toggleDarkMode()
+    {
+        $current = \App\Helpers\SettingsHelper::get('dark_mode', false);
+        \App\Helpers\SettingsHelper::set('dark_mode', !$current);
+        return redirect()->back();
     }
 }
