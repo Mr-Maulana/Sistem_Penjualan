@@ -5,6 +5,23 @@
 @section('page-subtitle', 'Kelola transaksi penjualan')
 
 @section('content')
+@if(isset($filteredCustomer))
+<div class="mb-6 bg-blue-50 border border-blue-100 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+    <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-600 flex items-center justify-center font-bold">
+            <i data-lucide="filter" class="w-5 h-5"></i>
+        </div>
+        <div>
+            <h4 class="text-sm font-bold text-slate-800">Filter Aktif: Riwayat Penjualan</h4>
+            <p class="text-xs text-slate-500 mt-0.5">Menampilkan seluruh transaksi dari customer: <strong class="text-blue-600 font-extrabold">{{ $filteredCustomer->name }}</strong> ({{ $filteredCustomer->code }})</p>
+        </div>
+    </div>
+    <a href="{{ route('sale.index') }}" class="text-xs font-bold text-blue-600 hover:text-blue-800 bg-blue-100/50 hover:bg-blue-100 px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5">
+        <i data-lucide="x" class="w-3.5 h-3.5"></i> Hapus Filter
+    </a>
+</div>
+@endif
+
 <div class="bg-white rounded-2xl shadow-sm border border-slate-200/60 overflow-hidden">
     <div class="px-6 py-5 flex items-center justify-between border-b border-slate-100 bg-white">
         <div>

@@ -24,6 +24,12 @@ class SaleController extends Controller
     {
         $query = \App\Models\SaleHistory::with(['customer', 'salesman', 'sale'])->orderBy('date', 'desc')->orderBy('id', 'desc');
 
+        $filteredCustomer = null;
+        if (request('customer_id')) {
+            $query->where('customer_id', request('customer_id'));
+            $filteredCustomer = Customer::find(request('customer_id'));
+        }
+
         // Logic Filter
         if (auth()->user()->role === 'sales') {
             $query->where('salesman_id', auth()->user()->salesman_id);
@@ -51,7 +57,7 @@ class SaleController extends Controller
         }
 
         $sales = $query->get();
-        return view('sale.index', compact('sales'));
+        return view('sale.index', compact('sales', 'filteredCustomer'));
     }
 
     /**

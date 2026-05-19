@@ -77,7 +77,7 @@
                         <span class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-amber-200 text-amber-800 rounded-md">Pending</span>
                     </div>
                     <div class="text-xs text-slate-600 space-y-1">
-                        <p>Tujuan: <span class="font-semibold">{{ $transfer->toSupervisor->name }}</span></p>
+                        <p>Tujuan: <span class="font-semibold">{{ $transfer->toSupervisor->name ?? 'Keluar Dari Tim (Tanpa Atasan)' }}</span></p>
                         <p class="text-slate-500 italic">"{{ $transfer->reason }}"</p>
                     </div>
                 </div>
@@ -140,8 +140,9 @@
                     </div>
                     <select name="to_supervisor_id" required class="w-full pl-12 pr-4 py-3 bg-slate-50 border-slate-200 rounded-2xl focus:border-blue-500 focus:ring-blue-500 transition-colors font-semibold text-slate-700 appearance-none">
                         <option value="">-- Pilih Supervisor Tujuan --</option>
+                        <option value="leave">-- Keluar Dari Tim (Tanpa Atasan) --</option>
                         @foreach($otherSupervisors as $sup)
-                            <option value="{{ $sup->id }}">{{ $sup->name }}</option>
+                            <option value="{{ $sup->id }}">{{ $sup->name }} [{{ $sup->area_display ?: ($sup->city ?? $sup->area) }}]</option>
                         @endforeach
                     </select>
                     <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400">

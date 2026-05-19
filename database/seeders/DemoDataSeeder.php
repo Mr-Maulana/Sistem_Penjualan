@@ -31,7 +31,6 @@ class DemoDataSeeder extends Seeder
                 'password' => Hash::make('password'),
                 'role' => $faker->randomElement(['admin', 'supervisor', 'sales']),
                 'nik' => $faker->numerify('################'),
-                'nip' => $faker->numerify('##################'),
                 'profesi' => $faker->jobTitle,
                 'phone' => $faker->numerify('08##########'),
                 'address' => $faker->address,
@@ -110,7 +109,7 @@ class DemoDataSeeder extends Seeder
             // 7. Prices (Some special prices)
             Price::create([
                 'product_id' => $product->id,
-                'customer_group' => $faker->randomElement(['Regular', 'VIP', 'Wholesale']),
+                'customer_group' => $faker->randomElement(['Reguler', 'VIP', 'Loyal', 'Distributor']),
                 'price_large' => $product->price * 0.9,
                 'price_small' => $product->price,
                 'effective_date' => Carbon::now()->subDays($faker->numberBetween(0, 10)),

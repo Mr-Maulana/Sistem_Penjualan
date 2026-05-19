@@ -5,7 +5,7 @@
 @section('page-subtitle', isset($area) ? 'Update data operasional wilayah' : 'Daftarkan area operasional baru')
 
 @section('content')
-<div class="max-w-2xl mx-auto">
+<div class="max-w-4xl mx-auto">
     <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
         <div class="p-8 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
             <div>
@@ -21,7 +21,7 @@
             @csrf
             @if(isset($area)) @method('PUT') @endif
 
-            <div class="space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                     <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 ml-1">Provinsi</label>
                     <div class="relative group">

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('salesman_id');
             $table->unsignedBigInteger('from_supervisor_id')->nullable();
-            $table->unsignedBigInteger('to_supervisor_id');
+            $table->unsignedBigInteger('to_supervisor_id')->nullable();
             $table->unsignedBigInteger('requested_by');
             $table->unsignedBigInteger('approved_by')->nullable();
             $table->text('reason')->nullable();

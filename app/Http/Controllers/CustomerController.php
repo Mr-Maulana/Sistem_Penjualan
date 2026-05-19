@@ -90,8 +90,20 @@ class CustomerController extends Controller
             $salesmen = Salesman::orderBy('name')->get();
         }
 
+        // Cities from salesmen for the dynamic filter dropdown
+        $cities = $salesmen->whereNotNull('city')->pluck('city')->unique()->sort()->values();
+
+        // Pre-embed all salesman data as JSON for client-side filtering
+        $allSalesmen = $salesmen->map(fn($s) => [
+            'id'    => $s->id,
+            'name'  => $s->name,
+            'level' => strtoupper($s->level),
+            'city'  => $s->city ?? '',
+            'area'  => $s->area_display ?: ($s->city ?? $s->area),
+        ]);
+
         $autoCode = $this->generateCode(Customer::class, 'CST');
-        return view('customer.form', compact('salesmen', 'autoCode'));
+        return view('customer.form', compact('salesmen', 'autoCode', 'cities', 'allSalesmen'));
     }
 
     /**
@@ -119,6 +131,28 @@ class CustomerController extends Controller
             $allowedIds = $this->getAllowedSalesmanIds($user);
             if (!in_array($request->salesman_id, $allowedIds)) {
                 return back()->withInput()->withErrors(['salesman_id' => 'Salesman yang dipilih harus berada dalam tim Anda.']);
+            }
+        }
+
+        // Validate salesman operational area matches customer city
+        if ($request->filled('salesman_id')) {
+            $salesman = Salesman::find($request->salesman_id);
+            if ($salesman) {
+                $customerCity = trim($request->city);
+                
+                if ($salesman->level === 'manager') {
+                    $areaObj = \App\Models\Area::where('city', 'like', $customerCity)->first();
+                    if ($areaObj) {
+                        if (strtolower(trim($salesman->area)) !== strtolower(trim($areaObj->province))) {
+                            return back()->withInput()->withErrors(['salesman_id' => "Salesman Manager ini memiliki wilayah kerja di provinsi {$salesman->area}, sedangkan customer berada di provinsi {$areaObj->province}."]);
+                        }
+                    }
+                } else {
+                    $salesmanCity = trim($salesman->city);
+                    if ($salesmanCity && strtolower(trim($customerCity)) !== strtolower($salesmanCity)) {
+                        return back()->withInput()->withErrors(['salesman_id' => "Salesman ini memiliki wilayah kerja di kota {$salesmanCity}, sedangkan customer berada di kota {$customerCity}."]);
+                    }
+                }
             }
         }
 
@@ -151,7 +185,19 @@ class CustomerController extends Controller
             $salesmen = Salesman::orderBy('name')->get();
         }
 
-        return view('customer.form', compact('customer', 'salesmen'));
+        // Cities from salesmen for the dynamic filter dropdown
+        $cities = $salesmen->whereNotNull('city')->pluck('city')->unique()->sort()->values();
+
+        // Pre-embed all salesman data as JSON for client-side filtering
+        $allSalesmen = $salesmen->map(fn($s) => [
+            'id'    => $s->id,
+            'name'  => $s->name,
+            'level' => strtoupper($s->level),
+            'city'  => $s->city ?? '',
+            'area'  => $s->area_display ?: ($s->city ?? $s->area),
+        ]);
+
+        return view('customer.form', compact('customer', 'salesmen', 'cities', 'allSalesmen'));
     }
 
     private function getAllowedSalesmanIds($user)
@@ -198,6 +244,28 @@ class CustomerController extends Controller
             }
         }
 
+        // Validate salesman operational area matches customer city
+        if ($request->filled('salesman_id')) {
+            $salesman = Salesman::find($request->salesman_id);
+            if ($salesman) {
+                $customerCity = trim($request->city);
+                
+                if ($salesman->level === 'manager') {
+                    $areaObj = \App\Models\Area::where('city', 'like', $customerCity)->first();
+                    if ($areaObj) {
+                        if (strtolower(trim($salesman->area)) !== strtolower(trim($areaObj->province))) {
+                            return back()->withInput()->withErrors(['salesman_id' => "Salesman Manager ini memiliki wilayah kerja di provinsi {$salesman->area}, sedangkan customer berada di provinsi {$areaObj->province}."]);
+                        }
+                    }
+                } else {
+                    $salesmanCity = trim($salesman->city);
+                    if ($salesmanCity && strtolower(trim($customerCity)) !== strtolower($salesmanCity)) {
+                        return back()->withInput()->withErrors(['salesman_id' => "Salesman ini memiliki wilayah kerja di kota {$salesmanCity}, sedangkan customer berada di kota {$customerCity}."]);
+                    }
+                }
+            }
+        }
+
         $customer->update($validated);
 
         return redirect()->route('customer.index')
@@ -225,5 +293,34 @@ class CustomerController extends Controller
             $allowedIds = $this->getAllowedSalesmanIds($user);
             abort_unless(in_array($customer->salesman_id, $allowedIds), 403, 'Anda tidak memiliki hak akses untuk data customer di luar wilayah kerja tim Anda.');
         }
+    }
+
+    /**
+     * API: Return salesmen filtered by city (for dynamic PIC dropdown).
+     */
+    public function salesmenByCity(Request $request)
+    {
+        $user = auth()->user();
+        $city = trim($request->city ?? '');
+
+        if (in_array($user->role, ['sales', 'supervisor', 'manager'])) {
+            $allowedIds = $this->getAllowedSalesmanIds($user);
+            $query = Salesman::whereIn('id', $allowedIds);
+        } else {
+            $query = Salesman::query();
+        }
+
+        if ($city) {
+            $query->whereRaw('LOWER(city) = ?', [strtolower($city)]);
+        }
+
+        $salesmen = $query->orderBy('name')->get()->map(fn($s) => [
+            'id'    => $s->id,
+            'name'  => $s->name,
+            'level' => strtoupper($s->level),
+            'area'  => $s->area_display ?: ($s->city ?? $s->area),
+        ]);
+
+        return response()->json($salesmen);
     }
 }

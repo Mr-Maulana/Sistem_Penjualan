@@ -37,7 +37,7 @@
                 </div>
                 <input type="text" name="search" value="{{ request('search') }}"
                        class="block w-full pl-10 pr-24 py-2.5 bg-white border border-slate-200 rounded-xl text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all font-medium text-slate-700"
-                       placeholder="Cari user berdasarkan nama, email, nip, nik, telepon, atau role...">
+                       placeholder="Cari user berdasarkan nama, email, nik, telepon, atau role...">
                 <div class="absolute inset-y-0 right-0 pr-1.5 flex items-center gap-1.5">
                     @if(request('search'))
                         <a href="{{ route('user.index') }}" class="text-[10px] font-bold text-slate-400 hover:text-slate-600 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 rounded-lg transition-all uppercase tracking-wider">
@@ -78,7 +78,7 @@
                             <div>
                                 <div class="font-bold text-slate-800 group-hover:text-indigo-600 transition-colors">{{ $u->name }}</div>
                                 <div class="text-[10px] text-slate-400 font-bold mt-0.5 flex items-center gap-1.5 uppercase tracking-wider">
-                                    <i data-lucide="hash" class="w-3 h-3"></i> NIP: {{ $u->nip ?? '-' }}
+                                    <i data-lucide="credit-card" class="w-3 h-3 text-slate-400"></i> NIK: {{ $u->nik ?? '-' }}
                                 </div>
                             </div>
                         </div>

@@ -261,7 +261,7 @@
                             <option value="{{ $sup->id }}" 
                                 data-city="{{ strtolower(trim($sup->city)) }}"
                                 {{ old('supervisor_id', $salesman->supervisor_id ?? '') == $sup->id ? 'selected' : '' }}>
-                            {{ $sup->name }} [{{ strtoupper($sup->level) }} - {{ $sup->area_display ?: ($sup->city ?? $sup->area) }}]</option>
+                            {{ $sup->name }} [{{ $sup->area_display ?: ($sup->city ?? $sup->area) }}]</option>
                         @endforeach
                     </select>
                     <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400">

@@ -88,7 +88,7 @@
                             </div>
                             <div>
                                 <p class="text-sm font-black text-slate-800 tracking-tight leading-none mb-1">{{ $salesman->name }}</p>
-                                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">ID: {{ $salesman->code }}</p>
+                                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">ID: {{ $salesman->code }} | NIK: {{ $salesman->nik ?: '-' }}</p>
                             </div>
                         </div>
                     </td>

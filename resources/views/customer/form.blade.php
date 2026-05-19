@@ -101,17 +101,26 @@
                 @error('address') <div class="text-xs text-red-500 mt-1.5 font-medium">{{ $message }}</div> @enderror
             </div>
 
+            {{-- Kota — now a dropdown driven from salesman cities --}}
             <div>
                 <label class="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wide">Kota</label>
                 <div class="relative">
                     <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
                         <i data-lucide="map-pin" style="width:16px;height:16px;" class="text-slate-400"></i>
                     </div>
-                    <input name="city" value="{{ old('city', $customer->city ?? '') }}" 
-                           class="w-full border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all bg-slate-50/50 hover:bg-slate-50"
-                           placeholder="Kota Domisili">
+                    <select id="city-select" name="city"
+                            class="w-full border border-slate-200 rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all bg-slate-50/50 hover:bg-slate-50 appearance-none">
+                        <option value="">-- Pilih Kota --</option>
+                        @foreach($cities as $city)
+                            <option value="{{ $city }}"
+                                {{ old('city', $customer->city ?? '') === $city ? 'selected' : '' }}>
+                                {{ $city }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
                 @error('city') <div class="text-xs text-red-500 mt-1.5 font-medium">{{ $message }}</div> @enderror
+                <p class="text-[10px] text-slate-400 mt-1 font-medium italic">* Pilih kota untuk memfilter PIC yang tersedia</p>
             </div>
             
             <div>
@@ -131,22 +140,27 @@
                 @error('group') <div class="text-xs text-red-500 mt-1.5 font-medium">{{ $message }}</div> @enderror
             </div>
 
+            {{-- Salesman (PIC) — filtered dynamically by city --}}
             <div class="md:col-span-2">
                 <label class="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wide">Salesman (PIC)</label>
                 <div class="relative">
                     <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
                         <i data-lucide="user-check" style="width:16px;height:16px;" class="text-slate-400"></i>
                     </div>
-                    <select name="salesman_id" class="w-full border border-slate-200 rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all bg-slate-50/50 hover:bg-slate-50 appearance-none">
-                        <option value="">-- Pilih Salesman --</option>
+                    <select id="salesman-select" name="salesman_id"
+                            class="w-full border border-slate-200 rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all bg-slate-50/50 hover:bg-slate-50 appearance-none">
+                        <option value="">-- Pilih Kota Terlebih Dahulu --</option>
                         @foreach($salesmen as $s)
-                            <option value="{{ $s->id }}" {{ (string)old('salesman_id', $customer->salesman_id ?? '') === (string)$s->id ? 'selected' : '' }}>
+                            <option value="{{ $s->id }}"
+                                    data-city="{{ strtolower($s->city ?? '') }}"
+                                    {{ (string)old('salesman_id', $customer->salesman_id ?? '') === (string)$s->id ? 'selected' : '' }}>
                                 {{ $s->name }} [{{ strtoupper($s->level) }} - {{ $s->area_display ?: ($s->city ?? $s->area) }}]
                             </option>
                         @endforeach
                     </select>
                 </div>
                 @error('salesman_id') <div class="text-xs text-red-500 mt-1.5 font-medium">{{ $message }}</div> @enderror
+                <p id="pic-hint" class="text-[10px] text-slate-400 mt-1 font-medium italic hidden">* Menampilkan PIC berdasarkan kota yang dipilih</p>
             </div>
         </div>
 
@@ -160,5 +174,71 @@
         </div>
     </form>
 </div>
-@endsection
 
+@push('scripts')
+<script>
+(function () {
+    const citySelect     = document.getElementById('city-select');
+    const salesmanSelect = document.getElementById('salesman-select');
+    const picHint        = document.getElementById('pic-hint');
+
+    // Store every <option> (except the placeholder) as an array of objects
+    const allOptions = Array.from(salesmanSelect.querySelectorAll('option[data-city]')).map(opt => ({
+        value  : opt.value,
+        text   : opt.textContent,
+        city   : opt.dataset.city,
+        element: opt,
+    }));
+
+    // Currently-selected salesman (for edit mode)
+    const preselectedId = salesmanSelect.value;
+
+    function filterSalesmen(selectedCity) {
+        const cityLower = selectedCity.toLowerCase().trim();
+
+        // Remove all salesman options first
+        allOptions.forEach(o => o.element.remove());
+
+        if (!cityLower) {
+            // No city chosen → show placeholder only
+            salesmanSelect.querySelector('option[value=""]').textContent = '-- Pilih Kota Terlebih Dahulu --';
+            picHint.classList.add('hidden');
+            return;
+        }
+
+        // Filter by city
+        const matched = allOptions.filter(o => o.city === cityLower);
+
+        // Update placeholder
+        salesmanSelect.querySelector('option[value=""]').textContent =
+            matched.length ? '-- Pilih Salesman (PIC) --' : '-- Tidak ada Salesman di kota ini --';
+
+        // Re-append matching options
+        matched.forEach(o => salesmanSelect.appendChild(o.element));
+
+        // Restore preselected value if it is still in the matched set
+        if (preselectedId && matched.some(o => o.value === preselectedId)) {
+            salesmanSelect.value = preselectedId;
+        } else {
+            salesmanSelect.value = '';
+        }
+
+        picHint.classList.remove('hidden');
+    }
+
+    // Run on city change
+    citySelect.addEventListener('change', function () {
+        filterSalesmen(this.value);
+    });
+
+    // On page load: if a city is already selected (edit mode / old()), trigger filter
+    if (citySelect.value) {
+        filterSalesmen(citySelect.value);
+    } else {
+        // No city yet — hide all salesman options immediately for a clean UX
+        allOptions.forEach(o => o.element.remove());
+    }
+})();
+</script>
+@endpush
+@endsection

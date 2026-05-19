@@ -103,19 +103,6 @@
             </div>
 
             <div class="space-y-2">
-                <x-input-label for="nip" :value="__('NIP (Pegawai)')" class="text-xs font-bold uppercase tracking-wide ml-1" />
-                <div class="relative group">
-                    <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                        <i data-lucide="badge-id" class="w-4 h-4 text-slate-400 group-focus-within:text-indigo-500 transition-colors"></i>
-                    </div>
-                    <input id="nip" name="nip" type="text" 
-                        class="w-full border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all bg-white hover:bg-slate-50/50 shadow-sm"
-                        value="{{ old('nip', $user->nip) }}" placeholder="Nomor Induk Pegawai">
-                </div>
-                <x-input-error class="mt-1" :messages="$errors->get('nip')" />
-            </div>
-
-            <div class="space-y-2">
                 <x-input-label for="profesi" :value="__('Profesi / Jabatan')" class="text-xs font-bold uppercase tracking-wide ml-1" />
                 <div class="relative group">
                     <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
@@ -142,21 +129,6 @@
             </div>
 
             <div class="space-y-2">
-                <x-input-label for="gender" :value="__('Jenis Kelamin')" class="text-xs font-bold uppercase tracking-wide ml-1" />
-                <div class="flex items-center gap-6 mt-2 h-[42px] px-3 bg-slate-50/50 rounded-xl border border-slate-100">
-                    <label class="flex items-center gap-2 cursor-pointer group">
-                        <input type="radio" name="gender" value="L" {{ old('gender', $user->gender) === 'L' ? 'checked' : '' }} class="w-4 h-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
-                        <span class="text-sm text-slate-600 font-medium group-hover:text-slate-900 transition-colors">Laki-laki</span>
-                    </label>
-                    <label class="flex items-center gap-2 cursor-pointer group">
-                        <input type="radio" name="gender" value="P" {{ old('gender', $user->gender) === 'P' ? 'checked' : '' }} class="w-4 h-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
-                        <span class="text-sm text-slate-600 font-medium group-hover:text-slate-900 transition-colors">Perempuan</span>
-                    </label>
-                </div>
-                <x-input-error class="mt-1" :messages="$errors->get('gender')" />
-            </div>
-
-            <div class="space-y-2">
                 <x-input-label for="birth_date" :value="__('Tanggal Lahir')" class="text-xs font-bold uppercase tracking-wide ml-1" />
                 <div class="relative group">
                     <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
@@ -167,6 +139,21 @@
                         value="{{ old('birth_date', $user->birth_date) }}">
                 </div>
                 <x-input-error class="mt-1" :messages="$errors->get('birth_date')" />
+            </div>
+
+            <div class="md:col-span-2 space-y-2">
+                <x-input-label for="gender" :value="__('Jenis Kelamin')" class="text-xs font-bold uppercase tracking-wide ml-1" />
+                <div class="flex items-center gap-6 h-[42px] px-4 bg-slate-50/50 rounded-xl border border-slate-200/80">
+                    <label class="flex items-center gap-2.5 cursor-pointer group">
+                        <input type="radio" name="gender" value="L" {{ old('gender', $user->gender) === 'L' ? 'checked' : '' }} class="w-4 h-4 text-indigo-600 focus:ring-indigo-500 border-slate-300">
+                        <span class="text-sm text-slate-600 group-hover:text-slate-900 transition-colors">Laki-laki</span>
+                    </label>
+                    <label class="flex items-center gap-2.5 cursor-pointer group">
+                        <input type="radio" name="gender" value="P" {{ old('gender', $user->gender) === 'P' ? 'checked' : '' }} class="w-4 h-4 text-indigo-600 focus:ring-indigo-500 border-slate-300">
+                        <span class="text-sm text-slate-600 group-hover:text-slate-900 transition-colors">Perempuan</span>
+                    </label>
+                </div>
+                <x-input-error class="mt-1" :messages="$errors->get('gender')" />
             </div>
 
             <div class="md:col-span-2 space-y-2">

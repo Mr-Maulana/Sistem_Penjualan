@@ -92,13 +92,6 @@
                             </p>
                         </div>
                         <div>
-                            <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">NIP (Pegawai)</p>
-                            <p class="text-slate-800 font-semibold flex items-center gap-2">
-                                <i data-lucide="badge-id" class="w-4 h-4 text-slate-300"></i>
-                                {{ $user->nip ?? '-' }}
-                            </p>
-                        </div>
-                        <div>
                             <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Profesi / Jabatan</p>
                             <p class="text-slate-800 font-semibold flex items-center gap-2">
                                 <i data-lucide="briefcase" class="w-4 h-4 text-slate-300"></i>

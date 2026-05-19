@@ -19,7 +19,6 @@ class UserController extends Controller
                 $q->where('name', 'like', "%{$search}%")
                   ->orWhere('email', 'like', "%{$search}%")
                   ->orWhere('role', 'like', "%{$search}%")
-                  ->orWhere('nip', 'like', "%{$search}%")
                   ->orWhere('nik', 'like', "%{$search}%")
                   ->orWhere('phone', 'like', "%{$search}%");
             });
@@ -49,7 +48,6 @@ class UserController extends Controller
             'role' => 'required|in:admin,manager,supervisor,sales',
             'password' => 'required|string|min:8|confirmed',
             'nik' => 'nullable|string|max:16',
-            'nip' => 'nullable|string|max:20',
             'profesi' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:15',
             'address' => 'nullable|string',
@@ -64,7 +62,6 @@ class UserController extends Controller
             'role' => $validated['role'],
             'password' => Hash::make($validated['password']),
             'nik' => $validated['nik'],
-            'nip' => $validated['nip'],
             'profesi' => $validated['profesi'],
             'phone' => $validated['phone'],
             'address' => $validated['address'],
@@ -106,7 +103,6 @@ class UserController extends Controller
             'role' => 'required|in:admin,manager,supervisor,sales',
             'password' => 'nullable|string|min:8|confirmed',
             'nik' => 'nullable|string|max:16',
-            'nip' => 'nullable|string|max:20',
             'profesi' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:15',
             'address' => 'nullable|string',
@@ -120,7 +116,6 @@ class UserController extends Controller
             'email' => $validated['email'],
             'role' => $validated['role'],
             'nik' => $validated['nik'],
-            'nip' => $validated['nip'],
             'profesi' => $validated['profesi'],
             'phone' => $validated['phone'],
             'address' => $validated['address'],

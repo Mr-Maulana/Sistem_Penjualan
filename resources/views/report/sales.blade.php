@@ -21,10 +21,19 @@
         </div>
     </div>
     <div class="px-6 py-5 border-b border-slate-100 bg-slate-50/30">
-        <form method="GET" action="{{ route('report.sales') }}" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3">
-            <div class="xl:col-span-2">
+        <form method="GET" action="{{ route('report.sales') }}" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="md:col-span-2">
                 <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-1">Cari Invoice / Customer</label>
                 <input type="text" name="search" value="{{ request('search') }}" placeholder="Contoh: INV atau nama customer" class="w-full h-10 rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 transition-all">
+            </div>
+            <div>
+                <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-1">Status</label>
+                <select name="status" class="w-full h-10 rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 transition-all">
+                    <option value="">Semua Status</option>
+                    <option value="paid" @selected(request('status') === 'paid')>Lunas</option>
+                    <option value="partial" @selected(request('status') === 'partial')>Sebagian</option>
+                    <option value="unpaid" @selected(request('status') === 'unpaid')>Belum Lunas</option>
+                </select>
             </div>
             <div>
                 <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-1">Supplier</label>
@@ -44,15 +53,6 @@
                     @foreach($categories as $category)
                         <option value="{{ $category->id }}" @selected((string) request('category_id') === (string) $category->id)>{{ $category->name }}</option>
                     @endforeach
-                </select>
-            </div>
-            <div>
-                <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-1">Status</label>
-                <select name="status" class="w-full h-10 rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 transition-all">
-                    <option value="">Semua Status</option>
-                    <option value="paid" @selected(request('status') === 'paid')>Lunas</option>
-                    <option value="partial" @selected(request('status') === 'partial')>Sebagian</option>
-                    <option value="unpaid" @selected(request('status') === 'unpaid')>Belum Lunas</option>
                 </select>
             </div>
             <div>
@@ -86,7 +86,7 @@
                 <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-1">Sampai Tanggal</label>
                 <input type="date" name="end_date" value="{{ request('end_date') }}" class="w-full h-10 rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 transition-all">
             </div>
-            <div class="xl:col-span-4 flex flex-wrap items-center gap-2 pt-1">
+            <div class="md:col-span-3 flex flex-wrap items-center gap-2 pt-2">
                 <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-4 h-10 rounded-xl flex items-center gap-2 transition-all">
                     <i data-lucide="filter" style="width:14px;height:14px;"></i> Terapkan Filter
                 </button>

@@ -24,7 +24,6 @@ class User extends Authenticatable
         'profile_photo_path',
         'password',
         'nik',
-        'nip',
         'profesi',
         'phone',
         'address',

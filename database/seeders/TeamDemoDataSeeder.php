@@ -137,7 +137,7 @@ class TeamDemoDataSeeder extends Seeder
                         'address' => $faker->address,
                         'city' => $salesman->city ?? $faker->city,
                         'phone' => $faker->phoneNumber,
-                        'group' => $faker->randomElement(['Regular', 'VIP', 'Wholesale']),
+                        'group' => $faker->randomElement(['Reguler', 'VIP', 'Loyal', 'Distributor']),
                         'salesman_id' => $salesman->id,
                         'status' => 'active',
                     ]);

@@ -36,6 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('area', AreaController::class);
     Route::resource('product', ProductController::class);
     Route::get('/api/supplier/{id}/info', [SupplierInfoController::class, 'getInfo'])->name('api.supplier.info');
+    Route::get('/api/salesmen-by-city', [CustomerController::class, 'salesmenByCity'])->name('api.salesmen-by-city');
     Route::get('price/lookup', [PriceController::class, 'lookup'])->name('price.lookup');
     Route::resource('price', PriceController::class);
 

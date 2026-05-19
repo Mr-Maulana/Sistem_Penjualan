@@ -35,7 +35,7 @@
                     <td class="px-6 py-4 text-slate-500 whitespace-nowrap">{{ $transfer->created_at->format('d M Y H:i') }}</td>
                     <td class="px-6 py-4 font-bold text-slate-800">{{ $transfer->salesman->name }}</td>
                     <td class="px-6 py-4 text-slate-600">{{ $transfer->fromSupervisor->name ?? 'Belum Ada' }}</td>
-                    <td class="px-6 py-4 font-semibold text-blue-600">{{ $transfer->toSupervisor->name }}</td>
+                    <td class="px-6 py-4 font-semibold text-blue-600">{{ $transfer->toSupervisor->name ?? 'Keluar Dari Tim (Tanpa Atasan)' }}</td>
                     <td class="px-6 py-4 text-slate-500 max-w-xs truncate" title="{{ $transfer->reason }}">
                         {{ $transfer->reason }}
                     </td>

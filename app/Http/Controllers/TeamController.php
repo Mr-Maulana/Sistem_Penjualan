@@ -73,9 +73,17 @@ class TeamController extends Controller
 
         $validated = $request->validate([
             'salesman_id' => 'required|exists:salesmen,id',
-            'to_supervisor_id' => 'required|exists:salesmen,id|different:salesman_id',
+            'to_supervisor_id' => 'nullable|string',
             'reason' => 'required|string',
         ]);
+
+        $toSupervisorId = null;
+        if ($request->filled('to_supervisor_id') && $request->to_supervisor_id !== 'leave') {
+            $request->validate([
+                'to_supervisor_id' => 'exists:salesmen,id|different:salesman_id',
+            ]);
+            $toSupervisorId = $request->to_supervisor_id;
+        }
 
         $salesman = Salesman::findOrFail($validated['salesman_id']);
         
@@ -95,7 +103,7 @@ class TeamController extends Controller
         SalesmanTransfer::create([
             'salesman_id' => $validated['salesman_id'],
             'from_supervisor_id' => auth()->user()->salesman_id,
-            'to_supervisor_id' => $validated['to_supervisor_id'],
+            'to_supervisor_id' => $toSupervisorId,
             'requested_by' => auth()->user()->id,
             'reason' => $validated['reason'],
             'status' => 'pending',
