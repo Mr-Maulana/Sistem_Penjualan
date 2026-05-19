@@ -32,32 +32,74 @@
                     <p class="text-[10px] text-slate-400 mt-1 font-medium italic">* No. Invoice digenerate otomatis</p>
                 </div>
                 
+                @if(isset($sale))
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wide flex items-center gap-2">
+                        Tanggal Transaksi Awal
+                        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-orange-50 text-orange-500 border border-orange-100 text-[9px] font-black">
+                            <i data-lucide="lock" class="w-2.5 h-2.5"></i> TERKUNCI
+                        </span>
+                    </label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                            <i data-lucide="calendar" style="width:16px;height:16px;" class="text-slate-400"></i>
+                        </div>
+                        <input type="date" value="{{ optional($sale->date)->format('Y-m-d') }}" 
+                               class="w-full border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-sm bg-slate-100 text-slate-500 cursor-not-allowed font-medium"
+                               readonly>
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wide">Tanggal Perubahan Terbaru</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                            <i data-lucide="calendar" style="width:16px;height:16px;" class="text-slate-400"></i>
+                        </div>
+                        <input type="date" name="date" value="{{ old('date', now()->format('Y-m-d')) }}" 
+                               class="w-full border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all bg-slate-50/50 hover:bg-slate-50"
+                               required>
+                    </div>
+                    @error('date') <div class="text-xs text-red-500 mt-1.5 font-medium">{{ $message }}</div> @enderror
+                </div>
+                @else
                 <div>
                     <label class="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wide">Tanggal Transaksi</label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
                             <i data-lucide="calendar" style="width:16px;height:16px;" class="text-slate-400"></i>
                         </div>
-                        <input type="date" name="date" value="{{ old('date', isset($sale) ? optional($sale->date)->format('Y-m-d') : now()->format('Y-m-d')) }}" 
+                        <input type="date" name="date" value="{{ old('date', now()->format('Y-m-d')) }}" 
                                class="w-full border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all bg-slate-50/50 hover:bg-slate-50"
                                required>
                     </div>
                     @error('date') <div class="text-xs text-red-500 mt-1.5 font-medium">{{ $message }}</div> @enderror
                 </div>
+                @endif
             </div>
 
             <div class="space-y-4">
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wide">Customer (Pembeli)</label>
+                    <label class="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wide flex items-center gap-2">
+                        Customer (Pembeli)
+                        @if(isset($sale))
+                            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-orange-50 text-orange-500 border border-orange-100 text-[9px] font-black">
+                                <i data-lucide="lock" class="w-2.5 h-2.5"></i> TERKUNCI
+                            </span>
+                        @endif
+                    </label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
                             <i data-lucide="user" style="width:16px;height:16px;" class="text-slate-400"></i>
                         </div>
-                        <select name="customer_id" class="w-full border border-slate-200 rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all bg-slate-50/50 hover:bg-slate-50 appearance-none">
+                        <select name="{{ isset($sale) ? '' : 'customer_id' }}" {{ isset($sale) ? 'disabled' : '' }} class="w-full border border-slate-200 rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all appearance-none {{ isset($sale) ? 'bg-slate-50 cursor-not-allowed text-slate-500 font-bold' : 'bg-slate-50/50 hover:bg-slate-50' }}">
                             @foreach($customers as $c)
                                 <option value="{{ $c->id }}" {{ (string)old('customer_id', $sale->customer_id ?? '') === (string)$c->id ? 'selected' : '' }}>{{ $c->name }}</option>
                             @endforeach
                         </select>
+                        @if(isset($sale))
+                            <input type="hidden" name="customer_id" value="{{ $sale->customer_id }}">
+                        @endif
                     </div>
                     @error('customer_id') <div class="text-xs text-red-500 mt-1.5 font-medium">{{ $message }}</div> @enderror
                 </div>
@@ -65,7 +107,7 @@
                 <div>
                     <label class="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wide flex items-center gap-2">
                         Salesman (Penanggung Jawab)
-                        @if(auth()->user()->role === 'sales')
+                        @if(auth()->user()->role === 'sales' || isset($sale))
                             <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-orange-50 text-orange-500 border border-orange-100 text-[9px] font-black">
                                 <i data-lucide="lock" class="w-2.5 h-2.5"></i> TERKUNCI
                             </span>
@@ -75,7 +117,7 @@
                         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
                             <i data-lucide="briefcase" style="width:16px;height:16px;" class="text-slate-400"></i>
                         </div>
-                        @php $isSalesLocked = auth()->user()->role === 'sales'; @endphp
+                        @php $isSalesLocked = auth()->user()->role === 'sales' || isset($sale); @endphp
                         <select name="{{ $isSalesLocked ? '' : 'salesman_id' }}" {{ $isSalesLocked ? 'disabled' : '' }} class="w-full border border-slate-200 rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all appearance-none {{ $isSalesLocked ? 'bg-slate-50 cursor-not-allowed text-slate-500 font-bold' : 'bg-slate-50/50 hover:bg-slate-50' }}">
                             @foreach($salesmen as $s)
                                 <option value="{{ $s->id }}" {{ (string)old('salesman_id', $sale->salesman_id ?? '') === (string)$s->id ? 'selected' : '' }}>
@@ -84,7 +126,7 @@
                             @endforeach
                         </select>
                         @if($isSalesLocked)
-                            <input type="hidden" name="salesman_id" value="{{ auth()->user()->salesman_id }}">
+                            <input type="hidden" name="salesman_id" value="{{ old('salesman_id', $sale->salesman_id ?? auth()->user()->salesman_id) }}">
                         @endif
                     </div>
                     @error('salesman_id') <div class="text-xs text-red-500 mt-1.5 font-medium">{{ $message }}</div> @enderror

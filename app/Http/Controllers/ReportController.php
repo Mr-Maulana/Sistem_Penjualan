@@ -348,8 +348,8 @@ class ReportController extends Controller
 
     private function buildSalesReportQuery(Request $request, ?array $allowedIds)
     {
-        $query = Sale::with(['customer', 'salesman', 'items.product.supplier', 'items.product.category'])
-            ->orderBy('date', 'desc');
+        $query = \App\Models\SaleHistory::with(['customer', 'salesman', 'sale.items.product.supplier', 'sale.items.product.category'])
+            ->orderBy('date', 'desc')->orderBy('id', 'desc');
 
         if ($allowedIds !== null) {
             $query->whereIn('salesman_id', $allowedIds);
@@ -380,14 +380,14 @@ class ReportController extends Controller
 
         if ($request->filled('supplier_code')) {
             $supplierCode = $request->string('supplier_code')->toString();
-            $query->whereHas('items.product', function ($q) use ($supplierCode) {
+            $query->whereHas('sale.items.product', function ($q) use ($supplierCode) {
                 $q->where('supplier_code', $supplierCode);
             });
         }
 
         if ($request->filled('category_id')) {
             $categoryId = $request->integer('category_id');
-            $query->whereHas('items.product', function ($q) use ($categoryId) {
+            $query->whereHas('sale.items.product', function ($q) use ($categoryId) {
                 $q->where('category_id', $categoryId);
             });
         }

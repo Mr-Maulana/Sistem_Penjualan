@@ -44,15 +44,15 @@
                         </span>
                     </td>
                     <td class="px-6 py-4 text-right flex justify-end gap-1">
-                        <a href="{{ route('sale.show', $sale) }}" class="p-2 rounded-lg hover:bg-slate-100 text-slate-500 hover:text-slate-700 transition-colors" title="Lihat Detail">
+                        <a href="{{ route('sale.show', $sale->sale_id) }}" class="p-2 rounded-lg hover:bg-slate-100 text-slate-500 hover:text-slate-700 transition-colors" title="Lihat Detail">
                             <i data-lucide="eye" style="width:16px;height:16px;"></i>
                         </a>
-                        <a href="{{ route('sale.print', $sale) }}" target="_blank" class="p-2 rounded-lg hover:bg-indigo-50 text-slate-500 hover:text-indigo-600 transition-colors" title="Cetak Invoice">
+                        <a href="{{ route('sale.print', $sale->sale_id) }}" target="_blank" class="p-2 rounded-lg hover:bg-indigo-50 text-slate-500 hover:text-indigo-600 transition-colors" title="Cetak Invoice">
                             <i data-lucide="printer" style="width:16px;height:16px;"></i>
                         </a>
                         
-                        @if(auth()->user()->can('update', $sale))
-                            <a href="{{ route('sale.edit', $sale) }}" class="p-2 rounded-lg hover:bg-blue-50 text-slate-500 hover:text-blue-600 transition-colors" title="Edit">
+                        @if($sale->sale && auth()->user()->can('update', $sale->sale))
+                            <a href="{{ route('sale.edit', $sale->sale_id) }}" class="p-2 rounded-lg hover:bg-blue-50 text-slate-500 hover:text-blue-600 transition-colors" title="Edit">
                                 <i data-lucide="pencil" style="width:16px;height:16px;"></i>
                             </a>
                         @elseif(in_array(auth()->user()->role, ['sales', 'supervisor']) && (auth()->user()->role === 'supervisor' || $sale->salesman_id === auth()->user()->salesman_id))
@@ -60,9 +60,9 @@
                                 <i data-lucide="lock" style="width:16px;height:16px;"></i>
                             </button>
                         @endif
-
-                        @if(auth()->user()->can('delete', $sale))
-                            <form action="{{ route('sale.destroy', $sale) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus transaksi ini?')">
+ 
+                        @if($sale->sale && auth()->user()->can('delete', $sale->sale))
+                            <form action="{{ route('sale.destroy', $sale->sale_id) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus transaksi ini?')">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="p-2 rounded-lg hover:bg-red-50 text-slate-500 hover:text-red-500 transition-colors" title="Hapus">

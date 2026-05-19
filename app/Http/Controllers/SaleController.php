@@ -22,7 +22,7 @@ class SaleController extends Controller
      */
     public function index()
     {
-        $query = Sale::with(['customer', 'salesman'])->orderBy('date', 'desc');
+        $query = \App\Models\SaleHistory::with(['customer', 'salesman', 'sale'])->orderBy('date', 'desc')->orderBy('id', 'desc');
 
         // Logic Filter
         if (auth()->user()->role === 'sales') {
@@ -171,6 +171,21 @@ class SaleController extends Controller
                 // Trigger CashFlow sync
                 $cashFlowService = new \App\Services\CashFlowService();
                 $cashFlowService->syncFromSale($sale);
+
+                // Log into sale_histories
+                \App\Models\SaleHistory::create([
+                    'sale_id' => $sale->id,
+                    'invoice_number' => $sale->invoice_number,
+                    'date' => $sale->date,
+                    'customer_id' => $sale->customer_id,
+                    'salesman_id' => $sale->salesman_id,
+                    'subtotal' => $sale->subtotal,
+                    'discount' => $sale->discount,
+                    'tax' => $sale->tax,
+                    'total' => $sale->total,
+                    'status' => $sale->status,
+                    'notes' => $sale->notes,
+                ]);
             });
         } catch (\Throwable $e) {
             return back()->withInput()->withErrors(['items' => $e->getMessage()]);
@@ -335,6 +350,21 @@ class SaleController extends Controller
                 // Trigger CashFlow sync
                 $cashFlowService = new \App\Services\CashFlowService();
                 $cashFlowService->syncFromSale($sale);
+
+                // Log into sale_histories
+                \App\Models\SaleHistory::create([
+                    'sale_id' => $sale->id,
+                    'invoice_number' => $sale->invoice_number,
+                    'date' => $sale->date, // represents latest change date
+                    'customer_id' => $sale->customer_id,
+                    'salesman_id' => $sale->salesman_id,
+                    'subtotal' => $sale->subtotal,
+                    'discount' => $sale->discount,
+                    'tax' => $sale->tax,
+                    'total' => $sale->total,
+                    'status' => $sale->status,
+                    'notes' => $sale->notes,
+                ]);
             });
         } catch (\Throwable $e) {
             return back()->withInput()->withErrors(['items' => $e->getMessage()]);
