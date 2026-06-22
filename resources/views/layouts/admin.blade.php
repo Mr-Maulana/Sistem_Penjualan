@@ -6,11 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" type="image/png" href="{{ \App\Helpers\SettingsHelper::logoUrl() }}">
-    <title>{{ \App\Helpers\SettingsHelper::get('app_name', config('app.name', 'Sistem Penjualan')) }} - @yield('title', 'Dashboard')</title>
+    <title>{{ \App\Helpers\SettingsHelper::get('app_name', config('app.name', 'SIMPEL')) }} - @yield('title', 'Dashboard')</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     @php($theme = \App\Helpers\SettingsHelper::getThemeDetails())
@@ -141,17 +140,17 @@
         @endif
     </style>
 </head>
-<body class="h-full bg-slate-100" x-data="{ sidebarOpen: false }">
+<body class="h-full bg-slate-100" x-data="{ sidebarOpen: false }" :class="{ 'overflow-hidden': sidebarOpen }" @keydown.escape.window="sidebarOpen = false">
     <div class="h-full w-full flex overflow-hidden relative">
         <!-- Sidebar -->
         <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'"
-               class="fixed inset-y-0 left-0 w-64 bg-gradient-to-b from-slate-900 to-slate-800 text-white flex flex-col flex-shrink-0 h-full z-50 transition-transform duration-300 lg:static lg:translate-x-0">
+               class="fixed inset-y-0 left-0 w-64 bg-gradient-to-b from-slate-900 to-slate-800 text-white flex flex-col flex-shrink-0 h-full z-50 transition-transform duration-300 ease-in-out will-change-transform lg:static lg:translate-x-0">
             <div class="p-5 border-b border-white/10 flex items-center justify-between">
                 <div class="flex items-center gap-3">
                     <img src="{{ \App\Helpers\SettingsHelper::logoUrl() }}" alt="Logo" class="w-10 h-10 rounded-xl object-cover">
-                    <div>
-                        <div class="font-bold text-sm leading-tight text-white">Sistem Penjualan</div>
-                        <div class="text-xs text-slate-400">PT. Maju Bersama</div>
+                    <div class="hidden md:block">
+                        <div class="font-bold text-sm leading-tight text-white">SIMPEL</div>
+                        <div class="text-[10px] text-white/50 font-medium leading-tight">Sistem Informasi Manajemen<br/>Penjualan Lengkap</div>
                     </div>
                 </div>
                 <!-- Close Button (Mobile Only) -->
@@ -269,7 +268,7 @@
         </aside>
 
         <!-- Overlay (Mobile Only) -->
-        <div x-show="sidebarOpen" x-cloak
+        <div x-show="sidebarOpen" x-cloak x-transition.opacity.duration.300ms
              @click="sidebarOpen = false"
              class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-40 lg:hidden"></div>
 
@@ -358,7 +357,11 @@
     </div>
 
     <script>
-        lucide.createIcons();
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+        });
     </script>
 
     @stack('modals')

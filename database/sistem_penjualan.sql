@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 19, 2026 at 05:08 AM
+-- Generation Time: Jun 20, 2026 at 09:12 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -943,156 +943,156 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`id`, `code`, `name`, `nik`, `npwp`, `address`, `city`, `phone`, `group`, `salesman_id`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'CUST-9949', 'CV Usada Tbk', '3577486588832856', '50.660.320.1-994.000', 'Kpg. Ciumbuleuit No. 505, Administrasi Jakarta Utara 71378, Jateng', 'Surabaya', '(+62) 352 3384 778', 'wholesale', 2, 'active', '2026-05-17 19:09:00', '2026-05-17 19:47:33'),
-(2, 'CUST-1271', 'PD Prastuti', '3572871722214176', '48.285.600.4-562.000', 'Jln. Rajawali Barat No. 148, Tomohon 57090, Jateng', 'Surabaya', '(+62) 731 6449 4448', 'wholesale', 2, 'active', '2026-05-17 19:09:00', '2026-05-17 19:47:33'),
-(3, 'CUST-9738', 'PT Mulyani', '3574733773841284', '30.276.509.8-580.000', 'Dk. Baabur Royan No. 853, Tanjungbalai 58070, Sulut', 'Surabaya', '0596 3278 2031', 'retail', 2, 'active', '2026-05-17 19:09:00', '2026-05-17 19:47:33'),
-(4, 'CUST-3781', 'Fa Haryanto', '3577148239305539', '82.220.313.9-203.000', 'Jr. Bazuka Raya No. 596, Cilegon 35732, Malut', 'Surabaya', '(+62) 374 4805 2404', 'general', 2, 'active', '2026-05-17 19:09:00', '2026-05-17 19:47:33'),
-(5, 'CUST-4516', 'Fa Hutasoit', '3575978526312492', '76.955.289.4-263.000', 'Jln. Hang No. 794, Bogor 95992, Sulbar', 'Surabaya', '(+62) 827 855 161', 'general', 2, 'active', '2026-05-17 19:09:00', '2026-05-17 19:47:33'),
-(6, 'CUST-1617', 'PD Thamrin Suryono (Persero) Tbk', '3579764455270669', '61.113.625.3-518.000', 'Ds. Baik No. 280, Pasuruan 51638, DIY', 'Surabaya', '(+62) 639 0035 930', 'wholesale', 3, 'active', '2026-05-17 19:09:00', '2026-05-17 19:47:33'),
-(7, 'CUST-3622', 'UD Rahmawati', '3571146137071198', '49.992.169.9-578.000', 'Ds. Uluwatu No. 820, Tasikmalaya 13083, Jambi', 'Surabaya', '0776 2348 795', 'wholesale', 3, 'active', '2026-05-17 19:09:00', '2026-05-17 19:47:33'),
-(8, 'CUST-8421', 'Perum Permadi Tbk', '3579984763656205', '61.711.776.3-175.000', 'Psr. Cikutra Barat No. 396, Padangsidempuan 81612, Maluku', 'Surabaya', '(+62) 253 0163 3339', 'general', 3, 'active', '2026-05-17 19:09:00', '2026-05-17 19:47:33'),
-(9, 'CUST-7666', 'PT Susanti Tbk', '3578511421132411', '97.854.795.5-978.000', 'Gg. Sutarjo No. 784, Tual 35312, DKI', 'Surabaya', '0625 4595 030', 'wholesale', 3, 'active', '2026-05-17 19:09:00', '2026-05-17 19:47:33'),
-(10, 'CUST-4643', 'Fa Laksmiwati Andriani (Persero) Tbk', '3577238686233434', '67.817.207.8-529.000', 'Ds. Bakti No. 523, Kupang 86682, DIY', 'Surabaya', '(+62) 802 3590 218', 'general', 3, 'active', '2026-05-17 19:09:00', '2026-05-17 19:47:33'),
-(11, 'CUST-9183', 'PJ Utami', '3577102164169213', '14.319.143.6-313.000', 'Dk. Bass No. 308, Tanjung Pinang 91286, Sulteng', 'Surabaya', '0689 6765 0662', 'general', 4, 'active', '2026-05-17 19:09:00', '2026-05-17 19:47:33'),
-(12, 'CUST-5606', 'Perum Nashiruddin (Persero) Tbk', '3575870166565620', '54.995.230.4-540.000', 'Kpg. Villa No. 933, Yogyakarta 51904, Jatim', 'Surabaya', '(+62) 841 404 931', 'wholesale', 4, 'active', '2026-05-17 19:09:00', '2026-05-17 19:47:33'),
-(13, 'CUST-1837', 'UD Wahyuni Dongoran Tbk', '3571130860812564', '66.717.624.7-229.000', 'Jr. Rajawali No. 608, Pariaman 60216, Lampung', 'Surabaya', '022 5010 9918', 'retail', 4, 'active', '2026-05-17 19:09:00', '2026-05-17 19:47:33'),
-(14, 'CUST-2086', 'PT Fujiati Handayani Tbk', '3574504238967872', '41.911.886.8-496.000', 'Ki. Babadan No. 951, Palopo 47057, Jambi', 'Surabaya', '0643 8653 6458', 'general', 4, 'active', '2026-05-17 19:09:00', '2026-05-17 19:47:33'),
-(15, 'CUST-0304', 'PT Wastuti Tbk', '3577886105026226', '16.420.585.6-324.000', 'Kpg. Gajah Mada No. 735, Administrasi Jakarta Utara 41707, Bengkulu', 'Surabaya', '(+62) 712 4844 9701', 'retail', 4, 'active', '2026-05-17 19:09:00', '2026-05-17 19:47:33'),
-(16, 'CUST-3748', 'Perum Najmudin Hassanah', '3571754604946812', '41.465.943.1-845.000', 'Jln. Uluwatu No. 317, Padang 68696, Bali', 'Surabaya', '0671 5601 1222', 'general', 5, 'active', '2026-05-17 19:09:00', '2026-05-17 19:47:33'),
-(17, 'CUST-3151', 'PT Lailasari Tbk', '3578063410472913', '84.750.495.4-257.000', 'Gg. Bappenas No. 246, Surakarta 58968, Kalteng', 'Surabaya', '0844 563 853', 'retail', 5, 'active', '2026-05-17 19:09:00', '2026-05-17 19:47:33'),
-(18, 'CUST-0217', 'PD Utama (Persero) Tbk', '3575300815049775', '15.661.478.5-668.000', 'Gg. Suharso No. 534, Palembang 85130, Sulsel', 'Surabaya', '028 1438 851', 'general', 5, 'active', '2026-05-17 19:09:00', '2026-05-17 19:47:33'),
-(19, 'CUST-8084', 'PJ Pertiwi Budiman', '3574777613740514', '89.285.325.9-286.000', 'Psr. Madiun No. 387, Bau-Bau 51960, Kepri', 'Surabaya', '(+62) 464 1785 8461', 'general', 5, 'active', '2026-05-17 19:09:00', '2026-05-17 19:47:33'),
-(20, 'CUST-0387', 'PT Narpati', '3570703591996336', '26.674.282.9-389.000', 'Jln. K.H. Maskur No. 123, Surabaya 18011, Kalsel', 'Surabaya', '0471 5786 3566', 'retail', 5, 'active', '2026-05-17 19:09:00', '2026-05-17 19:47:33'),
-(21, 'CUST-5832', 'Yayasan Saefullah Firgantoro Tbk', '3574241824744562', '33.344.772.6-540.000', 'Ds. Karel S. Tubun No. 139, Kendari 40665, Kepri', 'Surabaya', '(+62) 579 9291 7274', 'wholesale', 6, 'active', '2026-05-17 19:09:00', '2026-05-17 19:47:33'),
-(22, 'CUST-8885', 'PT Wulandari Hariyah', '3573314321605085', '93.610.558.7-726.000', 'Ds. Baranang No. 405, Singkawang 58239, Sumut', 'Surabaya', '(+62) 272 1606 2565', 'retail', 6, 'active', '2026-05-17 19:09:00', '2026-05-17 19:47:33'),
-(23, 'CUST-3949', 'Yayasan Melani Irawan Tbk', '3574818871260959', '32.432.447.2-981.000', 'Jr. Cikutra Barat No. 852, Jambi 81610, Banten', 'Surabaya', '029 4911 9147', 'wholesale', 6, 'active', '2026-05-17 19:09:00', '2026-05-17 19:47:33'),
-(24, 'CUST-5145', 'PJ Utama (Persero) Tbk', '3579972057977911', '93.877.938.8-652.000', 'Jln. Wora Wari No. 124, Banjarbaru 47075, Bali', 'Surabaya', '(+62) 297 6958 9246', 'wholesale', 6, 'active', '2026-05-17 19:09:00', '2026-05-17 19:47:33'),
-(25, 'CUST-4496', 'Perum Purnawati (Persero) Tbk', '3570293926677142', '86.460.915.4-868.000', 'Jr. Yoga No. 407, Padangsidempuan 38161, Aceh', 'Surabaya', '0913 7151 068', 'wholesale', 6, 'active', '2026-05-17 19:09:00', '2026-05-17 19:47:33'),
-(26, 'CUST-1682', 'PD Ardianto (Persero) Tbk', '3570030754979241', '39.386.915.4-741.000', 'Gg. Cokroaminoto No. 303, Blitar 81030, NTT', 'Surabaya', '(+62) 294 1601 5047', 'wholesale', 7, 'active', '2026-05-17 19:09:00', '2026-05-17 19:47:33'),
-(27, 'CUST-2765', 'Yayasan Tamba Mandasari', '3577026587639153', '89.547.996.8-648.000', 'Ds. Cikutra Timur No. 738, Bandung 64674, Bengkulu', 'Surabaya', '(+62) 672 9558 2948', 'general', 7, 'active', '2026-05-17 19:09:00', '2026-05-17 19:47:33'),
-(28, 'CUST-4710', 'Yayasan Salahudin', '3574957668469534', '65.383.711.1-925.000', 'Dk. Bank Dagang Negara No. 921, Bogor 81001, Sulteng', 'Surabaya', '0547 9772 587', 'retail', 7, 'active', '2026-05-17 19:09:00', '2026-05-17 19:47:33'),
-(29, 'CUST-3692', 'Perum Nasyidah Mandala Tbk', '3577731080987891', '35.809.948.3-692.000', 'Kpg. Cikapayang No. 411, Tual 30714, Malut', 'Surabaya', '(+62) 271 8843 892', 'wholesale', 7, 'active', '2026-05-17 19:09:00', '2026-05-17 19:47:33'),
-(30, 'CUST-8878', 'Perum Napitupulu Nuraini', '3578140202797596', '96.841.493.4-161.000', 'Dk. Baranangsiang No. 860, Sorong 70913, Kaltim', 'Surabaya', '0854 717 380', 'wholesale', 7, 'active', '2026-05-17 19:09:00', '2026-05-17 19:47:33'),
-(31, 'CUST-5612', 'Yayasan Budiman', '3574481060747608', '11.239.916.5-216.000', 'Ds. Sukabumi No. 132, Tangerang 26717, Malut', 'Malang', '0773 7567 4140', 'general', 9, 'active', '2026-05-17 19:09:00', '2026-05-17 19:47:33'),
-(32, 'CUST-5887', 'CV Adriansyah Oktaviani', '3578588602056809', '61.131.613.9-656.000', 'Gg. Moch. Yamin No. 464, Pariaman 83188, NTT', 'Malang', '(+62) 459 3389 4143', 'wholesale', 9, 'active', '2026-05-17 19:09:00', '2026-05-17 19:47:33'),
-(33, 'CUST-7624', 'Perum Permata Tbk', '3574384034054231', '18.916.268.6-504.000', 'Gg. Acordion No. 427, Magelang 41393, DIY', 'Malang', '(+62) 568 1173 1967', 'wholesale', 9, 'active', '2026-05-17 19:09:00', '2026-05-17 19:47:33'),
-(34, 'CUST-7186', 'UD Januar Situmorang Tbk', '3577049319545791', '46.358.109.1-374.000', 'Kpg. Supomo No. 887, Banjar 13036, Jabar', 'Malang', '(+62) 22 3468 000', 'general', 9, 'active', '2026-05-17 19:09:00', '2026-05-17 19:47:33'),
-(35, 'CUST-8848', 'CV Laksita Sudiati Tbk', '3572124667036083', '19.274.587.2-443.000', 'Jr. Yap Tjwan Bing No. 498, Singkawang 16350, Jambi', 'Malang', '(+62) 274 3063 660', 'retail', 9, 'active', '2026-05-17 19:09:00', '2026-05-17 19:47:33'),
-(36, 'CUST-5564', 'PJ Yuniar Thamrin (Persero) Tbk', '3579587379785868', '19.163.320.1-486.000', 'Jr. Baing No. 813, Mataram 51064, Lampung', 'Malang', '0957 3203 9037', 'general', 10, 'active', '2026-05-17 19:09:00', '2026-05-17 19:47:33'),
-(37, 'CUST-9153', 'Perum Nashiruddin', '3577593470785760', '94.222.513.2-171.000', 'Jln. Ki Hajar Dewantara No. 786, Tidore Kepulauan 64161, Sulteng', 'Malang', '(+62) 278 1296 6703', 'wholesale', 10, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(38, 'CUST-3717', 'Fa Mandasari Lestari', '3572295587553757', '82.597.995.2-162.000', 'Dk. Bayam No. 333, Administrasi Jakarta Barat 24234, Jatim', 'Malang', '(+62) 512 5769 9522', 'wholesale', 10, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(39, 'CUST-2967', 'PT Namaga Nasyidah', '3576463690005660', '65.183.545.2-501.000', 'Jr. Daan No. 331, Kendari 56634, Banten', 'Malang', '(+62) 326 5272 9028', 'retail', 10, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(40, 'CUST-5160', 'CV Tamba Nugroho Tbk', '3570131176931595', '79.950.108.5-229.000', 'Dk. Adisumarmo No. 156, Bontang 19985, NTB', 'Malang', '0681 2126 4456', 'wholesale', 10, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(41, 'CUST-6582', 'CV Permata Wijaya', '3578107499610394', '70.515.755.5-179.000', 'Jr. Tambun No. 315, Padangpanjang 15472, Jambi', 'Malang', '(+62) 214 6127 7122', 'wholesale', 11, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(42, 'CUST-8954', 'CV Irawan Tbk', '3570653949950358', '28.493.141.7-428.000', 'Ki. Tambak No. 163, Denpasar 85732, Sulsel', 'Malang', '(+62) 441 3054 6033', 'wholesale', 11, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(43, 'CUST-6685', 'Perum Kusumo Tbk', '3570358009064899', '81.878.775.1-508.000', 'Dk. Bak Air No. 39, Surakarta 90386, Sulteng', 'Malang', '0656 9725 7450', 'general', 11, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(44, 'CUST-1757', 'Fa Padmasari Widodo Tbk', '3575978464500013', '43.706.972.8-596.000', 'Psr. Bappenas No. 546, Surakarta 93128, NTT', 'Malang', '0886 2453 4590', 'wholesale', 11, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(45, 'CUST-6370', 'PJ Oktaviani', '3573611763326674', '85.604.932.7-180.000', 'Kpg. Sutoyo No. 996, Banda Aceh 65698, DIY', 'Malang', '(+62) 633 1113 9491', 'retail', 11, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(46, 'CUST-7527', 'UD Putra Tbk', '3578536840995388', '61.534.730.7-293.000', 'Gg. Babakan No. 642, Pematangsiantar 60787, DIY', 'Malang', '0595 3346 031', 'retail', 12, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(47, 'CUST-4760', 'CV Narpati', '3574855507838441', '14.305.938.4-457.000', 'Ki. Moch. Ramdan No. 704, Mataram 43518, Malut', 'Malang', '0807 0309 3152', 'retail', 12, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(48, 'CUST-4412', 'UD Wijaya', '3573524317125547', '52.152.624.9-839.000', 'Kpg. K.H. Wahid Hasyim (Kopo) No. 302, Makassar 93876, Kalbar', 'Malang', '0400 4921 1837', 'retail', 12, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(49, 'CUST-4603', 'Fa Lestari Setiawan Tbk', '3570455203945041', '91.205.865.2-200.000', 'Jln. Labu No. 228, Prabumulih 10027, Babel', 'Malang', '0971 3203 080', 'wholesale', 12, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(50, 'CUST-7890', 'CV Saragih Adriansyah', '3578747582157610', '71.177.411.2-808.000', 'Jln. Jambu No. 964, Administrasi Jakarta Utara 26886, Babel', 'Malang', '0222 4144 125', 'wholesale', 12, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(51, 'CUST-4445', 'Perum Sudiati Namaga Tbk', '3575792452686501', '40.858.743.4-864.000', 'Dk. Pacuan Kuda No. 613, Jambi 73669, DKI', 'Malang', '0413 4488 1729', 'wholesale', 13, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(52, 'CUST-4790', 'Yayasan Anggraini Pudjiastuti', '3577481330800974', '92.921.710.9-562.000', 'Ds. Industri No. 25, Lhokseumawe 87447, Jambi', 'Malang', '(+62) 25 5682 7864', 'retail', 13, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(53, 'CUST-0646', 'PT Tamba Pratiwi', '3574042616926457', '14.346.534.2-765.000', 'Ds. Agus Salim No. 837, Madiun 72323, Sulsel', 'Malang', '(+62) 400 9767 390', 'wholesale', 13, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(54, 'CUST-6963', 'Perum Wasita Tbk', '3578239271388667', '48.962.813.1-333.000', 'Ds. Antapani Lama No. 978, Administrasi Jakarta Utara 98159, Bengkulu', 'Malang', '025 2715 7846', 'retail', 13, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(55, 'CUST-4463', 'CV Astuti (Persero) Tbk', '3578923553904783', '98.751.831.5-482.000', 'Psr. Salak No. 994, Surabaya 52945, Kaltim', 'Malang', '0709 0896 516', 'retail', 13, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(56, 'CUST-2284', 'PT Usada Ramadan', '3573933447371878', '28.928.874.3-169.000', 'Dk. Cokroaminoto No. 461, Salatiga 67048, Kalsel', 'Malang', '0699 1320 3081', 'retail', 14, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(57, 'CUST-5851', 'PD Sitompul (Persero) Tbk', '3570512770438027', '56.664.416.6-741.000', 'Jln. Rumah Sakit No. 123, Pagar Alam 77152, Babel', 'Malang', '(+62) 973 6033 601', 'wholesale', 14, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(58, 'CUST-8888', 'CV Wijayanti Wastuti Tbk', '3576101958471891', '94.877.782.7-530.000', 'Ki. Badak No. 14, Sungai Penuh 62392, Malut', 'Malang', '0976 9955 0158', 'wholesale', 14, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(59, 'CUST-6672', 'PT Laksmiwati Prabowo', '3570632904048334', '30.235.929.5-901.000', 'Gg. Gedebage Selatan No. 539, Magelang 97706, Gorontalo', 'Malang', '(+62) 449 7501 9994', 'retail', 14, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(60, 'CUST-3652', 'UD Astuti Prasetyo', '3572695283950831', '72.976.259.3-553.000', 'Ds. Veteran No. 619, Samarinda 40598, Kalteng', 'Malang', '(+62) 347 5032 781', 'retail', 14, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(61, 'CUST-0127', 'UD Latupono Tbk', '3570691462490980', '96.705.349.3-859.000', 'Ki. Achmad No. 588, Tegal 51013, Jambi', 'Jakarta', '(+62) 355 7191 926', 'wholesale', 16, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(62, 'CUST-2219', 'PD Utama', '3579202207097517', '62.394.746.9-188.000', 'Kpg. Kebangkitan Nasional No. 658, Cirebon 71651, Babel', 'Jakarta', '0806 449 896', 'retail', 16, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(63, 'CUST-9272', 'Yayasan Palastri', '3578669529019880', '81.694.900.5-546.000', 'Kpg. Imam Bonjol No. 97, Tangerang 38147, Kaltara', 'Jakarta', '0311 0984 6694', 'retail', 16, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(64, 'CUST-3847', 'Yayasan Lestari Nurdiyanti', '3578926194070831', '95.169.131.5-921.000', 'Gg. Eka No. 398, Subulussalam 26480, Kepri', 'Jakarta', '(+62) 914 2672 619', 'retail', 16, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(65, 'CUST-1296', 'Fa Rahayu', '3579400921353037', '22.667.136.7-949.000', 'Dk. Rajiman No. 789, Balikpapan 14511, Jabar', 'Jakarta', '0906 4918 297', 'retail', 16, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(66, 'CUST-1912', 'PJ Pratama (Persero) Tbk', '3577618180954303', '73.419.488.5-545.000', 'Dk. Abdul No. 771, Kediri 29361, Bengkulu', 'Jakarta', '(+62) 767 9563 4678', 'general', 17, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(67, 'CUST-2035', 'CV Mustofa (Persero) Tbk', '3575159949573346', '99.960.989.3-221.000', 'Ds. Cemara No. 732, Jayapura 14227, Babel', 'Jakarta', '0721 1639 1772', 'wholesale', 17, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(68, 'CUST-6373', 'Perum Yuliarti (Persero) Tbk', '3571345557266496', '22.758.509.4-818.000', 'Ki. Bara No. 372, Kendari 25185, NTB', 'Jakarta', '(+62) 896 635 669', 'general', 17, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(69, 'CUST-6532', 'Perum Prasetyo', '3573696851269062', '92.803.888.2-908.000', 'Dk. Yap Tjwan Bing No. 846, Sorong 15976, Kalteng', 'Jakarta', '(+62) 944 6789 140', 'general', 17, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(70, 'CUST-0203', 'Fa Usamah', '3577070395997272', '68.173.613.3-371.000', 'Ki. Bazuka Raya No. 735, Palangka Raya 94290, Sultra', 'Jakarta', '(+62) 633 8231 761', 'general', 17, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(71, 'CUST-2539', 'PT Prasetyo Tbk', '3573320668333279', '24.610.243.1-616.000', 'Gg. Uluwatu No. 747, Tanjung Pinang 31495, Jabar', 'Jakarta', '0789 5948 6569', 'wholesale', 18, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(72, 'CUST-5448', 'Yayasan Dabukke Kuswandari Tbk', '3574154151789994', '23.691.799.7-758.000', 'Ds. Lada No. 187, Padang 13739, Aceh', 'Jakarta', '(+62) 260 2329 514', 'general', 18, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(73, 'CUST-6456', 'PD Wahyuni Widiastuti', '3573960194093576', '72.811.707.7-641.000', 'Jr. Mulyadi No. 729, Palembang 53992, Jabar', 'Jakarta', '(+62) 223 3871 0641', 'retail', 18, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(74, 'CUST-1454', 'CV Halimah (Persero) Tbk', '3570582202747561', '71.448.615.9-332.000', 'Psr. Thamrin No. 537, Blitar 69676, Kaltim', 'Jakarta', '0893 0978 2710', 'retail', 18, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(75, 'CUST-6953', 'PD Halimah Mustofa (Persero) Tbk', '3574453942037020', '64.657.142.9-221.000', 'Jln. Gardujati No. 810, Padangsidempuan 41742, Kepri', 'Jakarta', '(+62) 534 8441 4912', 'wholesale', 18, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(76, 'CUST-7856', 'UD Farida (Persero) Tbk', '3571604986741429', '30.157.346.3-283.000', 'Psr. Cihampelas No. 614, Administrasi Jakarta Pusat 84536, Jabar', 'Jakarta', '0895 1993 405', 'retail', 19, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(77, 'CUST-6760', 'PD Wibisono', '3574466631035633', '42.441.734.9-362.000', 'Psr. Honggowongso No. 127, Depok 19809, Sulsel', 'Jakarta', '025 2044 433', 'wholesale', 19, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(78, 'CUST-3626', 'PT Haryanti (Persero) Tbk', '3577823148243680', '63.135.180.8-453.000', 'Ds. Villa No. 392, Tebing Tinggi 98393, Sulsel', 'Jakarta', '(+62) 271 8399 4523', 'wholesale', 19, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(79, 'CUST-2283', 'Yayasan Napitupulu Tbk', '3572701069495291', '54.302.110.1-577.000', 'Jr. K.H. Maskur No. 259, Banjar 55830, Jambi', 'Jakarta', '(+62) 995 9273 669', 'wholesale', 19, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(80, 'CUST-3829', 'PT Nasyidah', '3575101247566356', '40.859.628.3-199.000', 'Gg. K.H. Maskur No. 395, Administrasi Jakarta Utara 49450, Kepri', 'Jakarta', '0259 7026 6994', 'general', 19, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(81, 'CUST-3667', 'Yayasan Rahayu', '3573587786123397', '78.876.809.6-334.000', 'Gg. Banda No. 986, Sungai Penuh 86726, NTT', 'Jakarta', '(+62) 751 4636 5505', 'general', 20, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(82, 'CUST-2901', 'PD Kuswandari Tbk', '3577887181137232', '65.747.649.2-277.000', 'Gg. Supomo No. 445, Gunungsitoli 77599, NTB', 'Jakarta', '(+62) 229 3838 2242', 'retail', 20, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(83, 'CUST-7347', 'Perum Lestari Zulkarnain', '3570528371158108', '68.122.299.8-748.000', 'Ds. Labu No. 65, Tangerang Selatan 87342, DIY', 'Jakarta', '(+62) 435 8889 6137', 'wholesale', 20, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(84, 'CUST-9325', 'UD Budiyanto (Persero) Tbk', '3574137707697165', '22.841.661.8-910.000', 'Jr. Cihampelas No. 679, Administrasi Jakarta Timur 51641, Sulbar', 'Jakarta', '(+62) 875 8135 0291', 'retail', 20, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(85, 'CUST-8121', 'Yayasan Wastuti Saefullah', '3577184832637773', '76.588.452.6-158.000', 'Jr. Moch. Yamin No. 687, Bitung 33220, Babel', 'Jakarta', '(+62) 22 7404 1782', 'wholesale', 20, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(86, 'CUST-7734', 'PJ Mulyani Fujiati Tbk', '3574282841366240', '22.665.116.5-644.000', 'Kpg. Reksoninten No. 789, Administrasi Jakarta Selatan 56333, Kepri', 'Jakarta', '(+62) 706 5470 0313', 'general', 21, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(87, 'CUST-5545', 'Perum Kusumo Tbk', '3571732414831565', '74.308.207.6-535.000', 'Gg. Yosodipuro No. 685, Samarinda 89555, Jatim', 'Jakarta', '0911 2616 8327', 'retail', 21, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(88, 'CUST-7026', 'Yayasan Novitasari', '3577317032121552', '17.258.628.9-500.000', 'Gg. Labu No. 799, Palopo 72074, Kaltara', 'Jakarta', '(+62) 652 3256 0739', 'general', 21, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(89, 'CUST-2478', 'Perum Firmansyah (Persero) Tbk', '3572586041658506', '46.778.883.7-674.000', 'Gg. Eka No. 98, Pekalongan 40352, NTB', 'Jakarta', '(+62) 410 3505 341', 'wholesale', 21, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(90, 'CUST-2547', 'CV Prastuti Pratiwi (Persero) Tbk', '3579679149062146', '82.928.945.7-496.000', 'Ds. Pintu Besar Selatan No. 359, Sibolga 15566, Banten', 'Jakarta', '(+62) 363 4931 441', 'general', 21, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
+(1, 'CUST-9949', 'CV Usada Tbk', '3577486588832856', '50.660.320.1-994.000', 'Kpg. Ciumbuleuit No. 505, Administrasi Jakarta Utara 71378, Jateng', 'Lhokseumawe', '(+62) 352 3384 778', 'Distributor', 2, 'active', '2026-05-17 19:09:00', '2026-05-18 23:47:10'),
+(2, 'CUST-1271', 'PD Prastuti', '3572871722214176', '48.285.600.4-562.000', 'Jln. Rajawali Barat No. 148, Tomohon 57090, Jateng', 'Lhokseumawe', '(+62) 731 6449 4448', 'Distributor', 2, 'active', '2026-05-17 19:09:00', '2026-05-18 23:47:10'),
+(3, 'CUST-9738', 'PT Mulyani', '3574733773841284', '30.276.509.8-580.000', 'Dk. Baabur Royan No. 853, Tanjungbalai 58070, Sulut', 'Lhokseumawe', '0596 3278 2031', 'retail', 2, 'active', '2026-05-17 19:09:00', '2026-05-18 23:47:10'),
+(4, 'CUST-3781', 'Fa Haryanto', '3577148239305539', '82.220.313.9-203.000', 'Jr. Bazuka Raya No. 596, Cilegon 35732, Malut', 'Lhokseumawe', '(+62) 374 4805 2404', 'general', 2, 'active', '2026-05-17 19:09:00', '2026-05-18 23:47:10'),
+(5, 'CUST-4516', 'Fa Hutasoit', '3575978526312492', '76.955.289.4-263.000', 'Jln. Hang No. 794, Bogor 95992, Sulbar', 'Lhokseumawe', '(+62) 827 855 161', 'general', 2, 'active', '2026-05-17 19:09:00', '2026-05-18 23:47:10'),
+(6, 'CUST-1617', 'PD Thamrin Suryono (Persero) Tbk', '3579764455270669', '61.113.625.3-518.000', 'Ds. Baik No. 280, Pasuruan 51638, DIY', 'Lhokseumawe', '(+62) 639 0035 930', 'Distributor', 3, 'active', '2026-05-17 19:09:00', '2026-05-18 23:47:10'),
+(7, 'CUST-3622', 'UD Rahmawati', '3571146137071198', '49.992.169.9-578.000', 'Ds. Uluwatu No. 820, Tasikmalaya 13083, Jambi', 'Lhokseumawe', '0776 2348 795', 'Distributor', 3, 'active', '2026-05-17 19:09:00', '2026-05-18 23:47:10'),
+(8, 'CUST-8421', 'Perum Permadi Tbk', '3579984763656205', '61.711.776.3-175.000', 'Psr. Cikutra Barat No. 396, Padangsidempuan 81612, Maluku', 'Lhokseumawe', '(+62) 253 0163 3339', 'general', 3, 'active', '2026-05-17 19:09:00', '2026-05-18 23:47:10'),
+(9, 'CUST-7666', 'PT Susanti Tbk', '3578511421132411', '97.854.795.5-978.000', 'Gg. Sutarjo No. 784, Tual 35312, DKI', 'Lhokseumawe', '0625 4595 030', 'Distributor', 3, 'active', '2026-05-17 19:09:00', '2026-05-18 23:47:10'),
+(10, 'CUST-4643', 'Fa Laksmiwati Andriani (Persero) Tbk', '3577238686233434', '67.817.207.8-529.000', 'Ds. Bakti No. 523, Kupang 86682, DIY', 'Lhokseumawe', '(+62) 802 3590 218', 'general', 3, 'active', '2026-05-17 19:09:00', '2026-05-18 23:47:10'),
+(11, 'CUST-9183', 'PJ Utami', '3577102164169213', '14.319.143.6-313.000', 'Dk. Bass No. 308, Tanjung Pinang 91286, Sulteng', 'Lhokseumawe', '0689 6765 0662', 'general', 4, 'active', '2026-05-17 19:09:00', '2026-05-18 23:47:10'),
+(12, 'CUST-5606', 'Perum Nashiruddin (Persero) Tbk', '3575870166565620', '54.995.230.4-540.000', 'Kpg. Villa No. 933, Yogyakarta 51904, Jatim', 'Lhokseumawe', '(+62) 841 404 931', 'Distributor', 4, 'active', '2026-05-17 19:09:00', '2026-05-18 23:47:10'),
+(13, 'CUST-1837', 'UD Wahyuni Dongoran Tbk', '3571130860812564', '66.717.624.7-229.000', 'Jr. Rajawali No. 608, Pariaman 60216, Lampung', 'Lhokseumawe', '022 5010 9918', 'retail', 4, 'active', '2026-05-17 19:09:00', '2026-05-18 23:47:10'),
+(14, 'CUST-2086', 'PT Fujiati Handayani Tbk', '3574504238967872', '41.911.886.8-496.000', 'Ki. Babadan No. 951, Palopo 47057, Jambi', 'Lhokseumawe', '0643 8653 6458', 'general', 4, 'active', '2026-05-17 19:09:00', '2026-05-18 23:47:10'),
+(15, 'CUST-0304', 'PT Wastuti Tbk', '3577886105026226', '16.420.585.6-324.000', 'Kpg. Gajah Mada No. 735, Administrasi Jakarta Utara 41707, Bengkulu', 'Lhokseumawe', '(+62) 712 4844 9701', 'retail', 4, 'active', '2026-05-17 19:09:00', '2026-05-18 23:47:10'),
+(16, 'CUST-3748', 'Perum Najmudin Hassanah', '3571754604946812', '41.465.943.1-845.000', 'Jln. Uluwatu No. 317, Padang 68696, Bali', 'Banda Aceh', '0671 5601 1222', 'general', 5, 'active', '2026-05-17 19:09:00', '2026-05-18 23:47:10'),
+(17, 'CUST-3151', 'PT Lailasari Tbk', '3578063410472913', '84.750.495.4-257.000', 'Gg. Bappenas No. 246, Surakarta 58968, Kalteng', 'Banda Aceh', '0844 563 853', 'retail', 5, 'active', '2026-05-17 19:09:00', '2026-05-18 23:47:10'),
+(18, 'CUST-0217', 'PD Utama (Persero) Tbk', '3575300815049775', '15.661.478.5-668.000', 'Gg. Suharso No. 534, Palembang 85130, Sulsel', 'Banda Aceh', '028 1438 851', 'general', 5, 'active', '2026-05-17 19:09:00', '2026-05-18 23:47:10'),
+(19, 'CUST-8084', 'PJ Pertiwi Budiman', '3574777613740514', '89.285.325.9-286.000', 'Psr. Madiun No. 387, Bau-Bau 51960, Kepri', 'Banda Aceh', '(+62) 464 1785 8461', 'general', 5, 'active', '2026-05-17 19:09:00', '2026-05-18 23:47:10'),
+(20, 'CUST-0387', 'PT Narpati', '3570703591996336', '26.674.282.9-389.000', 'Jln. K.H. Maskur No. 123, Surabaya 18011, Kalsel', 'Banda Aceh', '0471 5786 3566', 'retail', 5, 'active', '2026-05-17 19:09:00', '2026-05-18 23:47:10'),
+(21, 'CUST-5832', 'Yayasan Saefullah Firgantoro Tbk', '3574241824744562', '33.344.772.6-540.000', 'Ds. Karel S. Tubun No. 139, Kendari 40665, Kepri', 'Banda Aceh', '(+62) 579 9291 7274', 'Distributor', 6, 'active', '2026-05-17 19:09:00', '2026-05-18 23:47:10'),
+(22, 'CUST-8885', 'PT Wulandari Hariyah', '3573314321605085', '93.610.558.7-726.000', 'Ds. Baranang No. 405, Singkawang 58239, Sumut', 'Banda Aceh', '(+62) 272 1606 2565', 'retail', 6, 'active', '2026-05-17 19:09:00', '2026-05-18 23:47:10'),
+(23, 'CUST-3949', 'Yayasan Melani Irawan Tbk', '3574818871260959', '32.432.447.2-981.000', 'Jr. Cikutra Barat No. 852, Jambi 81610, Banten', 'Banda Aceh', '029 4911 9147', 'Distributor', 6, 'active', '2026-05-17 19:09:00', '2026-05-18 23:47:10'),
+(24, 'CUST-5145', 'PJ Utama (Persero) Tbk', '3579972057977911', '93.877.938.8-652.000', 'Jln. Wora Wari No. 124, Banjarbaru 47075, Bali', 'Banda Aceh', '(+62) 297 6958 9246', 'Distributor', 6, 'active', '2026-05-17 19:09:00', '2026-05-18 23:47:10'),
+(25, 'CUST-4496', 'Perum Purnawati (Persero) Tbk', '3570293926677142', '86.460.915.4-868.000', 'Jr. Yoga No. 407, Padangsidempuan 38161, Aceh', 'Banda Aceh', '0913 7151 068', 'Distributor', 6, 'active', '2026-05-17 19:09:00', '2026-05-18 23:47:10'),
+(26, 'CUST-1682', 'PD Ardianto (Persero) Tbk', '3570030754979241', '39.386.915.4-741.000', 'Gg. Cokroaminoto No. 303, Blitar 81030, NTT', 'Banda Aceh', '(+62) 294 1601 5047', 'Distributor', 7, 'active', '2026-05-17 19:09:00', '2026-05-18 23:47:10'),
+(27, 'CUST-2765', 'Yayasan Tamba Mandasari', '3577026587639153', '89.547.996.8-648.000', 'Ds. Cikutra Timur No. 738, Bandung 64674, Bengkulu', 'Banda Aceh', '(+62) 672 9558 2948', 'general', 7, 'active', '2026-05-17 19:09:00', '2026-05-18 23:47:10'),
+(28, 'CUST-4710', 'Yayasan Salahudin', '3574957668469534', '65.383.711.1-925.000', 'Dk. Bank Dagang Negara No. 921, Bogor 81001, Sulteng', 'Banda Aceh', '0547 9772 587', 'retail', 7, 'active', '2026-05-17 19:09:00', '2026-05-18 23:47:10'),
+(29, 'CUST-3692', 'Perum Nasyidah Mandala Tbk', '3577731080987891', '35.809.948.3-692.000', 'Kpg. Cikapayang No. 411, Tual 30714, Malut', 'Banda Aceh', '(+62) 271 8843 892', 'Distributor', 7, 'active', '2026-05-17 19:09:00', '2026-05-18 23:47:10'),
+(30, 'CUST-8878', 'Perum Napitupulu Nuraini', '3578140202797596', '96.841.493.4-161.000', 'Dk. Baranangsiang No. 860, Sorong 70913, Kaltim', 'Banda Aceh', '0854 717 380', 'Distributor', 7, 'active', '2026-05-17 19:09:00', '2026-05-18 23:47:10'),
+(31, 'CUST-5612', 'Yayasan Budiman', '3574481060747608', '11.239.916.5-216.000', 'Ds. Sukabumi No. 132, Tangerang 26717, Malut', 'Medan', '0773 7567 4140', 'general', 9, 'active', '2026-05-17 19:09:00', '2026-05-18 23:47:10'),
+(32, 'CUST-5887', 'CV Adriansyah Oktaviani', '3578588602056809', '61.131.613.9-656.000', 'Gg. Moch. Yamin No. 464, Pariaman 83188, NTT', 'Medan', '(+62) 459 3389 4143', 'Distributor', 9, 'active', '2026-05-17 19:09:00', '2026-05-18 23:47:10'),
+(33, 'CUST-7624', 'Perum Permata Tbk', '3574384034054231', '18.916.268.6-504.000', 'Gg. Acordion No. 427, Magelang 41393, DIY', 'Medan', '(+62) 568 1173 1967', 'Distributor', 9, 'active', '2026-05-17 19:09:00', '2026-05-18 23:47:10'),
+(34, 'CUST-7186', 'UD Januar Situmorang Tbk', '3577049319545791', '46.358.109.1-374.000', 'Kpg. Supomo No. 887, Banjar 13036, Jabar', 'Medan', '(+62) 22 3468 000', 'general', 9, 'active', '2026-05-17 19:09:00', '2026-05-18 23:47:10'),
+(35, 'CUST-8848', 'CV Laksita Sudiati Tbk', '3572124667036083', '19.274.587.2-443.000', 'Jr. Yap Tjwan Bing No. 498, Singkawang 16350, Jambi', 'Medan', '(+62) 274 3063 660', 'retail', 9, 'active', '2026-05-17 19:09:00', '2026-05-18 23:47:10'),
+(36, 'CUST-5564', 'PJ Yuniar Thamrin (Persero) Tbk', '3579587379785868', '19.163.320.1-486.000', 'Jr. Baing No. 813, Mataram 51064, Lampung', 'Medan', '0957 3203 9037', 'general', 10, 'active', '2026-05-17 19:09:00', '2026-05-18 23:47:10'),
+(37, 'CUST-9153', 'Perum Nashiruddin', '3577593470785760', '94.222.513.2-171.000', 'Jln. Ki Hajar Dewantara No. 786, Tidore Kepulauan 64161, Sulteng', 'Medan', '(+62) 278 1296 6703', 'Distributor', 10, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(38, 'CUST-3717', 'Fa Mandasari Lestari', '3572295587553757', '82.597.995.2-162.000', 'Dk. Bayam No. 333, Administrasi Jakarta Barat 24234, Jatim', 'Medan', '(+62) 512 5769 9522', 'Distributor', 10, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(39, 'CUST-2967', 'PT Namaga Nasyidah', '3576463690005660', '65.183.545.2-501.000', 'Jr. Daan No. 331, Kendari 56634, Banten', 'Medan', '(+62) 326 5272 9028', 'retail', 10, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(40, 'CUST-5160', 'CV Tamba Nugroho Tbk', '3570131176931595', '79.950.108.5-229.000', 'Dk. Adisumarmo No. 156, Bontang 19985, NTB', 'Medan', '0681 2126 4456', 'Distributor', 10, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(41, 'CUST-6582', 'CV Permata Wijaya', '3578107499610394', '70.515.755.5-179.000', 'Jr. Tambun No. 315, Padangpanjang 15472, Jambi', 'Medan', '(+62) 214 6127 7122', 'Distributor', 11, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(42, 'CUST-8954', 'CV Irawan Tbk', '3570653949950358', '28.493.141.7-428.000', 'Ki. Tambak No. 163, Denpasar 85732, Sulsel', 'Medan', '(+62) 441 3054 6033', 'Distributor', 11, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(43, 'CUST-6685', 'Perum Kusumo Tbk', '3570358009064899', '81.878.775.1-508.000', 'Dk. Bak Air No. 39, Surakarta 90386, Sulteng', 'Medan', '0656 9725 7450', 'general', 11, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(44, 'CUST-1757', 'Fa Padmasari Widodo Tbk', '3575978464500013', '43.706.972.8-596.000', 'Psr. Bappenas No. 546, Surakarta 93128, NTT', 'Medan', '0886 2453 4590', 'Distributor', 11, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(45, 'CUST-6370', 'PJ Oktaviani', '3573611763326674', '85.604.932.7-180.000', 'Kpg. Sutoyo No. 996, Banda Aceh 65698, DIY', 'Medan', '(+62) 633 1113 9491', 'retail', 11, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(46, 'CUST-7527', 'UD Putra Tbk', '3578536840995388', '61.534.730.7-293.000', 'Gg. Babakan No. 642, Pematangsiantar 60787, DIY', 'Medan', '0595 3346 031', 'retail', 12, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(47, 'CUST-4760', 'CV Narpati', '3574855507838441', '14.305.938.4-457.000', 'Ki. Moch. Ramdan No. 704, Mataram 43518, Malut', 'Medan', '0807 0309 3152', 'retail', 12, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(48, 'CUST-4412', 'UD Wijaya', '3573524317125547', '52.152.624.9-839.000', 'Kpg. K.H. Wahid Hasyim (Kopo) No. 302, Makassar 93876, Kalbar', 'Medan', '0400 4921 1837', 'retail', 12, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(49, 'CUST-4603', 'Fa Lestari Setiawan Tbk', '3570455203945041', '91.205.865.2-200.000', 'Jln. Labu No. 228, Prabumulih 10027, Babel', 'Medan', '0971 3203 080', 'Distributor', 12, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(50, 'CUST-7890', 'CV Saragih Adriansyah', '3578747582157610', '71.177.411.2-808.000', 'Jln. Jambu No. 964, Administrasi Jakarta Utara 26886, Babel', 'Medan', '0222 4144 125', 'Distributor', 12, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(51, 'CUST-4445', 'Perum Sudiati Namaga Tbk', '3575792452686501', '40.858.743.4-864.000', 'Dk. Pacuan Kuda No. 613, Jambi 73669, DKI', 'Medan', '0413 4488 1729', 'Distributor', 13, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(52, 'CUST-4790', 'Yayasan Anggraini Pudjiastuti', '3577481330800974', '92.921.710.9-562.000', 'Ds. Industri No. 25, Lhokseumawe 87447, Jambi', 'Medan', '(+62) 25 5682 7864', 'retail', 13, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(53, 'CUST-0646', 'PT Tamba Pratiwi', '3574042616926457', '14.346.534.2-765.000', 'Ds. Agus Salim No. 837, Madiun 72323, Sulsel', 'Medan', '(+62) 400 9767 390', 'Distributor', 13, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(54, 'CUST-6963', 'Perum Wasita Tbk', '3578239271388667', '48.962.813.1-333.000', 'Ds. Antapani Lama No. 978, Administrasi Jakarta Utara 98159, Bengkulu', 'Medan', '025 2715 7846', 'retail', 13, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(55, 'CUST-4463', 'CV Astuti (Persero) Tbk', '3578923553904783', '98.751.831.5-482.000', 'Psr. Salak No. 994, Surabaya 52945, Kaltim', 'Medan', '0709 0896 516', 'retail', 13, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(56, 'CUST-2284', 'PT Usada Ramadan', '3573933447371878', '28.928.874.3-169.000', 'Dk. Cokroaminoto No. 461, Salatiga 67048, Kalsel', 'Medan', '0699 1320 3081', 'retail', 14, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(57, 'CUST-5851', 'PD Sitompul (Persero) Tbk', '3570512770438027', '56.664.416.6-741.000', 'Jln. Rumah Sakit No. 123, Pagar Alam 77152, Babel', 'Medan', '(+62) 973 6033 601', 'Distributor', 14, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(58, 'CUST-8888', 'CV Wijayanti Wastuti Tbk', '3576101958471891', '94.877.782.7-530.000', 'Ki. Badak No. 14, Sungai Penuh 62392, Malut', 'Medan', '0976 9955 0158', 'Distributor', 14, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(59, 'CUST-6672', 'PT Laksmiwati Prabowo', '3570632904048334', '30.235.929.5-901.000', 'Gg. Gedebage Selatan No. 539, Magelang 97706, Gorontalo', 'Medan', '(+62) 449 7501 9994', 'retail', 14, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(60, 'CUST-3652', 'UD Astuti Prasetyo', '3572695283950831', '72.976.259.3-553.000', 'Ds. Veteran No. 619, Samarinda 40598, Kalteng', 'Medan', '(+62) 347 5032 781', 'retail', 14, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(61, 'CUST-0127', 'UD Latupono Tbk', '3570691462490980', '96.705.349.3-859.000', 'Ki. Achmad No. 588, Tegal 51013, Jambi', 'Jakarta Pusat', '(+62) 355 7191 926', 'Distributor', 16, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(62, 'CUST-2219', 'PD Utama', '3579202207097517', '62.394.746.9-188.000', 'Kpg. Kebangkitan Nasional No. 658, Cirebon 71651, Babel', 'Jakarta Pusat', '0806 449 896', 'retail', 16, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(63, 'CUST-9272', 'Yayasan Palastri', '3578669529019880', '81.694.900.5-546.000', 'Kpg. Imam Bonjol No. 97, Tangerang 38147, Kaltara', 'Jakarta Pusat', '0311 0984 6694', 'retail', 16, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(64, 'CUST-3847', 'Yayasan Lestari Nurdiyanti', '3578926194070831', '95.169.131.5-921.000', 'Gg. Eka No. 398, Subulussalam 26480, Kepri', 'Jakarta Pusat', '(+62) 914 2672 619', 'retail', 16, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(65, 'CUST-1296', 'Fa Rahayu', '3579400921353037', '22.667.136.7-949.000', 'Dk. Rajiman No. 789, Balikpapan 14511, Jabar', 'Jakarta Pusat', '0906 4918 297', 'retail', 16, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(66, 'CUST-1912', 'PJ Pratama (Persero) Tbk', '3577618180954303', '73.419.488.5-545.000', 'Dk. Abdul No. 771, Kediri 29361, Bengkulu', 'Jakarta Pusat', '(+62) 767 9563 4678', 'general', 17, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(67, 'CUST-2035', 'CV Mustofa (Persero) Tbk', '3575159949573346', '99.960.989.3-221.000', 'Ds. Cemara No. 732, Jayapura 14227, Babel', 'Jakarta Pusat', '0721 1639 1772', 'Distributor', 17, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(68, 'CUST-6373', 'Perum Yuliarti (Persero) Tbk', '3571345557266496', '22.758.509.4-818.000', 'Ki. Bara No. 372, Kendari 25185, NTB', 'Jakarta Pusat', '(+62) 896 635 669', 'general', 17, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(69, 'CUST-6532', 'Perum Prasetyo', '3573696851269062', '92.803.888.2-908.000', 'Dk. Yap Tjwan Bing No. 846, Sorong 15976, Kalteng', 'Jakarta Pusat', '(+62) 944 6789 140', 'general', 17, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(70, 'CUST-0203', 'Fa Usamah', '3577070395997272', '68.173.613.3-371.000', 'Ki. Bazuka Raya No. 735, Palangka Raya 94290, Sultra', 'Jakarta Pusat', '(+62) 633 8231 761', 'general', 17, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(71, 'CUST-2539', 'PT Prasetyo Tbk', '3573320668333279', '24.610.243.1-616.000', 'Gg. Uluwatu No. 747, Tanjung Pinang 31495, Jabar', 'Jakarta Pusat', '0789 5948 6569', 'Distributor', 18, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(72, 'CUST-5448', 'Yayasan Dabukke Kuswandari Tbk', '3574154151789994', '23.691.799.7-758.000', 'Ds. Lada No. 187, Padang 13739, Aceh', 'Jakarta Pusat', '(+62) 260 2329 514', 'general', 18, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(73, 'CUST-6456', 'PD Wahyuni Widiastuti', '3573960194093576', '72.811.707.7-641.000', 'Jr. Mulyadi No. 729, Palembang 53992, Jabar', 'Jakarta Pusat', '(+62) 223 3871 0641', 'retail', 18, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(74, 'CUST-1454', 'CV Halimah (Persero) Tbk', '3570582202747561', '71.448.615.9-332.000', 'Psr. Thamrin No. 537, Blitar 69676, Kaltim', 'Jakarta Pusat', '0893 0978 2710', 'retail', 18, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(75, 'CUST-6953', 'PD Halimah Mustofa (Persero) Tbk', '3574453942037020', '64.657.142.9-221.000', 'Jln. Gardujati No. 810, Padangsidempuan 41742, Kepri', 'Jakarta Pusat', '(+62) 534 8441 4912', 'Distributor', 18, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(76, 'CUST-7856', 'UD Farida (Persero) Tbk', '3571604986741429', '30.157.346.3-283.000', 'Psr. Cihampelas No. 614, Administrasi Jakarta Pusat 84536, Jabar', 'Jakarta Selatan', '0895 1993 405', 'retail', 19, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(77, 'CUST-6760', 'PD Wibisono', '3574466631035633', '42.441.734.9-362.000', 'Psr. Honggowongso No. 127, Depok 19809, Sulsel', 'Jakarta Selatan', '025 2044 433', 'Distributor', 19, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(78, 'CUST-3626', 'PT Haryanti (Persero) Tbk', '3577823148243680', '63.135.180.8-453.000', 'Ds. Villa No. 392, Tebing Tinggi 98393, Sulsel', 'Jakarta Selatan', '(+62) 271 8399 4523', 'Distributor', 19, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(79, 'CUST-2283', 'Yayasan Napitupulu Tbk', '3572701069495291', '54.302.110.1-577.000', 'Jr. K.H. Maskur No. 259, Banjar 55830, Jambi', 'Jakarta Selatan', '(+62) 995 9273 669', 'Distributor', 19, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(80, 'CUST-3829', 'PT Nasyidah', '3575101247566356', '40.859.628.3-199.000', 'Gg. K.H. Maskur No. 395, Administrasi Jakarta Utara 49450, Kepri', 'Jakarta Selatan', '0259 7026 6994', 'general', 19, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(81, 'CUST-3667', 'Yayasan Rahayu', '3573587786123397', '78.876.809.6-334.000', 'Gg. Banda No. 986, Sungai Penuh 86726, NTT', 'Jakarta Selatan', '(+62) 751 4636 5505', 'general', 20, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(82, 'CUST-2901', 'PD Kuswandari Tbk', '3577887181137232', '65.747.649.2-277.000', 'Gg. Supomo No. 445, Gunungsitoli 77599, NTB', 'Jakarta Selatan', '(+62) 229 3838 2242', 'retail', 20, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(83, 'CUST-7347', 'Perum Lestari Zulkarnain', '3570528371158108', '68.122.299.8-748.000', 'Ds. Labu No. 65, Tangerang Selatan 87342, DIY', 'Jakarta Selatan', '(+62) 435 8889 6137', 'Distributor', 20, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(84, 'CUST-9325', 'UD Budiyanto (Persero) Tbk', '3574137707697165', '22.841.661.8-910.000', 'Jr. Cihampelas No. 679, Administrasi Jakarta Timur 51641, Sulbar', 'Jakarta Selatan', '(+62) 875 8135 0291', 'retail', 20, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(85, 'CUST-8121', 'Yayasan Wastuti Saefullah', '3577184832637773', '76.588.452.6-158.000', 'Jr. Moch. Yamin No. 687, Bitung 33220, Babel', 'Jakarta Selatan', '(+62) 22 7404 1782', 'Distributor', 20, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(86, 'CUST-7734', 'PJ Mulyani Fujiati Tbk', '3574282841366240', '22.665.116.5-644.000', 'Kpg. Reksoninten No. 789, Administrasi Jakarta Selatan 56333, Kepri', 'Jakarta Selatan', '(+62) 706 5470 0313', 'general', 21, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(87, 'CUST-5545', 'Perum Kusumo Tbk', '3571732414831565', '74.308.207.6-535.000', 'Gg. Yosodipuro No. 685, Samarinda 89555, Jatim', 'Jakarta Selatan', '0911 2616 8327', 'retail', 21, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(88, 'CUST-7026', 'Yayasan Novitasari', '3577317032121552', '17.258.628.9-500.000', 'Gg. Labu No. 799, Palopo 72074, Kaltara', 'Jakarta Selatan', '(+62) 652 3256 0739', 'general', 21, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(89, 'CUST-2478', 'Perum Firmansyah (Persero) Tbk', '3572586041658506', '46.778.883.7-674.000', 'Gg. Eka No. 98, Pekalongan 40352, NTB', 'Jakarta Selatan', '(+62) 410 3505 341', 'Distributor', 21, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(90, 'CUST-2547', 'CV Prastuti Pratiwi (Persero) Tbk', '3579679149062146', '82.928.945.7-496.000', 'Ds. Pintu Besar Selatan No. 359, Sibolga 15566, Banten', 'Jakarta Selatan', '(+62) 363 4931 441', 'general', 21, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
 (91, 'CUST-4593', 'Perum Kuswandari Widiastuti Tbk', '3578043037790295', '15.354.842.1-196.000', 'Gg. Cut Nyak Dien No. 88, Mojokerto 52032, Kaltim', 'Bandung', '0988 4763 3774', 'general', 23, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(92, 'CUST-6465', 'Yayasan Astuti Maryadi (Persero) Tbk', '3579599546619021', '45.361.624.2-931.000', 'Ki. Tambak No. 611, Ambon 44592, Kalteng', 'Bandung', '(+62) 28 3442 3505', 'wholesale', 23, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
+(92, 'CUST-6465', 'Yayasan Astuti Maryadi (Persero) Tbk', '3579599546619021', '45.361.624.2-931.000', 'Ki. Tambak No. 611, Ambon 44592, Kalteng', 'Bandung', '(+62) 28 3442 3505', 'Distributor', 23, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
 (93, 'CUST-7880', 'PJ Prastuti Marbun', '3571745375916021', '72.334.915.8-512.000', 'Jln. Pasirkoja No. 637, Tanjungbalai 11933, Sumut', 'Bandung', '0642 8725 418', 'general', 23, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
 (94, 'CUST-1685', 'Yayasan Yolanda Sudiati', '3570644696823672', '53.931.349.9-211.000', 'Jr. Elang No. 747, Banda Aceh 91246, Kalsel', 'Bandung', '0474 4519 446', 'retail', 23, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
 (95, 'CUST-8298', 'PD Nasyidah Hartati Tbk', '3572591734515762', '20.248.772.2-135.000', 'Jr. Flora No. 176, Pagar Alam 13057, Sultra', 'Bandung', '0414 0893 635', 'general', 23, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(96, 'CUST-8435', 'PT Kuswandari Tbk', '3574742983259213', '49.970.824.3-747.000', 'Jln. Fajar No. 262, Sukabumi 99791, Sulsel', 'Bandung', '0848 5828 0111', 'wholesale', 24, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
+(96, 'CUST-8435', 'PT Kuswandari Tbk', '3574742983259213', '49.970.824.3-747.000', 'Jln. Fajar No. 262, Sukabumi 99791, Sulsel', 'Bandung', '0848 5828 0111', 'Distributor', 24, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
 (97, 'CUST-2686', 'Perum Zulkarnain Purnawati (Persero) Tbk', '3574634864092063', '97.712.677.7-512.000', 'Psr. R.E. Martadinata No. 375, Tanjung Pinang 63911, Jatim', 'Bandung', '(+62) 326 5170 411', 'general', 24, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
 (98, 'CUST-6911', 'PJ Wibowo', '3571957194421822', '54.897.927.8-385.000', 'Ki. Dago No. 497, Jambi 76623, Aceh', 'Bandung', '(+62) 26 6185 8100', 'retail', 24, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
 (99, 'CUST-3329', 'Perum Yuniar', '3573005888522671', '43.426.933.9-179.000', 'Gg. Bah Jaya No. 887, Tebing Tinggi 33213, Jatim', 'Bandung', '(+62) 286 8651 935', 'retail', 24, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(100, 'CUST-0778', 'Perum Rajata Tbk', '3570812572960763', '12.701.581.6-636.000', 'Ki. Abdullah No. 205, Surabaya 75691, DKI', 'Bandung', '0851 4182 413', 'wholesale', 24, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
+(100, 'CUST-0778', 'Perum Rajata Tbk', '3570812572960763', '12.701.581.6-636.000', 'Ki. Abdullah No. 205, Surabaya 75691, DKI', 'Bandung', '0851 4182 413', 'Distributor', 24, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
 (101, 'CUST-0757', 'PJ Narpati Tbk', '3579395649299305', '21.136.248.7-692.000', 'Kpg. Panjaitan No. 427, Palembang 34669, Sultra', 'Bandung', '(+62) 569 2886 334', 'general', 25, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
 (102, 'CUST-9107', 'Yayasan Tamba Nugroho (Persero) Tbk', '3570078463101023', '63.317.108.7-391.000', 'Jr. Baranang No. 575, Administrasi Jakarta Utara 25730, Papua', 'Bandung', '0347 6068 392', 'general', 25, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
 (103, 'CUST-4067', 'CV Hassanah', '3577804704619677', '52.420.336.7-596.000', 'Kpg. Jaksa No. 729, Tanjung Pinang 26331, Aceh', 'Bandung', '0843 5601 318', 'general', 25, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
 (104, 'CUST-3783', 'Fa Lestari Tbk', '3576244848526651', '38.928.698.6-443.000', 'Kpg. Gajah No. 305, Sawahlunto 47776, Jateng', 'Bandung', '(+62) 468 2893 8738', 'retail', 25, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
 (105, 'CUST-1287', 'PD Rajasa Susanti (Persero) Tbk', '3571733088233875', '11.980.942.1-479.000', 'Ds. Ciumbuleuit No. 11, Jambi 60473, Kaltim', 'Bandung', '(+62) 28 0687 011', 'retail', 25, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(106, 'CUST-3585', 'PD Hidayat Tbk', '3579537197902279', '28.353.834.8-587.000', 'Psr. Otista No. 269, Balikpapan 18031, NTT', 'Bandung', '(+62) 658 3673 542', 'retail', 26, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(107, 'CUST-3549', 'PJ Pranowo Astuti', '3572970255379053', '91.706.257.7-326.000', 'Ds. Soekarno Hatta No. 644, Depok 72918, Bengkulu', 'Bandung', '(+62) 621 2257 596', 'retail', 26, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(108, 'CUST-4156', 'PT Agustina Yulianti (Persero) Tbk', '3572063552969471', '17.662.157.1-774.000', 'Gg. Veteran No. 430, Cimahi 62299, Gorontalo', 'Bandung', '(+62) 635 3111 766', 'retail', 26, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(109, 'CUST-8578', 'UD Pradipta Yolanda (Persero) Tbk', '3570255758804337', '31.808.598.2-997.000', 'Ds. Ki Hajar Dewantara No. 193, Pagar Alam 65292, DKI', 'Bandung', '0957 1418 887', 'general', 26, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(110, 'CUST-9945', 'PD Laksmiwati (Persero) Tbk', '3579072134858036', '17.595.162.9-439.000', 'Gg. Moch. Ramdan No. 962, Pasuruan 91040, Jabar', 'Bandung', '(+62) 381 8322 460', 'wholesale', 26, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(111, 'CUST-4732', 'Perum Megantara Siregar', '3572631699065888', '48.953.789.6-209.000', 'Psr. Ters. Jakarta No. 480, Balikpapan 90778, NTT', 'Bandung', '(+62) 976 5005 0709', 'retail', 27, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(112, 'CUST-5882', 'PT Dabukke Siregar', '3570433265631818', '43.514.543.9-957.000', 'Jln. Sugiono No. 855, Pekalongan 11946, Lampung', 'Bandung', '(+62) 29 8618 5481', 'retail', 27, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(113, 'CUST-7826', 'Fa Iswahyudi', '3574778611859424', '97.958.539.4-777.000', 'Gg. Rajawali No. 656, Tangerang 73494, Riau', 'Bandung', '(+62) 908 5291 657', 'general', 27, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(114, 'CUST-8199', 'PT Novitasari Tbk', '3571627499165943', '12.123.401.8-133.000', 'Kpg. Bawal No. 915, Semarang 49730, Sulbar', 'Bandung', '0620 5609 1764', 'retail', 27, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(115, 'CUST-2964', 'PJ Prastuti', '3577732353001379', '59.935.683.7-111.000', 'Dk. Gatot Subroto No. 364, Manado 88367, Sumsel', 'Bandung', '(+62) 429 5003 8491', 'wholesale', 27, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(116, 'CUST-2237', 'CV Tamba', '3570692466868139', '22.465.225.1-230.000', 'Jr. Sukabumi No. 873, Denpasar 40506, Kalteng', 'Bandung', '0468 8748 291', 'retail', 28, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(117, 'CUST-4223', 'Yayasan Usada Zulaika', '3579828868667278', '46.318.939.8-643.000', 'Kpg. Banda No. 427, Palembang 30514, DIY', 'Bandung', '0790 6046 971', 'general', 28, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(118, 'CUST-9913', 'Perum Sudiati Maulana Tbk', '3575023588482045', '85.693.559.3-508.000', 'Kpg. Honggowongso No. 519, Sibolga 75861, Kaltim', 'Bandung', '0392 7654 745', 'wholesale', 28, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(119, 'CUST-6180', 'Yayasan Fujiati', '3570039519494087', '63.572.954.4-310.000', 'Jr. Baranang No. 436, Ternate 51804, Sulut', 'Bandung', '0938 0864 317', 'general', 28, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(120, 'CUST-7923', 'Fa Anggriawan Tbk', '3574284272957615', '86.763.489.3-745.000', 'Psr. Baranang Siang No. 486, Tangerang Selatan 52469, Jabar', 'Bandung', '(+62) 578 1435 4206', 'general', 28, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(121, 'CUST-4690', 'CV Hutapea', '3570882348747995', '42.361.593.5-733.000', 'Kpg. Nanas No. 412, Mojokerto 43490, NTB', 'Semarang', '0967 1779 999', 'retail', 30, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(122, 'CUST-8866', 'PD Hartati Permadi', '3576652401777956', '87.578.332.7-647.000', 'Jr. Wahidin Sudirohusodo No. 84, Bima 59719, Sulsel', 'Semarang', '021 6428 3799', 'retail', 30, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(123, 'CUST-8669', 'CV Rahmawati Hassanah', '3577797480998739', '96.470.358.7-161.000', 'Psr. Reksoninten No. 122, Subulussalam 39563, Banten', 'Semarang', '0693 8308 3999', 'wholesale', 30, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(124, 'CUST-0404', 'Fa Marbun', '3572391394409364', '80.475.661.8-293.000', 'Kpg. Balikpapan No. 424, Cirebon 89030, Sulsel', 'Semarang', '(+62) 835 7093 5052', 'retail', 30, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(125, 'CUST-4660', 'CV Mangunsong', '3573816515207958', '75.891.332.3-736.000', 'Dk. Wahidin No. 758, Tegal 43417, Babel', 'Semarang', '(+62) 320 0538 243', 'retail', 30, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(126, 'CUST-2251', 'Perum Wibisono', '3578275307972422', '31.202.680.6-120.000', 'Gg. Antapani Lama No. 204, Tanjungbalai 63847, Sumsel', 'Semarang', '(+62) 267 5784 297', 'retail', 31, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(127, 'CUST-3092', 'PJ Permadi', '3577552836584709', '45.148.955.5-896.000', 'Jln. Rajawali Timur No. 905, Lhokseumawe 73731, Sulsel', 'Semarang', '0985 7390 4739', 'wholesale', 31, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(128, 'CUST-4233', 'PT Purnawati', '3578434675339780', '28.713.793.1-510.000', 'Jln. PHH. Mustofa No. 341, Kediri 78578, DKI', 'Semarang', '028 5439 778', 'general', 31, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(129, 'CUST-9080', 'PD Lailasari', '3570153120480272', '86.997.881.9-634.000', 'Gg. Setia Budi No. 911, Tomohon 84818, Kepri', 'Semarang', '0926 7508 3139', 'general', 31, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(130, 'CUST-3425', 'PJ Pratama Maulana (Persero) Tbk', '3575980102656153', '76.108.620.5-296.000', 'Gg. Jambu No. 481, Batam 76997, DKI', 'Semarang', '0726 7478 0858', 'wholesale', 31, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(131, 'CUST-8157', 'PT Maryati Tarihoran Tbk', '3571807233577514', '84.378.871.6-330.000', 'Ds. Gading No. 631, Kotamobagu 81464, Bengkulu', 'Semarang', '(+62) 823 9698 7974', 'general', 32, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(132, 'CUST-2153', 'Perum Mardhiyah Tbk', '3576893407124027', '90.432.354.9-136.000', 'Kpg. Bakin No. 667, Kendari 89423, Lampung', 'Semarang', '0678 4822 516', 'retail', 32, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(133, 'CUST-1205', 'Yayasan Mandasari Yulianti Tbk', '3579969585319609', '47.819.135.7-521.000', 'Kpg. Sutarto No. 453, Tangerang Selatan 89901, Kaltim', 'Semarang', '0780 7000 969', 'general', 32, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(134, 'CUST-8893', 'CV Simbolon', '3574628796598410', '91.132.571.5-882.000', 'Psr. Bakit  No. 460, Tarakan 21634, Jambi', 'Semarang', '0652 2933 1525', 'wholesale', 32, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(135, 'CUST-0023', 'PT Maryadi Purwanti (Persero) Tbk', '3575976249354121', '55.375.706.4-325.000', 'Dk. Bambu No. 591, Tual 50859, Kepri', 'Semarang', '0841 4298 7672', 'wholesale', 32, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(136, 'CUST-0407', 'CV Iswahyudi Damanik', '3577141156868846', '23.515.764.3-220.000', 'Jr. Yos Sudarso No. 374, Jayapura 11773, Malut', 'Semarang', '(+62) 925 6000 883', 'wholesale', 33, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(137, 'CUST-1744', 'CV Saragih', '3577772536955233', '59.250.153.4-166.000', 'Ki. Jaksa No. 693, Surabaya 63505, Kalsel', 'Semarang', '(+62) 700 4721 4822', 'retail', 33, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(138, 'CUST-9502', 'CV Damanik', '3577465883837592', '16.120.279.6-654.000', 'Ki. Dewi Sartika No. 492, Pagar Alam 82915, Babel', 'Semarang', '(+62) 748 3252 005', 'retail', 33, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(139, 'CUST-1750', 'PJ Haryanti (Persero) Tbk', '3570765627730762', '14.493.548.1-901.000', 'Jr. Bak Mandi No. 178, Bau-Bau 51662, Gorontalo', 'Semarang', '022 4724 011', 'wholesale', 33, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(140, 'CUST-4752', 'UD Anggraini Pangestu', '3577750847811628', '42.796.991.2-769.000', 'Dk. Astana Anyar No. 604, Gunungsitoli 61646, Riau', 'Semarang', '(+62) 450 6929 7440', 'general', 33, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(141, 'CUST-4722', 'UD Setiawan Halim Tbk', '3573402567915829', '77.304.497.7-491.000', 'Ds. Agus Salim No. 252, Mataram 27722, Maluku', 'Semarang', '(+62) 28 3962 535', 'wholesale', 34, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(142, 'CUST-2661', 'PJ Yuniar Sihotang', '3573918796482850', '78.377.416.6-184.000', 'Jln. Dipatiukur No. 546, Lhokseumawe 59276, Sumut', 'Semarang', '0526 2102 3095', 'general', 34, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(143, 'CUST-2262', 'PT Waskita Winarsih', '3578896156697905', '64.637.997.5-556.000', 'Jr. Banda No. 787, Prabumulih 77717, Jateng', 'Semarang', '(+62) 976 4132 468', 'retail', 34, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(144, 'CUST-2573', 'Fa Sihombing (Persero) Tbk', '3571982647638775', '15.830.476.7-329.000', 'Psr. Kyai Mojo No. 378, Pontianak 35868, Jambi', 'Semarang', '0859 802 463', 'wholesale', 34, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(145, 'CUST-1942', 'PJ Agustina', '3571232719076183', '93.159.605.9-446.000', 'Psr. Yap Tjwan Bing No. 233, Binjai 35044, NTT', 'Semarang', '(+62) 308 4828 135', 'wholesale', 34, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(146, 'CUST-7884', 'Perum Simanjuntak Haryanto (Persero) Tbk', '3575152094292149', '67.545.738.6-902.000', 'Dk. Gajah Mada No. 794, Mataram 47252, Kalteng', 'Semarang', '(+62) 489 4504 8370', 'general', 35, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(147, 'CUST-8000', 'Yayasan Nashiruddin', '3572391356912186', '13.502.207.6-913.000', 'Jr. Banda No. 687, Binjai 94666, Aceh', 'Semarang', '(+62) 804 638 589', 'wholesale', 35, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(148, 'CUST-3670', 'UD Pratiwi Zulkarnain (Persero) Tbk', '3570764427660446', '89.453.101.1-429.000', 'Ki. Jambu No. 554, Batu 93312, Maluku', 'Semarang', '(+62) 282 5418 149', 'general', 35, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(149, 'CUST-9350', 'Fa Putra Adriansyah', '3572975867831352', '39.395.382.2-530.000', 'Dk. Nangka No. 689, Tegal 94108, Kaltim', 'Semarang', '023 8592 694', 'wholesale', 35, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33'),
-(150, 'CUST-3330', 'PT Prastuti', '3579669028735099', '23.802.973.8-454.000', 'Gg. Bara No. 998, Banjarbaru 32202, DKI', 'Semarang', '(+62) 233 9480 4425', 'wholesale', 35, 'active', '2026-05-17 19:09:01', '2026-05-17 19:47:33');
+(106, 'CUST-3585', 'PD Hidayat Tbk', '3579537197902279', '28.353.834.8-587.000', 'Psr. Otista No. 269, Balikpapan 18031, NTT', 'Bogor', '(+62) 658 3673 542', 'retail', 26, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(107, 'CUST-3549', 'PJ Pranowo Astuti', '3572970255379053', '91.706.257.7-326.000', 'Ds. Soekarno Hatta No. 644, Depok 72918, Bengkulu', 'Bogor', '(+62) 621 2257 596', 'retail', 26, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(108, 'CUST-4156', 'PT Agustina Yulianti (Persero) Tbk', '3572063552969471', '17.662.157.1-774.000', 'Gg. Veteran No. 430, Cimahi 62299, Gorontalo', 'Bogor', '(+62) 635 3111 766', 'retail', 26, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(109, 'CUST-8578', 'UD Pradipta Yolanda (Persero) Tbk', '3570255758804337', '31.808.598.2-997.000', 'Ds. Ki Hajar Dewantara No. 193, Pagar Alam 65292, DKI', 'Bogor', '0957 1418 887', 'general', 26, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(110, 'CUST-9945', 'PD Laksmiwati (Persero) Tbk', '3579072134858036', '17.595.162.9-439.000', 'Gg. Moch. Ramdan No. 962, Pasuruan 91040, Jabar', 'Bogor', '(+62) 381 8322 460', 'Distributor', 26, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(111, 'CUST-4732', 'Perum Megantara Siregar', '3572631699065888', '48.953.789.6-209.000', 'Psr. Ters. Jakarta No. 480, Balikpapan 90778, NTT', 'Bogor', '(+62) 976 5005 0709', 'retail', 27, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(112, 'CUST-5882', 'PT Dabukke Siregar', '3570433265631818', '43.514.543.9-957.000', 'Jln. Sugiono No. 855, Pekalongan 11946, Lampung', 'Bogor', '(+62) 29 8618 5481', 'retail', 27, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(113, 'CUST-7826', 'Fa Iswahyudi', '3574778611859424', '97.958.539.4-777.000', 'Gg. Rajawali No. 656, Tangerang 73494, Riau', 'Bogor', '(+62) 908 5291 657', 'general', 27, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(114, 'CUST-8199', 'PT Novitasari Tbk', '3571627499165943', '12.123.401.8-133.000', 'Kpg. Bawal No. 915, Semarang 49730, Sulbar', 'Bogor', '0620 5609 1764', 'retail', 27, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(115, 'CUST-2964', 'PJ Prastuti', '3577732353001379', '59.935.683.7-111.000', 'Dk. Gatot Subroto No. 364, Manado 88367, Sumsel', 'Bogor', '(+62) 429 5003 8491', 'Distributor', 27, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(116, 'CUST-2237', 'CV Tamba', '3570692466868139', '22.465.225.1-230.000', 'Jr. Sukabumi No. 873, Denpasar 40506, Kalteng', 'Bogor', '0468 8748 291', 'retail', 28, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(117, 'CUST-4223', 'Yayasan Usada Zulaika', '3579828868667278', '46.318.939.8-643.000', 'Kpg. Banda No. 427, Palembang 30514, DIY', 'Bogor', '0790 6046 971', 'general', 28, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(118, 'CUST-9913', 'Perum Sudiati Maulana Tbk', '3575023588482045', '85.693.559.3-508.000', 'Kpg. Honggowongso No. 519, Sibolga 75861, Kaltim', 'Bogor', '0392 7654 745', 'Distributor', 28, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(119, 'CUST-6180', 'Yayasan Fujiati', '3570039519494087', '63.572.954.4-310.000', 'Jr. Baranang No. 436, Ternate 51804, Sulut', 'Bogor', '0938 0864 317', 'general', 28, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(120, 'CUST-7923', 'Fa Anggriawan Tbk', '3574284272957615', '86.763.489.3-745.000', 'Psr. Baranang Siang No. 486, Tangerang Selatan 52469, Jabar', 'Bogor', '(+62) 578 1435 4206', 'general', 28, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(121, 'CUST-4690', 'CV Hutapea', '3570882348747995', '42.361.593.5-733.000', 'Kpg. Nanas No. 412, Mojokerto 43490, NTB', 'Surabaya', '0967 1779 999', 'retail', 30, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(122, 'CUST-8866', 'PD Hartati Permadi', '3576652401777956', '87.578.332.7-647.000', 'Jr. Wahidin Sudirohusodo No. 84, Bima 59719, Sulsel', 'Surabaya', '021 6428 3799', 'retail', 30, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(123, 'CUST-8669', 'CV Rahmawati Hassanah', '3577797480998739', '96.470.358.7-161.000', 'Psr. Reksoninten No. 122, Subulussalam 39563, Banten', 'Surabaya', '0693 8308 3999', 'Distributor', 30, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(124, 'CUST-0404', 'Fa Marbun', '3572391394409364', '80.475.661.8-293.000', 'Kpg. Balikpapan No. 424, Cirebon 89030, Sulsel', 'Surabaya', '(+62) 835 7093 5052', 'retail', 30, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(125, 'CUST-4660', 'CV Mangunsong', '3573816515207958', '75.891.332.3-736.000', 'Dk. Wahidin No. 758, Tegal 43417, Babel', 'Surabaya', '(+62) 320 0538 243', 'retail', 30, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(126, 'CUST-2251', 'Perum Wibisono', '3578275307972422', '31.202.680.6-120.000', 'Gg. Antapani Lama No. 204, Tanjungbalai 63847, Sumsel', 'Surabaya', '(+62) 267 5784 297', 'retail', 31, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(127, 'CUST-3092', 'PJ Permadi', '3577552836584709', '45.148.955.5-896.000', 'Jln. Rajawali Timur No. 905, Lhokseumawe 73731, Sulsel', 'Surabaya', '0985 7390 4739', 'Distributor', 31, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(128, 'CUST-4233', 'PT Purnawati', '3578434675339780', '28.713.793.1-510.000', 'Jln. PHH. Mustofa No. 341, Kediri 78578, DKI', 'Surabaya', '028 5439 778', 'general', 31, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(129, 'CUST-9080', 'PD Lailasari', '3570153120480272', '86.997.881.9-634.000', 'Gg. Setia Budi No. 911, Tomohon 84818, Kepri', 'Surabaya', '0926 7508 3139', 'general', 31, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(130, 'CUST-3425', 'PJ Pratama Maulana (Persero) Tbk', '3575980102656153', '76.108.620.5-296.000', 'Gg. Jambu No. 481, Batam 76997, DKI', 'Surabaya', '0726 7478 0858', 'Distributor', 31, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(131, 'CUST-8157', 'PT Maryati Tarihoran Tbk', '3571807233577514', '84.378.871.6-330.000', 'Ds. Gading No. 631, Kotamobagu 81464, Bengkulu', 'Surabaya', '(+62) 823 9698 7974', 'general', 32, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(132, 'CUST-2153', 'Perum Mardhiyah Tbk', '3576893407124027', '90.432.354.9-136.000', 'Kpg. Bakin No. 667, Kendari 89423, Lampung', 'Surabaya', '0678 4822 516', 'retail', 32, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(133, 'CUST-1205', 'Yayasan Mandasari Yulianti Tbk', '3579969585319609', '47.819.135.7-521.000', 'Kpg. Sutarto No. 453, Tangerang Selatan 89901, Kaltim', 'Surabaya', '0780 7000 969', 'general', 32, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(134, 'CUST-8893', 'CV Simbolon', '3574628796598410', '91.132.571.5-882.000', 'Psr. Bakit  No. 460, Tarakan 21634, Jambi', 'Surabaya', '0652 2933 1525', 'Distributor', 32, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(135, 'CUST-0023', 'PT Maryadi Purwanti (Persero) Tbk', '3575976249354121', '55.375.706.4-325.000', 'Dk. Bambu No. 591, Tual 50859, Kepri', 'Surabaya', '0841 4298 7672', 'Distributor', 32, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(136, 'CUST-0407', 'CV Iswahyudi Damanik', '3577141156868846', '23.515.764.3-220.000', 'Jr. Yos Sudarso No. 374, Jayapura 11773, Malut', 'Malang', '(+62) 925 6000 883', 'Distributor', 33, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(137, 'CUST-1744', 'CV Saragih', '3577772536955233', '59.250.153.4-166.000', 'Ki. Jaksa No. 693, Surabaya 63505, Kalsel', 'Malang', '(+62) 700 4721 4822', 'retail', 33, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(138, 'CUST-9502', 'CV Damanik', '3577465883837592', '16.120.279.6-654.000', 'Ki. Dewi Sartika No. 492, Pagar Alam 82915, Babel', 'Malang', '(+62) 748 3252 005', 'retail', 33, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(139, 'CUST-1750', 'PJ Haryanti (Persero) Tbk', '3570765627730762', '14.493.548.1-901.000', 'Jr. Bak Mandi No. 178, Bau-Bau 51662, Gorontalo', 'Malang', '022 4724 011', 'Distributor', 33, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(140, 'CUST-4752', 'UD Anggraini Pangestu', '3577750847811628', '42.796.991.2-769.000', 'Dk. Astana Anyar No. 604, Gunungsitoli 61646, Riau', 'Malang', '(+62) 450 6929 7440', 'general', 33, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(141, 'CUST-4722', 'UD Setiawan Halim Tbk', '3573402567915829', '77.304.497.7-491.000', 'Ds. Agus Salim No. 252, Mataram 27722, Maluku', 'Malang', '(+62) 28 3962 535', 'Distributor', 34, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(142, 'CUST-2661', 'PJ Yuniar Sihotang', '3573918796482850', '78.377.416.6-184.000', 'Jln. Dipatiukur No. 546, Lhokseumawe 59276, Sumut', 'Malang', '0526 2102 3095', 'general', 34, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(143, 'CUST-2262', 'PT Waskita Winarsih', '3578896156697905', '64.637.997.5-556.000', 'Jr. Banda No. 787, Prabumulih 77717, Jateng', 'Malang', '(+62) 976 4132 468', 'retail', 34, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(144, 'CUST-2573', 'Fa Sihombing (Persero) Tbk', '3571982647638775', '15.830.476.7-329.000', 'Psr. Kyai Mojo No. 378, Pontianak 35868, Jambi', 'Malang', '0859 802 463', 'Distributor', 34, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(145, 'CUST-1942', 'PJ Agustina', '3571232719076183', '93.159.605.9-446.000', 'Psr. Yap Tjwan Bing No. 233, Binjai 35044, NTT', 'Malang', '(+62) 308 4828 135', 'Distributor', 34, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(146, 'CUST-7884', 'Perum Simanjuntak Haryanto (Persero) Tbk', '3575152094292149', '67.545.738.6-902.000', 'Dk. Gajah Mada No. 794, Mataram 47252, Kalteng', 'Malang', '(+62) 489 4504 8370', 'general', 35, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(147, 'CUST-8000', 'Yayasan Nashiruddin', '3572391356912186', '13.502.207.6-913.000', 'Jr. Banda No. 687, Binjai 94666, Aceh', 'Malang', '(+62) 804 638 589', 'Distributor', 35, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(148, 'CUST-3670', 'UD Pratiwi Zulkarnain (Persero) Tbk', '3570764427660446', '89.453.101.1-429.000', 'Ki. Jambu No. 554, Batu 93312, Maluku', 'Malang', '(+62) 282 5418 149', 'general', 35, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(149, 'CUST-9350', 'Fa Putra Adriansyah', '3572975867831352', '39.395.382.2-530.000', 'Dk. Nangka No. 689, Tegal 94108, Kaltim', 'Malang', '023 8592 694', 'Distributor', 35, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10'),
+(150, 'CUST-3330', 'PT Prastuti', '3579669028735099', '23.802.973.8-454.000', 'Gg. Bara No. 998, Banjarbaru 32202, DKI', 'Malang', '(+62) 233 9480 4425', 'Distributor', 35, 'active', '2026-05-17 19:09:01', '2026-05-18 23:47:10');
 
 -- --------------------------------------------------------
 
@@ -1200,7 +1200,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (37, '2026_05_06_084152_change_pks_to_codes', 14),
 (38, '2026_05_18_023729_add_nik_and_npwp_to_customers_table', 15),
 (39, '2026_05_18_054804_make_area_nullable_in_salesmen_table', 16),
-(40, '2026_05_19_100331_create_sale_histories_table', 17);
+(40, '2026_05_19_100331_create_sale_histories_table', 17),
+(41, '2026_05_19_130554_drop_nip_from_users_table', 18);
 
 -- --------------------------------------------------------
 
@@ -2508,7 +2509,7 @@ INSERT INTO `products` (`code`, `name`, `category_id`, `supplier_code`, `price`,
 ('PMG2-007-9EF9', 'NUTELLA HAZELNUT SPREAD 350G', 3, 'SPL-MGR029-002', 5040.00, 196, '2026-05-18 18:30:52', '2026-05-18 18:31:25'),
 ('PMG2-008-6876', 'TANGO WAFER VANILLA 130G', 3, 'SPL-MGR001-002', 13376.00, 307, '2026-05-18 18:30:52', '2026-05-18 18:31:25'),
 ('PMG2-008-93E4', 'NESCAFE CLASSIC KOPI INSTAN 100G', 4, 'SPL-MGR029-002', 21803.00, 656, '2026-05-18 18:30:52', '2026-05-18 18:31:25'),
-('PMG2-008-BA07', 'AQUA AIR MINERAL BOTOL 600ML', 2, 'SPL-MGR008-002', 26876.00, 854, '2026-05-18 18:30:52', '2026-05-18 18:31:25'),
+('PMG2-008-BA07', 'AQUA AIR MINERAL BOTOL 600ML', 2, 'SPL-MGR008-002', 26876.00, 854, '2026-05-18 18:30:52', '2026-06-12 02:00:49'),
 ('PMG2-008-BD0B', 'DAIA DETERGEN PUTIH BUNGKUS 850G', 4, 'SPL-MGR022-002', 18903.00, 398, '2026-05-18 18:30:52', '2026-05-18 18:31:25'),
 ('PMG2-009-0D5B', 'TANGO WAFER COKELAT 130G', 2, 'SPL-MGR022-002', 26609.00, 189, '2026-05-18 18:30:52', '2026-05-18 18:31:25'),
 ('PMG2-009-8159', 'ULTRA MILK COKELAT UHT 250ML', 1, 'SPL-MGR001-002', 74192.00, 196, '2026-05-18 18:30:52', '2026-05-18 18:31:25'),
@@ -3256,7 +3257,7 @@ CREATE TABLE `salesman_transfers` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `salesman_id` bigint(20) UNSIGNED NOT NULL,
   `from_supervisor_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `to_supervisor_id` bigint(20) UNSIGNED NOT NULL,
+  `to_supervisor_id` bigint(20) UNSIGNED DEFAULT NULL,
   `requested_by` bigint(20) UNSIGNED NOT NULL,
   `approved_by` bigint(20) UNSIGNED DEFAULT NULL,
   `reason` text DEFAULT NULL,
@@ -3264,6 +3265,14 @@ CREATE TABLE `salesman_transfers` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `salesman_transfers`
+--
+
+INSERT INTO `salesman_transfers` (`id`, `salesman_id`, `from_supervisor_id`, `to_supervisor_id`, `requested_by`, `approved_by`, `reason`, `status`, `created_at`, `updated_at`) VALUES
+(1, 20, 19, NULL, 99, 1, 'adalah pokok nya', 'rejected', '2026-05-19 00:07:03', '2026-05-19 00:07:37'),
+(2, 3, 1, 12, 49, 1, 'a', 'rejected', '2026-05-20 00:58:01', '2026-05-20 00:58:18');
 
 -- --------------------------------------------------------
 
@@ -4760,7 +4769,14 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('CbcblY6P2Cazrf8qG38UAjw4rJZHycgOIYWMWYQ3', 1, '192.168.1.3', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoibGtFTDdlWFA3c3ZlRWY1SUd1T1RqVk44YTdWbHhwV2ZwMkhFYXJWayI7czozOiJ1cmwiO2E6MDp7fXM6OToiX3ByZXZpb3VzIjthOjI6e3M6MzoidXJsIjtzOjMzOiJodHRwOi8vMTkyLjE2OC4xLjMvc2FsZS80MTgvcHJpbnQiO3M6NToicm91dGUiO3M6MTA6InNhbGUucHJpbnQiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO30=', 1779159938);
+('6beKM6o3uTvabJj1WpbXVsF9CZMetlwAtSna3kpa', NULL, '192.168.1.237', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiblZxeDAzb3lKTkhoTlBqQlhEbVBLOEFVd3JEN0NuN1VJTlhBa0VQdiI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MTk6Imh0dHA6Ly8xOTIuMTY4LjEuNDkiO3M6NToicm91dGUiO047fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1781861933),
+('A4TuoNBzTWjnFlpmgHmz7VJ7FpnjxwWkH2hzK4lg', 1, '192.168.1.3', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoia1d6WGN1ZUZnMXIyS0ZwbFh3c3ZWRU5UTHp4eVdkNWdadmdDaWhZdyI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjM6Imh0dHA6Ly8xOTIuMTY4LjEuMy91c2VyIjtzOjU6InJvdXRlIjtzOjEwOiJ1c2VyLmluZGV4Ijt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czozOiJ1cmwiO2E6MDp7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7fQ==', 1781255110),
+('e4T6XOhzESC7hkXQ0E2LVSLuDkubj5Ef1X59lUj4', 1, '192.168.1.3', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiRWJhdzNMVVh6VGNGeFlwTm1OVkh3aXpjd1BZU3RiTXJlbFg1YWhydyI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly8xOTIuMTY4LjEuMy9zdXBwbGllciI7czo1OiJyb3V0ZSI7czoxNDoic3VwcGxpZXIuaW5kZXgiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjM6InVybCI7YTowOnt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTt9', 1781603867),
+('k43JDYqr4xNq6VchSxOqhXwF9y7AYZGlBwRk9Nis', NULL, '192.168.1.3', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiZVl6VHk2NHJRSWpZbmUydjN6ZHJWSzJjVUppUW5nYjNQbUNJWnM4biI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MTg6Imh0dHA6Ly8xOTIuMTY4LjEuMyI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1781686166),
+('SKQ9Nw1SDMquLKQY85igZirazrIIv9lm6qAr9MZw', 1, '192.168.1.3', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiNHVJVUhGdEFsNUw2UEhXa0RJaXBiMlVEbVZmWHVmUXVWQVk0N3M2RCI7czozOiJ1cmwiO2E6MDp7fXM6OToiX3ByZXZpb3VzIjthOjI6e3M6MzoidXJsIjtzOjI3OiJodHRwOi8vMTkyLjE2OC4xLjMvc2FsZXNtYW4iO3M6NToicm91dGUiO3M6MTQ6InNhbGVzbWFuLmluZGV4Ijt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTt9', 1781364797),
+('sXCMUHnom9WZrvXxTZIjHYmSS6iWKWLk6DkslWFL', 1, '192.168.1.49', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiU0l2SGFnbm9JWkJYSUdydzlRWUM5dDZZT29zTnZkNFNpQ0tBRFdPYiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mjk6Imh0dHA6Ly8xOTIuMTY4LjEuNDkvZGFzaGJvYXJkIjtzOjU6InJvdXRlIjtzOjk6ImRhc2hib2FyZCI7fXM6MzoidXJsIjthOjA6e31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO30=', 1781939416),
+('ThsyPKfgYT5Yxh5532DzQVaxBRqWmnjTBhyUWK6p', 1, '192.168.1.49', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoieFBmN1hzOGhnVlMxelp0cERFMUM2M0tHblIxMTZiZmt0eUpyUVo0NCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly8xOTIuMTY4LjEuNDkvc2FsZS9jcmVhdGUiO3M6NToicm91dGUiO3M6MTE6InNhbGUuY3JlYXRlIjt9czozOiJ1cmwiO2E6MDp7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7fQ==', 1781858125),
+('vzld1xZmTk3lCGD1pj7LoXvqrUcOeKDZafFrRZLB', 1, '192.168.1.3', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiT01mWWdoVnVzUXdGTThMQW54Slg3c0xyZ2htbkNwbkR2TnIxbHlGTiI7czozOiJ1cmwiO2E6MDp7fXM6OToiX3ByZXZpb3VzIjthOjI6e3M6MzoidXJsIjtzOjI0OiJodHRwOi8vMTkyLjE2OC4xLjMvcHJpY2UiO3M6NToicm91dGUiO3M6MTE6InByaWNlLmluZGV4Ijt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTt9', 1781483951);
 
 -- --------------------------------------------------------
 
@@ -4824,7 +4840,6 @@ CREATE TABLE `users` (
   `name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `nik` varchar(16) DEFAULT NULL,
-  `nip` varchar(20) DEFAULT NULL,
   `profesi` varchar(255) DEFAULT NULL,
   `phone` varchar(15) DEFAULT NULL,
   `address` text DEFAULT NULL,
@@ -4844,40 +4859,40 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `nik`, `nip`, `profesi`, `phone`, `address`, `gender`, `birth_date`, `email_verified_at`, `password`, `role`, `profile_photo_path`, `remember_token`, `created_at`, `updated_at`, `salesman_id`) VALUES
-(1, 'Maulana Riswan', 'admin@mail.com', '1173011602010005', NULL, 'IT', '081261218015', 'Jl. Tgk Wahab Dahlawi\r\nPaya Puenteuet', 'L', '2001-02-16', NULL, '$2y$12$u8nPsc48JWDSLRvjz/ATcOXazK2AqAThn9/jTy.Q3tFSAoELTgupa', 'admin', 'profile-photos/l4u640039I0pvgThXjEfXog8wSlyxbYfJ8euouue.jpg', 'Rc5tcZ47r8mxWBqzAiMmmjWqsSKxX3ASM3isD1jjpYVZIOwtZMtlxGeQzD05', '2026-05-03 21:50:59', '2026-05-05 19:11:05', NULL),
-(49, 'Ika Pratama', 'ika.pratama@perusahaan.com', NULL, NULL, NULL, NULL, NULL, 'P', NULL, NULL, '$2y$12$pqSW65Bu13iIM7Dd0p0SyOPTAsk69toJrzhCaZVy4BmMO0SDVjY/W', 'manager', NULL, NULL, '2026-05-05 22:42:15', '2026-05-18 01:59:07', 1),
-(56, 'Rudi Hidayat', 'rudi.hidayat@perusahaan.com', NULL, NULL, 'Salesman Manager', NULL, NULL, NULL, NULL, NULL, '$2y$12$6AEHMXYTZwGZuRVgzEnSzuEd27evk8Tme1BxsmNlNeFT54nOHYj8m', 'manager', NULL, NULL, '2026-05-05 22:42:17', '2026-05-18 01:55:10', 8),
-(63, 'Yuli Kusuma', 'yuli.kusuma@perusahaan.com', NULL, NULL, 'Salesman Manager', NULL, NULL, NULL, NULL, NULL, '$2y$12$eXsfB0c3X2uxpnGrwVN8GO0vMXVMOluKIZslhp40xInYB8MqobdZm', 'manager', NULL, NULL, '2026-05-05 22:42:18', '2026-05-18 01:55:10', 15),
-(70, 'Yuli Gunawan', 'yuli.gunawan@perusahaan.com', NULL, NULL, 'Salesman Manager', NULL, NULL, NULL, NULL, NULL, '$2y$12$iSeq8I5UOjQN5LMVEZn9Ye9lXh2AFl/nGN.MBQP81Bnhp/taCtiRm', 'manager', NULL, NULL, '2026-05-05 22:42:19', '2026-05-18 01:55:10', 22),
-(77, 'Sari Kusuma', 'sari.kusuma@perusahaan.com', NULL, NULL, 'Salesman Manager', NULL, NULL, NULL, NULL, NULL, '$2y$12$G2LZxRr/Zbf7/WGVQOp0H.KgRhE0uejCg4qT2LlLUE3WvnrKvGd6K', 'manager', NULL, NULL, '2026-05-05 22:42:21', '2026-05-18 01:55:10', 29),
-(84, 'Nina Santoso', 'nina.santoso@perusahaan.com', '3530658597', NULL, 'Salesman Supervisor', '081216361066', NULL, NULL, NULL, NULL, '$2y$12$LcPtGgZOQV.1fauYasu2s.mqiltR6mPC0Wm1O4ecCBJsAhTpmkuGW', 'supervisor', NULL, NULL, '2026-05-18 01:53:37', '2026-05-18 01:53:37', 2),
-(85, 'Anita Saputra', 'anita.saputra@perusahaan.com', '3557075861', NULL, 'Salesman Sales', '081387443219', NULL, NULL, NULL, NULL, '$2y$12$tDpqhOm1aORG5pQXEH/mi.D0k4.bdfZB6P1UhFyEHtqAdgR0LPbeG', 'sales', NULL, NULL, '2026-05-18 01:53:37', '2026-05-18 01:53:37', 3),
-(86, 'Rina Fauzi', 'rina.fauzi@perusahaan.com', '3555844296', NULL, 'Salesman Sales', '081387469794', NULL, NULL, NULL, NULL, '$2y$12$zbmFo9U4h99RS1b7gMKMNOOkcidMPdS41Y9w75UdQpfBkwomFiWae', 'sales', NULL, NULL, '2026-05-18 01:53:37', '2026-05-18 01:53:37', 4),
-(87, 'Dewi Santoso', 'dewi.santoso@perusahaan.com', '3576521905', NULL, 'Salesman Supervisor', '081241509098', NULL, NULL, NULL, NULL, '$2y$12$qUDwvgjwQa/UXw9eu1khgufLdcTt8Xi/mqELNl5pRBjJNWS3TCLB6', 'supervisor', NULL, NULL, '2026-05-18 01:53:38', '2026-05-18 01:53:38', 5),
-(88, 'Joko Wijaya', 'joko.wijaya@perusahaan.com', '3532676432', NULL, 'Salesman Sales', '081389462591', NULL, NULL, NULL, NULL, '$2y$12$psgufbKi9l2XmQylwTYJ6.nPZQVW37entbq7aVJ8tmQ6zkGIvxmbG', 'sales', NULL, NULL, '2026-05-18 01:53:38', '2026-05-18 01:53:38', 6),
-(89, 'Hendra Hakim', 'hendra.hakim@perusahaan.com', '3579668484', NULL, 'Salesman Sales', '081319861234', NULL, NULL, NULL, NULL, '$2y$12$ENbIjRsAWcYi0uUBhOb41.L3fY6wlvq2bN4uvVAYqJfrRqMwXh8wO', 'sales', NULL, NULL, '2026-05-18 01:53:38', '2026-05-18 01:53:38', 7),
-(90, 'Rahmat Hakim', 'rahmat.hakim@perusahaan.com', '3574758623', NULL, 'Salesman Supervisor', '081212564471', NULL, NULL, NULL, NULL, '$2y$12$8oeW.cfKOBeqtrgxMBQgu.M6vshDhZFeVuK4rS0CXNiYVTUjoWgjC', 'supervisor', NULL, NULL, '2026-05-18 01:53:38', '2026-05-18 01:53:38', 9),
-(91, 'Doni Lestari', 'doni.lestari@perusahaan.com', '3565853203', NULL, 'Salesman Sales', '081314002429', NULL, NULL, NULL, NULL, '$2y$12$ls/T4PelI/eE8Zu2rqOT9en4bPUdy04A3d64WYcHYe4LqnKXeb7Le', 'sales', NULL, NULL, '2026-05-18 01:53:38', '2026-05-18 01:53:38', 10),
-(92, 'Dewi Lestari', 'dewi.lestari@perusahaan.com', '3523605353', NULL, 'Salesman Sales', '081398767893', NULL, NULL, NULL, NULL, '$2y$12$4DkqKYPSGHle0koR2I1pSuoaHBd0nNdDNhrX6Oqm9VQMSqZGjySIS', 'sales', NULL, NULL, '2026-05-18 01:53:38', '2026-05-18 01:53:38', 11),
-(93, 'Doni Santoso', 'doni.santoso@perusahaan.com', '3582923509', NULL, 'Salesman Supervisor', '081236894474', NULL, NULL, NULL, NULL, '$2y$12$4zxqR1q2ZJBmVKfanxVwWehBT9OWkcBo43bPYEk5SODoMOTgXihhu', 'supervisor', NULL, NULL, '2026-05-18 01:53:39', '2026-05-18 01:53:39', 12),
-(94, 'Ika Putri', 'ika.putri@perusahaan.com', '3552997191', NULL, 'Salesman Sales', '081346216001', NULL, NULL, NULL, NULL, '$2y$12$IcyqYfWIr3Kzkz/obW7FyOQfQ1fy9PzTkvpK.CyZASLiNdulm2BLi', 'sales', NULL, NULL, '2026-05-18 01:53:39', '2026-05-18 01:53:39', 13),
-(95, 'Wati Wibowo', 'wati.wibowo@perusahaan.com', '3560916407', NULL, 'Salesman Sales', '081354022486', NULL, NULL, NULL, NULL, '$2y$12$2GI9DzDQM5/jlRkOTODi.Olnjj4XI3qXHzU1v7AQ6Y4HuAge6s//G', 'sales', NULL, NULL, '2026-05-18 01:53:39', '2026-05-18 01:53:39', 14),
-(96, 'Dewi Hakim', 'dewi.hakim@perusahaan.com', '3542853570', NULL, 'Salesman Supervisor', '081286259982', NULL, NULL, NULL, NULL, '$2y$12$HJEGdG4Ie7zZC1WiM5g1FOTcqmX/ShwV4NymDh.MmKuZ1qtUECEpu', 'supervisor', NULL, NULL, '2026-05-18 01:53:39', '2026-05-18 01:53:39', 16),
-(97, 'Andi Santoso', 'andi.santoso@perusahaan.com', '3548581857', NULL, 'Salesman Sales', '081316009868', NULL, NULL, NULL, NULL, '$2y$12$qwDsiPKx2zJ09ce5EwFNC.XLD7HRiqTyn3MK2uZbb.2CKv2tgPUcm', 'sales', NULL, NULL, '2026-05-18 01:53:39', '2026-05-18 01:53:39', 17),
-(98, 'Rudi Pratama', 'rudi.pratama@perusahaan.com', '3583892345', NULL, 'Salesman Sales', '081333496164', NULL, NULL, NULL, NULL, '$2y$12$XzgJvL0yICd8UABMH.3iA.NGTzxeHuhqDJerYQjVcQ4InfcCc45g2', 'sales', NULL, NULL, '2026-05-18 01:53:40', '2026-05-18 01:53:40', 18),
-(99, 'Dewi Gunawan', 'dewi.gunawan@perusahaan.com', '3597252528', NULL, 'Salesman Supervisor', '081226263443', NULL, NULL, NULL, NULL, '$2y$12$XiYEUUVqViAydRIIaFBy8.78//YaUzGzxUYOkVdoFuzEExBoNk4Ly', 'supervisor', NULL, NULL, '2026-05-18 01:53:40', '2026-05-18 01:53:40', 19),
-(100, 'Agus Fauzi', 'agus.fauzi@perusahaan.com', '3573851882', NULL, 'Salesman Sales', '081363642247', NULL, NULL, NULL, NULL, '$2y$12$YvJzEyM8JkP8gp1bqAiLB.Hxa0XOhdWPZeoMNBOzYoUQ3i76SJH3S', 'sales', NULL, NULL, '2026-05-18 01:53:40', '2026-05-18 01:53:40', 20),
-(101, 'Yuli Pratama', 'yuli.pratama@perusahaan.com', '3528953944', NULL, 'Salesman Sales', '081331046468', NULL, NULL, NULL, NULL, '$2y$12$m7Ss0G4urjJQKHnettpstegZJ68aYMU./vfksQ1W2asyBwwfOOgJO', 'sales', NULL, NULL, '2026-05-18 01:53:40', '2026-05-18 01:53:40', 21),
-(102, 'Ika Santoso', 'ika.santoso@perusahaan.com', '3510305773', NULL, 'Salesman Supervisor', '081249753378', NULL, NULL, NULL, NULL, '$2y$12$w/9iColukOcY.soylxxBU.UWCkUGZLj8ad4Yqe7V9LmCgJwBI.kO2', 'supervisor', NULL, NULL, '2026-05-18 01:53:40', '2026-05-18 01:53:40', 23),
-(103, 'Taufik Fauzi', 'taufik.fauzi@perusahaan.com', '3581786149', NULL, 'Salesman Sales', '081344194120', NULL, NULL, NULL, NULL, '$2y$12$M9V.Hr6NbHlIYToxIfHC3uFy1kvMy48Cvaei0589CATmdgICRMZ4i', 'sales', NULL, NULL, '2026-05-18 01:53:41', '2026-05-18 01:53:41', 25),
-(104, 'Lani Wijaya', 'lani.wijaya@perusahaan.com', '3546129863', NULL, 'Salesman Supervisor', '081228717228', NULL, NULL, NULL, NULL, '$2y$12$YV7JhJOS9XvIKLGLozAY3eM5h9ZJTaSKIMr4N/fZCw/m274ZBpyiu', 'supervisor', NULL, NULL, '2026-05-18 01:53:41', '2026-05-18 01:53:41', 26),
-(105, 'Rina Lestari', 'rina.lestari@perusahaan.com', '3567082237', NULL, 'Salesman Sales', '081398253600', NULL, NULL, NULL, NULL, '$2y$12$QNI/YqkcyfbEIQamV6TSAupnjQWrV98Zba5JJ2F7CCxsraNeCu2OW', 'sales', NULL, NULL, '2026-05-18 01:53:41', '2026-05-18 01:53:41', 28),
-(106, 'Eko Saputra', 'eko.saputra@perusahaan.com', '3532806035', NULL, 'Salesman Sales', '081312895878', NULL, NULL, NULL, NULL, '$2y$12$YZ8tOYV6acb3sttKeMZE..18ueScGhNqbhW.ku40mht4ITUDdIQkW', 'sales', NULL, NULL, '2026-05-18 01:53:41', '2026-05-18 01:53:41', 31),
-(107, 'Taufik Saputra', 'taufik.saputra@perusahaan.com', '3533748758', NULL, 'Salesman Sales', '081367887334', NULL, NULL, NULL, NULL, '$2y$12$kXGbNpt6YbMBcyqXSM8zwOw7sktHVWaLP2Dxm5xI6T2jBfQBu4A5m', 'sales', NULL, NULL, '2026-05-18 01:53:41', '2026-05-18 01:53:41', 32),
-(108, 'Sari Pratama', 'sari.pratama@perusahaan.com', '3580861468', NULL, 'Salesman Supervisor', '081248584003', NULL, NULL, NULL, NULL, '$2y$12$ZiWL6bRWs.NMojGNxpSDcuSFGx8xUBqR4sL5oOW4XMMDf7QrTvL1m', 'supervisor', NULL, NULL, '2026-05-18 01:53:41', '2026-05-18 01:53:41', 33),
-(109, 'Joko Gunawan', 'joko.gunawan@perusahaan.com', '3549694206', NULL, 'Salesman Sales', '081343206189', NULL, NULL, NULL, NULL, '$2y$12$PFWhfDR0wrQAVU7ZHHqdlOOCCEIT5.IgO3i6zR8E2BIBJSbKgwiIm', 'sales', NULL, NULL, '2026-05-18 01:53:42', '2026-05-18 01:53:42', 34),
-(110, 'Siti Kusuma', 'siti.kusuma@perusahaan.com', '3510047110', NULL, 'Salesman Sales', '081331895858', NULL, NULL, NULL, NULL, '$2y$12$CYFO9UFCihEYnaIox3v66.Rwwf/.NG3oq3FuustTqYePjYSy.emSa', 'sales', NULL, NULL, '2026-05-18 01:53:42', '2026-05-18 01:53:42', 35);
+INSERT INTO `users` (`id`, `name`, `email`, `nik`, `profesi`, `phone`, `address`, `gender`, `birth_date`, `email_verified_at`, `password`, `role`, `profile_photo_path`, `remember_token`, `created_at`, `updated_at`, `salesman_id`) VALUES
+(1, 'Maulana Riswan', 'admin@mail.com', '1173011602010005', 'IT', '081261218015', 'Jl. Tgk Wahab Dahlawi\r\nPaya Puenteuet', 'L', '2001-02-16', NULL, '$2y$12$u8nPsc48JWDSLRvjz/ATcOXazK2AqAThn9/jTy.Q3tFSAoELTgupa', 'admin', 'profile-photos/l4u640039I0pvgThXjEfXog8wSlyxbYfJ8euouue.jpg', 'qTC0uFCMqPzg9HIDs7k2V8gjrG2I5clEzxm17d7CuQ7qWjNtf6ozdJhhpDBD', '2026-05-03 21:50:59', '2026-05-05 19:11:05', NULL),
+(49, 'Ika Pratama', 'ika.pratama@perusahaan.com', NULL, NULL, NULL, NULL, 'P', NULL, NULL, '$2y$12$pqSW65Bu13iIM7Dd0p0SyOPTAsk69toJrzhCaZVy4BmMO0SDVjY/W', 'manager', NULL, NULL, '2026-05-05 22:42:15', '2026-05-18 01:59:07', 1),
+(56, 'Rudi Hidayat', 'rudi.hidayat@perusahaan.com', NULL, 'Salesman Manager', NULL, NULL, NULL, NULL, NULL, '$2y$12$6AEHMXYTZwGZuRVgzEnSzuEd27evk8Tme1BxsmNlNeFT54nOHYj8m', 'manager', NULL, NULL, '2026-05-05 22:42:17', '2026-05-18 01:55:10', 8),
+(63, 'Yuli Kusuma', 'yuli.kusuma@perusahaan.com', NULL, 'Salesman Manager', NULL, NULL, NULL, NULL, NULL, '$2y$12$eXsfB0c3X2uxpnGrwVN8GO0vMXVMOluKIZslhp40xInYB8MqobdZm', 'manager', NULL, NULL, '2026-05-05 22:42:18', '2026-05-18 01:55:10', 15),
+(70, 'Yuli Gunawan', 'yuli.gunawan@perusahaan.com', NULL, 'Salesman Manager', NULL, NULL, NULL, NULL, NULL, '$2y$12$iSeq8I5UOjQN5LMVEZn9Ye9lXh2AFl/nGN.MBQP81Bnhp/taCtiRm', 'manager', NULL, NULL, '2026-05-05 22:42:19', '2026-05-18 01:55:10', 22),
+(77, 'Sari Kusuma', 'sari.kusuma@perusahaan.com', NULL, 'Salesman Manager', NULL, NULL, NULL, NULL, NULL, '$2y$12$G2LZxRr/Zbf7/WGVQOp0H.KgRhE0uejCg4qT2LlLUE3WvnrKvGd6K', 'manager', NULL, NULL, '2026-05-05 22:42:21', '2026-05-18 01:55:10', 29),
+(84, 'Nina Santoso', 'nina.santoso@perusahaan.com', '3530658597', 'Salesman Supervisor', '081216361066', NULL, NULL, NULL, NULL, '$2y$12$LcPtGgZOQV.1fauYasu2s.mqiltR6mPC0Wm1O4ecCBJsAhTpmkuGW', 'supervisor', NULL, NULL, '2026-05-18 01:53:37', '2026-05-18 01:53:37', 2),
+(85, 'Anita Saputra', 'anita.saputra@perusahaan.com', '3557075861', 'Salesman Sales', '081387443219', NULL, NULL, NULL, NULL, '$2y$12$tDpqhOm1aORG5pQXEH/mi.D0k4.bdfZB6P1UhFyEHtqAdgR0LPbeG', 'sales', NULL, NULL, '2026-05-18 01:53:37', '2026-05-18 01:53:37', 3),
+(86, 'Rina Fauzi', 'rina.fauzi@perusahaan.com', '3555844296', 'Salesman Sales', '081387469794', NULL, NULL, NULL, NULL, '$2y$12$zbmFo9U4h99RS1b7gMKMNOOkcidMPdS41Y9w75UdQpfBkwomFiWae', 'sales', NULL, NULL, '2026-05-18 01:53:37', '2026-05-18 01:53:37', 4),
+(87, 'Dewi Santoso', 'dewi.santoso@perusahaan.com', '3576521905', 'Salesman Supervisor', '081241509098', NULL, NULL, NULL, NULL, '$2y$12$qUDwvgjwQa/UXw9eu1khgufLdcTt8Xi/mqELNl5pRBjJNWS3TCLB6', 'supervisor', NULL, NULL, '2026-05-18 01:53:38', '2026-05-18 01:53:38', 5),
+(88, 'Joko Wijaya', 'joko.wijaya@perusahaan.com', '3532676432', 'Salesman Sales', '081389462591', NULL, NULL, NULL, NULL, '$2y$12$psgufbKi9l2XmQylwTYJ6.nPZQVW37entbq7aVJ8tmQ6zkGIvxmbG', 'sales', NULL, NULL, '2026-05-18 01:53:38', '2026-05-18 01:53:38', 6),
+(89, 'Hendra Hakim', 'hendra.hakim@perusahaan.com', '3579668484', 'Salesman Sales', '081319861234', NULL, NULL, NULL, NULL, '$2y$12$ENbIjRsAWcYi0uUBhOb41.L3fY6wlvq2bN4uvVAYqJfrRqMwXh8wO', 'sales', NULL, NULL, '2026-05-18 01:53:38', '2026-05-18 01:53:38', 7),
+(90, 'Rahmat Hakim', 'rahmat.hakim@perusahaan.com', '3574758623', 'Salesman Supervisor', '081212564471', NULL, NULL, NULL, NULL, '$2y$12$8oeW.cfKOBeqtrgxMBQgu.M6vshDhZFeVuK4rS0CXNiYVTUjoWgjC', 'supervisor', NULL, NULL, '2026-05-18 01:53:38', '2026-05-18 01:53:38', 9),
+(91, 'Doni Lestari', 'doni.lestari@perusahaan.com', '3565853203', 'Salesman Sales', '081314002429', NULL, NULL, NULL, NULL, '$2y$12$ls/T4PelI/eE8Zu2rqOT9en4bPUdy04A3d64WYcHYe4LqnKXeb7Le', 'sales', NULL, NULL, '2026-05-18 01:53:38', '2026-05-18 01:53:38', 10),
+(92, 'Dewi Lestari', 'dewi.lestari@perusahaan.com', '3523605353', 'Salesman Sales', '081398767893', NULL, NULL, NULL, NULL, '$2y$12$4DkqKYPSGHle0koR2I1pSuoaHBd0nNdDNhrX6Oqm9VQMSqZGjySIS', 'sales', NULL, NULL, '2026-05-18 01:53:38', '2026-05-18 01:53:38', 11),
+(93, 'Doni Santoso', 'doni.santoso@perusahaan.com', '3582923509', 'Salesman Supervisor', '081236894474', NULL, NULL, NULL, NULL, '$2y$12$4zxqR1q2ZJBmVKfanxVwWehBT9OWkcBo43bPYEk5SODoMOTgXihhu', 'supervisor', NULL, NULL, '2026-05-18 01:53:39', '2026-05-18 01:53:39', 12),
+(94, 'Ika Putri', 'ika.putri@perusahaan.com', '3552997191', 'Salesman Sales', '081346216001', NULL, NULL, NULL, NULL, '$2y$12$IcyqYfWIr3Kzkz/obW7FyOQfQ1fy9PzTkvpK.CyZASLiNdulm2BLi', 'sales', NULL, NULL, '2026-05-18 01:53:39', '2026-05-18 01:53:39', 13),
+(95, 'Wati Wibowo', 'wati.wibowo@perusahaan.com', '3560916407', 'Salesman Sales', '081354022486', NULL, NULL, NULL, NULL, '$2y$12$2GI9DzDQM5/jlRkOTODi.Olnjj4XI3qXHzU1v7AQ6Y4HuAge6s//G', 'sales', NULL, NULL, '2026-05-18 01:53:39', '2026-05-18 01:53:39', 14),
+(96, 'Dewi Hakim', 'dewi.hakim@perusahaan.com', '3542853570', 'Salesman Supervisor', '081286259982', NULL, NULL, NULL, NULL, '$2y$12$HJEGdG4Ie7zZC1WiM5g1FOTcqmX/ShwV4NymDh.MmKuZ1qtUECEpu', 'supervisor', NULL, NULL, '2026-05-18 01:53:39', '2026-05-18 01:53:39', 16),
+(97, 'Andi Santoso', 'andi.santoso@perusahaan.com', '3548581857', 'Salesman Sales', '081316009868', NULL, NULL, NULL, NULL, '$2y$12$qwDsiPKx2zJ09ce5EwFNC.XLD7HRiqTyn3MK2uZbb.2CKv2tgPUcm', 'sales', NULL, NULL, '2026-05-18 01:53:39', '2026-05-18 01:53:39', 17),
+(98, 'Rudi Pratama', 'rudi.pratama@perusahaan.com', '3583892345', 'Salesman Sales', '081333496164', NULL, NULL, NULL, NULL, '$2y$12$XzgJvL0yICd8UABMH.3iA.NGTzxeHuhqDJerYQjVcQ4InfcCc45g2', 'sales', NULL, NULL, '2026-05-18 01:53:40', '2026-05-18 01:53:40', 18),
+(99, 'Dewi Gunawan', 'dewi.gunawan@perusahaan.com', '3597252528', 'Salesman Supervisor', '081226263443', NULL, NULL, NULL, NULL, '$2y$12$XiYEUUVqViAydRIIaFBy8.78//YaUzGzxUYOkVdoFuzEExBoNk4Ly', 'supervisor', NULL, NULL, '2026-05-18 01:53:40', '2026-05-18 01:53:40', 19),
+(100, 'Agus Fauzi', 'agus.fauzi@perusahaan.com', '3573851882', 'Salesman Sales', '081363642247', NULL, NULL, NULL, NULL, '$2y$12$YvJzEyM8JkP8gp1bqAiLB.Hxa0XOhdWPZeoMNBOzYoUQ3i76SJH3S', 'sales', NULL, NULL, '2026-05-18 01:53:40', '2026-05-18 01:53:40', 20),
+(101, 'Yuli Pratama', 'yuli.pratama@perusahaan.com', '3528953944', 'Salesman Sales', '081331046468', NULL, NULL, NULL, NULL, '$2y$12$m7Ss0G4urjJQKHnettpstegZJ68aYMU./vfksQ1W2asyBwwfOOgJO', 'sales', NULL, NULL, '2026-05-18 01:53:40', '2026-05-18 01:53:40', 21),
+(102, 'Ika Santoso', 'ika.santoso@perusahaan.com', '3510305773', 'Salesman Supervisor', '081249753378', NULL, NULL, NULL, NULL, '$2y$12$w/9iColukOcY.soylxxBU.UWCkUGZLj8ad4Yqe7V9LmCgJwBI.kO2', 'supervisor', NULL, NULL, '2026-05-18 01:53:40', '2026-05-18 01:53:40', 23),
+(103, 'Taufik Fauzi', 'taufik.fauzi@perusahaan.com', '3581786149', 'Salesman Sales', '081344194120', NULL, NULL, NULL, NULL, '$2y$12$M9V.Hr6NbHlIYToxIfHC3uFy1kvMy48Cvaei0589CATmdgICRMZ4i', 'sales', NULL, NULL, '2026-05-18 01:53:41', '2026-05-18 01:53:41', 25),
+(104, 'Lani Wijaya', 'lani.wijaya@perusahaan.com', '3546129863', 'Salesman Supervisor', '081228717228', NULL, NULL, NULL, NULL, '$2y$12$YV7JhJOS9XvIKLGLozAY3eM5h9ZJTaSKIMr4N/fZCw/m274ZBpyiu', 'supervisor', NULL, NULL, '2026-05-18 01:53:41', '2026-05-18 01:53:41', 26),
+(105, 'Rina Lestari', 'rina.lestari@perusahaan.com', '3567082237', 'Salesman Sales', '081398253600', NULL, NULL, NULL, NULL, '$2y$12$QNI/YqkcyfbEIQamV6TSAupnjQWrV98Zba5JJ2F7CCxsraNeCu2OW', 'sales', NULL, NULL, '2026-05-18 01:53:41', '2026-05-18 01:53:41', 28),
+(106, 'Eko Saputra', 'eko.saputra@perusahaan.com', '3532806035', 'Salesman Sales', '081312895878', NULL, NULL, NULL, NULL, '$2y$12$YZ8tOYV6acb3sttKeMZE..18ueScGhNqbhW.ku40mht4ITUDdIQkW', 'sales', NULL, NULL, '2026-05-18 01:53:41', '2026-05-18 01:53:41', 31),
+(107, 'Taufik Saputra', 'taufik.saputra@perusahaan.com', '3533748758', 'Salesman Sales', '081367887334', NULL, NULL, NULL, NULL, '$2y$12$kXGbNpt6YbMBcyqXSM8zwOw7sktHVWaLP2Dxm5xI6T2jBfQBu4A5m', 'sales', NULL, NULL, '2026-05-18 01:53:41', '2026-05-18 01:53:41', 32),
+(108, 'Sari Pratama', 'sari.pratama@perusahaan.com', '3580861468', 'Salesman Supervisor', '081248584003', NULL, NULL, NULL, NULL, '$2y$12$ZiWL6bRWs.NMojGNxpSDcuSFGx8xUBqR4sL5oOW4XMMDf7QrTvL1m', 'supervisor', NULL, NULL, '2026-05-18 01:53:41', '2026-05-18 01:53:41', 33),
+(109, 'Joko Gunawan', 'joko.gunawan@perusahaan.com', '3549694206', 'Salesman Sales', '081343206189', NULL, NULL, NULL, NULL, '$2y$12$PFWhfDR0wrQAVU7ZHHqdlOOCCEIT5.IgO3i6zR8E2BIBJSbKgwiIm', 'sales', NULL, NULL, '2026-05-18 01:53:42', '2026-05-18 01:53:42', 34),
+(110, 'Siti Kusuma', 'siti.kusuma@perusahaan.com', '3510047110', 'Salesman Sales', '081331895858', NULL, NULL, NULL, NULL, '$2y$12$CYFO9UFCihEYnaIox3v66.Rwwf/.NG3oq3FuustTqYePjYSy.emSa', 'sales', NULL, NULL, '2026-05-18 01:53:42', '2026-05-18 01:53:42', 35);
 
 --
 -- Indexes for dumped tables
@@ -5077,7 +5092,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=151;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=152;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -5095,7 +5110,7 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `prices`
@@ -5107,13 +5122,13 @@ ALTER TABLE `prices`
 -- AUTO_INCREMENT for table `sales`
 --
 ALTER TABLE `sales`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=451;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=452;
 
 --
 -- AUTO_INCREMENT for table `salesman_transfers`
 --
 ALTER TABLE `salesman_transfers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `salesmen`
@@ -5125,13 +5140,13 @@ ALTER TABLE `salesmen`
 -- AUTO_INCREMENT for table `sale_histories`
 --
 ALTER TABLE `sale_histories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=451;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=452;
 
 --
 -- AUTO_INCREMENT for table `sale_items`
 --
 ALTER TABLE `sale_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=903;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=904;
 
 --
 -- AUTO_INCREMENT for table `users`

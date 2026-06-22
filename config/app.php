@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Sistem Penjualan'),
+    'name' => env('APP_NAME', 'SIMPEL'),
 
     /*
     |--------------------------------------------------------------------------

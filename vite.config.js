@@ -5,7 +5,7 @@ export default defineConfig({
     server: {
         host: '0.0.0.0',
         hmr: {
-            host: '192.168.1.3',
+            host: '192.168.1.49',
         },
     },
     plugins: [
@@ -14,4 +14,10 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    build: {
+        target: 'es2020',
+        minify: 'esbuild',
+        cssCodeSplit: true,
+        sourcemap: false,
+    },
 });

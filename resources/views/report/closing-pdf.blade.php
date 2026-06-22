@@ -115,10 +115,25 @@
         <tbody>
             @foreach($salesmanAssessment as $s)
                 <tr>
-                    <td>{{ $s['name'] }}</td>
+                    <td>
+                        @if($s['level'] === 'supervisor')
+                            <strong>{{ $s['name'] }}</strong>
+                            @if(!empty($s['team_list']))
+                                <br><span style="font-size: 8px; color: #4b5563; font-style: italic;">Anggota: {{ $s['team_list'] }}</span>
+                            @endif
+                        @else
+                            {{ $s['name'] }}
+                        @endif
+                    </td>
                     <td style="text-transform: capitalize;">{{ $s['level'] }}</td>
-                    <td class="right">Rp {{ number_format($s['achievement'], 0, ',', '.') }}</td>
-                    <td class="right">Rp {{ number_format($s['target'], 0, ',', '.') }}</td>
+                    <td class="right">
+                        Rp {{ number_format($s['achievement'], 0, ',', '.') }}
+                        @if($s['level'] === 'supervisor') <span style="font-size: 8px; color: #6b7280;">(Tim)</span> @endif
+                    </td>
+                    <td class="right">
+                        Rp {{ number_format($s['target'], 0, ',', '.') }}
+                        @if($s['level'] === 'supervisor') <span style="font-size: 8px; color: #6b7280;">(Tim)</span> @endif
+                    </td>
                     <td class="right">{{ $s['percentage'] }}%</td>
                     <td>
                         <span class="badge badge-{{ strtolower($s['grade']) }}">{{ $s['grade'] }}</span>

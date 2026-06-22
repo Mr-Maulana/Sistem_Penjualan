@@ -22,7 +22,7 @@
         <tr>
             <td>
                 <div class="title">Faktur Penjualan</div>
-                <div class="muted">Sistem Penjualan</div>
+                <div class="muted">SIMPEL</div>
             </td>
             <td class="right">
                 <div><strong>No:</strong> {{ $sale->invoice_number }}</div>

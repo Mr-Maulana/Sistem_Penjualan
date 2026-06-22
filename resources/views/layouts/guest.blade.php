@@ -6,7 +6,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <link rel="icon" type="image/png" href="{{ \App\Helpers\SettingsHelper::logoUrl() }}">
-        <title>{{ \App\Helpers\SettingsHelper::get('app_name', config('app.name', 'Sistem Penjualan')) }}</title>
+        <title>{{ \App\Helpers\SettingsHelper::get('app_name', config('app.name', 'SIMPEL')) }}</title>
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
@@ -42,15 +42,14 @@
             <div class="relative w-full max-w-md">
                 <div class="mb-8 text-center">
                     <div class="inline-flex flex-col items-center gap-6">
-                        <div class="relative group">
-                            <div class="absolute -inset-1 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-                            <div class="relative p-2 bg-white/10 backdrop-blur-2xl rounded-full border border-white/20 shadow-2xl">
-                                <img src="{{ \App\Helpers\SettingsHelper::logoUrl() }}" alt="Logo" class="w-24 h-24 rounded-full object-cover transition-transform duration-500 group-hover:scale-110">
-                            </div>
-                        </div>
-                        <div>
-                            <h1 class="text-white text-3xl font-black tracking-tight">Sistem<span class="text-blue-400">Penjualan</span></h1>
-                            <p class="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] mt-2">Management Dashboard v2.0</p>
+
+                        <div class="text-center">
+                            <h1 class="text-5xl md:text-6xl font-black tracking-tighter mb-1 relative inline-block">
+                                <span class="text-transparent bg-clip-text bg-gradient-to-br from-white via-white to-slate-400">SIM</span><span class="text-transparent bg-clip-text bg-gradient-to-br from-blue-400 to-indigo-600" style="filter: drop-shadow(0 0 15px rgba(59,130,246,0.4));">PEL</span>
+                            </h1>
+                            <p class="text-slate-400/90 text-[10px] md:text-xs font-black uppercase tracking-[0.25em] mt-2 leading-relaxed">
+                                Sistem Informasi Manajemen<br/>Penjualan Lengkap
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -62,7 +61,7 @@
                 </div>
 
                 <div class="mt-4 text-center text-xs text-slate-400">
-                    © {{ now()->year }} Sistem Penjualan
+                    © {{ now()->year }} SIMPEL (Sistem Info Manajemen Penjualan Lengkap)
                 </div>
             </div>
         </div>

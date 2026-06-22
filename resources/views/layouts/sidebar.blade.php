@@ -36,7 +36,7 @@
                         <span>Dashboard</span>
                     </a>
                     
-                    <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-slate-500 hover:bg-slate-50 hover:text-slate-800">
+                    <a href="javascript:void(0)" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-slate-500 hover:bg-slate-50 hover:text-slate-800">
                         <i data-lucide="package" class="w-5 h-5"></i>
                         <span>Produk</span>
                     </a>
@@ -47,11 +47,11 @@
             <div>
                 <h3 class="px-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-4">Manajemen</h3>
                 <nav class="space-y-1">
-                    <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-slate-500 hover:bg-slate-50 hover:text-slate-800">
+                    <a href="javascript:void(0)" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-slate-500 hover:bg-slate-50 hover:text-slate-800">
                         <i data-lucide="users" class="w-5 h-5"></i>
                         <span>Pelanggan</span>
                     </a>
-                    <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-slate-500 hover:bg-slate-50 hover:text-slate-800">
+                    <a href="javascript:void(0)" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-slate-500 hover:bg-slate-50 hover:text-slate-800">
                         <i data-lucide="truck" class="w-5 h-5"></i>
                         <span>Distributor</span>
                     </a>

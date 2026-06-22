@@ -28,7 +28,27 @@ class TeamController extends Controller
             $me = Salesman::with('subordinates.subordinates')->find($salesmanId);
             $supervisors = $me->subordinates;
             
-            return view('team.index-manager', compact('me', 'supervisors'));
+            // Other supervisors/managers to transfer to
+            $otherSupervisors = Salesman::whereIn('level', ['supervisor', 'manager'])
+                ->where('id', '!=', $salesmanId)
+                ->get();
+
+            // Transfers initiated by this manager
+            $pendingTransfers = SalesmanTransfer::where('from_supervisor_id', $salesmanId)
+                ->where('status', 'pending')
+                ->with(['salesman', 'toSupervisor'])
+                ->get();
+                
+            // Count pending transfers initiated by their supervisors (waiting for this manager's ACC)
+            $supervisorIds = $supervisors->pluck('id')->toArray();
+            $pendingApprovalsCount = 0;
+            if (!empty($supervisorIds)) {
+                $pendingApprovalsCount = SalesmanTransfer::whereIn('from_supervisor_id', $supervisorIds)
+                    ->where('status', 'pending')
+                    ->count();
+            }
+            
+            return view('team.index-manager', compact('me', 'supervisors', 'otherSupervisors', 'pendingTransfers', 'pendingApprovalsCount'));
 
         } elseif ($role === 'supervisor') {
             // Supervisor sees their own team
@@ -67,7 +87,7 @@ class TeamController extends Controller
 
     public function requestTransfer(Request $request)
     {
-        if (auth()->user()->role !== 'supervisor') {
+        if (!in_array(auth()->user()->role, ['supervisor', 'manager'])) {
             abort(403);
         }
 
@@ -87,8 +107,23 @@ class TeamController extends Controller
 
         $salesman = Salesman::findOrFail($validated['salesman_id']);
         
-        if ($salesman->supervisor_id != auth()->user()->salesman_id) {
-            return back()->with('error', 'Salesman ini bukan anggota tim Anda.');
+        if (auth()->user()->role === 'supervisor') {
+            if ($salesman->supervisor_id != auth()->user()->salesman_id) {
+                return back()->with('error', 'Salesman ini bukan anggota tim Anda.');
+            }
+        } elseif (auth()->user()->role === 'manager') {
+            $isDirect = $salesman->supervisor_id == auth()->user()->salesman_id;
+            $isIndirect = false;
+            if (!$isDirect) {
+                $supervisor = Salesman::find($salesman->supervisor_id);
+                if ($supervisor && $supervisor->supervisor_id == auth()->user()->salesman_id) {
+                    $isIndirect = true;
+                }
+            }
+            
+            if (!$isDirect && !$isIndirect) {
+                return back()->with('error', 'Anggota ini bukan bagian dari wilayah/tim Anda.');
+            }
         }
 
         // Check if there's already a pending request
@@ -109,26 +144,43 @@ class TeamController extends Controller
             'status' => 'pending',
         ]);
 
-        return back()->with('success', 'Pengajuan mutasi berhasil dikirim dan menunggu ACC Admin.');
+        return back()->with('success', 'Pengajuan mutasi berhasil dikirim dan menunggu ACC.');
     }
 
     public function approvals()
     {
-        if (auth()->user()->role !== 'admin') {
+        if (!in_array(auth()->user()->role, ['admin', 'manager'])) {
             abort(403);
         }
 
-        $transfers = SalesmanTransfer::with(['salesman', 'fromSupervisor', 'toSupervisor', 'requestedBy'])
-            ->orderBy('created_at', 'desc')
-            ->get();
+        $query = SalesmanTransfer::with(['salesman', 'fromSupervisor', 'toSupervisor', 'requestedBy'])
+            ->orderBy('created_at', 'desc');
+
+        if (auth()->user()->role === 'manager') {
+            $mySupervisorIds = Salesman::where('supervisor_id', auth()->user()->salesman_id)->pluck('id')->toArray();
+            if (empty($mySupervisorIds)) {
+                $mySupervisorIds = [0]; // Force empty result if no supervisors
+            }
+            $query->whereIn('from_supervisor_id', $mySupervisorIds);
+        }
+
+        $transfers = $query->get();
 
         return view('team.approvals', compact('transfers'));
     }
 
     public function processTransfer(Request $request, SalesmanTransfer $transfer)
     {
-        if (auth()->user()->role !== 'admin') {
+        if (!in_array(auth()->user()->role, ['admin', 'manager'])) {
             abort(403);
+        }
+
+        if (auth()->user()->role === 'manager') {
+            // Check if from_supervisor_id belongs to this manager
+            $supervisor = Salesman::find($transfer->from_supervisor_id);
+            if (!$supervisor || $supervisor->supervisor_id != auth()->user()->salesman_id) {
+                abort(403);
+            }
         }
 
         $validated = $request->validate([

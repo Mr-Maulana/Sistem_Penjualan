@@ -16,7 +16,7 @@
                 <div class="flex-1 text-center md:text-left">
                     <span class="inline-block px-4 py-1.5 bg-white/10 backdrop-blur-md rounded-full text-[10px] font-black uppercase tracking-[0.2em] mb-4 text-indigo-300">Statistik Terbaru</span>
                     <h1 class="text-3xl lg:text-5xl font-black mb-4 leading-tight">Selamat Datang Kembali, <br><span class="text-indigo-400">{{ Auth::user()->name }}</span>!</h1>
-                    <p class="text-slate-400 max-w-md text-sm lg:text-base font-medium">Sistem penjualan Anda sudah diperbarui. Pantau performa bisnis Anda secara real-time dari sini.</p>
+                    <p class="text-slate-400 max-w-md text-sm lg:text-base font-medium">SIMPEL (Sistem Informasi Manajemen Penjualan Lengkap) Anda sudah diperbarui. Pantau performa bisnis Anda secara real-time dari sini.</p>
                 </div>
                 <div class="hidden md:block animate-float">
                     <div class="w-48 h-48 bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2.5rem] flex items-center justify-center shadow-inner relative overflow-hidden">

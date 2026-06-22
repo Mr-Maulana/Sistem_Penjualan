@@ -400,21 +400,18 @@
                 const optItem = row.querySelector(`.option-item[data-code="${selectedCode}"]`);
                 const defaultPrice = optItem?.getAttribute('data-default-price');
                 
-                // If user hasn't set a price yet, try lookup based on customer group, fallback to product default.
-                const current = Number(priceInput.value || 0);
-                if (current === 0) {
-                    const data = await lookupPrice(selectedCode);
-                    if (data?.found && data.price_small != null) {
-                        priceInput.value = Number(data.price_small || 0);
-                        if (discountInput && Number(discountInput.value || 0) === 0) {
-                            discountInput.value = Number(data.discount || 0);
-                        }
-                        if (taxEl && Number(taxEl.value || 0) === 0) {
-                            taxEl.value = Number(data.tax || 0);
-                        }
-                    } else {
-                        priceInput.value = Number(defaultPrice || 0);
+                // Update price whenever product changes, using lookup or default.
+                const data = await lookupPrice(selectedCode);
+                if (data?.found && data.price_small != null) {
+                    priceInput.value = Number(data.price_small || 0);
+                    if (discountInput && Number(discountInput.value || 0) === 0) {
+                        discountInput.value = Number(data.discount || 0);
                     }
+                    if (taxEl && Number(taxEl.value || 0) === 0) {
+                        taxEl.value = Number(data.tax || 0);
+                    }
+                } else {
+                    priceInput.value = Number(defaultPrice || 0);
                 }
                 recompute();
             });
