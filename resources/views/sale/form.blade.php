@@ -144,8 +144,13 @@
                     <i data-lucide="plus" style="width:14px;height:14px;"></i> Tambah Item
                 </button>
             </div>
-            <div class="overflow-x-visible">
+            <div class="overflow-x-auto sm:overflow-visible">
+
+                <div class="relative z-0">
                 <table class="w-full text-sm" id="items-table">
+
+
+
                     <thead>
                         <tr class="bg-slate-100/50 text-slate-500 text-[10px] uppercase tracking-widest">
                             <th class="px-4 py-3 text-left font-bold">Produk</th>
@@ -238,7 +243,10 @@
                         @endforeach
                     </tbody>
                 </table>
+                </div>
             </div>
+
+
         </div>
 
         @error('items') <div class="text-sm text-red-500 mb-6 font-medium p-3 bg-red-50 rounded-xl border border-red-100 flex items-center gap-2"><i data-lucide="alert-circle" class="w-4 h-4"></i> {{ $message }}</div> @enderror
