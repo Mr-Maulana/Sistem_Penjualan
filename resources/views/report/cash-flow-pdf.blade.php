@@ -48,5 +48,38 @@
             @endforeach
         </tbody>
     </table>
+
+@php
+    $totalIn = $cashFlows->where('type', 'in')->sum('amount');
+    $totalOut = $cashFlows->where('type', 'out')->sum('amount');
+    $endingBalance = $cashFlows->isNotEmpty() ? optional($cashFlows->last())->balance : 0;
+@endphp
+
+<div style="margin-top: 18px;">
+    <table>
+        <tr>
+            <td style="border: none; width: 33%;">
+                <div style="border: 1px solid #e5e7eb; border-radius: 6px; padding: 10px;">
+                    <div style="font-size: 10px; font-weight: 700; color: #374151; text-transform: uppercase; margin-bottom: 6px;">Total Kas Masuk (IN)</div>
+                    <div style="font-size: 13px; font-weight: 800; color: #059669;">Rp {{ number_format($totalIn, 0, ',', '.') }}</div>
+                </div>
+            </td>
+            <td style="border: none; width: 33%;">
+                <div style="border: 1px solid #e5e7eb; border-radius: 6px; padding: 10px;">
+                    <div style="font-size: 10px; font-weight: 700; color: #374151; text-transform: uppercase; margin-bottom: 6px;">Total Kas Keluar (OUT)</div>
+                    <div style="font-size: 13px; font-weight: 800; color: #dc2626;">Rp {{ number_format($totalOut, 0, ',', '.') }}</div>
+                </div>
+            </td>
+            <td style="border: none; width: 33%;">
+                <div style="border: 1px solid #e5e7eb; border-radius: 6px; padding: 10px; background: #f9fafb;">
+                    <div style="font-size: 10px; font-weight: 700; color: #374151; text-transform: uppercase; margin-bottom: 6px;">Saldo Akhir</div>
+                    <div style="font-size: 13px; font-weight: 800; color: #111827;">Rp {{ number_format($endingBalance, 0, ',', '.') }}</div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
 </body>
 </html>
+
