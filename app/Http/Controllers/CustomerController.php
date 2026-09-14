@@ -21,21 +21,9 @@ class CustomerController extends Controller
 
         // RBAC Global Filter
         $user = auth()->user();
-        $allowedIds = [];
+        $allowedIds = $user->getAllowedSalesmanIds();
         
-        if ($user->role === 'sales') {
-            $allowedIds = [$user->salesman_id];
-            $query->where('salesman_id', $user->salesman_id);
-        } elseif ($user->role === 'supervisor') {
-            $supervisorSalesmanId = $user->salesman_id;
-            $subordinateIds = \App\Models\Salesman::where('supervisor_id', $supervisorSalesmanId)->pluck('id')->toArray();
-            $allowedIds = array_merge([$supervisorSalesmanId], $subordinateIds);
-            $query->whereIn('salesman_id', $allowedIds);
-        } elseif ($user->role === 'manager') {
-            $managerSalesmanId = $user->salesman_id;
-            $supervisorIds = \App\Models\Salesman::where('supervisor_id', $managerSalesmanId)->pluck('id')->toArray();
-            $salesIds = \App\Models\Salesman::whereIn('supervisor_id', $supervisorIds)->pluck('id')->toArray();
-            $allowedIds = array_merge([$managerSalesmanId], $supervisorIds, $salesIds);
+        if ($allowedIds !== null) {
             $query->whereIn('salesman_id', $allowedIds);
         }
 
@@ -84,7 +72,7 @@ class CustomerController extends Controller
         
         $user = auth()->user();
         if (in_array($user->role, ['sales', 'supervisor', 'manager'])) {
-            $allowedIds = $this->getAllowedSalesmanIds($user);
+            $allowedIds = $user->getAllowedSalesmanIds();
             $salesmen = Salesman::whereIn('id', $allowedIds)->orderBy('name')->get();
         } else {
             $salesmen = Salesman::orderBy('name')->get();
@@ -128,7 +116,7 @@ class CustomerController extends Controller
 
         $user = auth()->user();
         if ($request->filled('salesman_id') && in_array($user->role, ['sales', 'supervisor', 'manager'])) {
-            $allowedIds = $this->getAllowedSalesmanIds($user);
+            $allowedIds = $user->getAllowedSalesmanIds();
             if (!in_array($request->salesman_id, $allowedIds)) {
                 return back()->withInput()->withErrors(['salesman_id' => 'Salesman yang dipilih harus berada dalam tim Anda.']);
             }
@@ -158,6 +146,8 @@ class CustomerController extends Controller
 
         Customer::create($validated);
 
+        \App\Http\Controllers\DashboardController::clearCache();
+
         return redirect()->route('customer.index')
             ->with('success', 'Customer berhasil ditambahkan');
     }
@@ -179,7 +169,7 @@ class CustomerController extends Controller
         
         $user = auth()->user();
         if (in_array($user->role, ['sales', 'supervisor', 'manager'])) {
-            $allowedIds = $this->getAllowedSalesmanIds($user);
+            $allowedIds = $user->getAllowedSalesmanIds();
             $salesmen = Salesman::whereIn('id', $allowedIds)->orderBy('name')->get();
         } else {
             $salesmen = Salesman::orderBy('name')->get();
@@ -200,20 +190,7 @@ class CustomerController extends Controller
         return view('customer.form', compact('customer', 'salesmen', 'cities', 'allSalesmen'));
     }
 
-    private function getAllowedSalesmanIds($user)
-    {
-        if ($user->role === 'sales') {
-            return [$user->salesman_id];
-        } elseif ($user->role === 'supervisor') {
-            $subordinateIds = Salesman::where('supervisor_id', $user->salesman_id)->pluck('id')->toArray();
-            return array_merge([$user->salesman_id], $subordinateIds);
-        } elseif ($user->role === 'manager') {
-            $supervisorIds = Salesman::where('supervisor_id', $user->salesman_id)->pluck('id')->toArray();
-            $salesIds = Salesman::whereIn('supervisor_id', $supervisorIds)->pluck('id')->toArray();
-            return array_merge([$user->salesman_id], $supervisorIds, $salesIds);
-        }
-        return [];
-    }
+
 
     /**
      * Update the specified resource in storage.
@@ -238,7 +215,7 @@ class CustomerController extends Controller
 
         $user = auth()->user();
         if ($request->filled('salesman_id') && in_array($user->role, ['sales', 'supervisor', 'manager'])) {
-            $allowedIds = $this->getAllowedSalesmanIds($user);
+            $allowedIds = $user->getAllowedSalesmanIds();
             if (!in_array($request->salesman_id, $allowedIds)) {
                 return back()->withInput()->withErrors(['salesman_id' => 'Salesman yang dipilih harus berada dalam tim Anda.']);
             }
@@ -268,6 +245,8 @@ class CustomerController extends Controller
 
         $customer->update($validated);
 
+        \App\Http\Controllers\DashboardController::clearCache();
+
         return redirect()->route('customer.index')
             ->with('success', 'Customer berhasil diupdate');
     }
@@ -281,6 +260,8 @@ class CustomerController extends Controller
         $this->validateTeamAccess($customer);
         
         $customer->delete();
+
+        \App\Http\Controllers\DashboardController::clearCache();
 
         return redirect()->route('customer.index')
             ->with('success', 'Customer berhasil dihapus');
@@ -304,7 +285,7 @@ class CustomerController extends Controller
         $city = trim($request->city ?? '');
 
         if (in_array($user->role, ['sales', 'supervisor', 'manager'])) {
-            $allowedIds = $this->getAllowedSalesmanIds($user);
+            $allowedIds = $user->getAllowedSalesmanIds();
             $query = Salesman::whereIn('id', $allowedIds);
         } else {
             $query = Salesman::query();

@@ -120,7 +120,7 @@ class SaleController extends Controller
 
         $user = auth()->user();
         if (in_array($user->role, ['sales', 'supervisor', 'manager'])) {
-            $allowedIds = $this->getAllowedSalesmanIds($user);
+            $allowedIds = $user->getAllowedSalesmanIds();
             if (!in_array($validated['salesman_id'], $allowedIds)) {
                 return back()->withInput()->withErrors(['salesman_id' => 'Salesman yang dipilih harus berada dalam tim Anda.']);
             }
@@ -196,6 +196,8 @@ class SaleController extends Controller
         } catch (\Throwable $e) {
             return back()->withInput()->withErrors(['items' => $e->getMessage()]);
         }
+
+        \App\Http\Controllers\DashboardController::clearCache();
 
         return redirect()->route('sale.index')
             ->with('success', 'Penjualan berhasil ditambahkan');
@@ -288,7 +290,7 @@ class SaleController extends Controller
 
         $user = auth()->user();
         if (in_array($user->role, ['sales', 'supervisor', 'manager'])) {
-            $allowedIds = $this->getAllowedSalesmanIds($user);
+            $allowedIds = $user->getAllowedSalesmanIds();
             if (!in_array($validated['salesman_id'], $allowedIds)) {
                 return back()->withInput()->withErrors(['salesman_id' => 'Salesman yang dipilih harus berada dalam tim Anda.']);
             }
@@ -376,6 +378,8 @@ class SaleController extends Controller
             return back()->withInput()->withErrors(['items' => $e->getMessage()]);
         }
 
+        \App\Http\Controllers\DashboardController::clearCache();
+
         return redirect()->route('sale.index')
             ->with('success', 'Penjualan berhasil diupdate');
     }
@@ -402,6 +406,8 @@ class SaleController extends Controller
             $cashFlowService->syncFromSale($sale);
         });
 
+        \App\Http\Controllers\DashboardController::clearCache();
+
         return redirect()->route('sale.index')
             ->with('success', 'Penjualan berhasil dihapus');
     }
@@ -410,23 +416,8 @@ class SaleController extends Controller
     {
         $user = auth()->user();
         if (in_array($user->role, ['sales', 'supervisor', 'manager'])) {
-            $allowedIds = $this->getAllowedSalesmanIds($user);
+            $allowedIds = $user->getAllowedSalesmanIds();
             abort_unless(in_array($sale->salesman_id, $allowedIds), 403, 'Anda tidak memiliki hak akses untuk transaksi di luar wilayah kerja tim Anda.');
         }
-    }
-
-    private function getAllowedSalesmanIds($user)
-    {
-        if ($user->role === 'sales') {
-            return [$user->salesman_id];
-        } elseif ($user->role === 'supervisor') {
-            $subordinateIds = Salesman::where('supervisor_id', $user->salesman_id)->pluck('id')->toArray();
-            return array_merge([$user->salesman_id], $subordinateIds);
-        } elseif ($user->role === 'manager') {
-            $supervisorIds = Salesman::where('supervisor_id', $user->salesman_id)->pluck('id')->toArray();
-            $salesIds = Salesman::whereIn('supervisor_id', $supervisorIds)->pluck('id')->toArray();
-            return array_merge([$user->salesman_id], $supervisorIds, $salesIds);
-        }
-        return [];
     }
 }

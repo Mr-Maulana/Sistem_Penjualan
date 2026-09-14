@@ -83,6 +83,8 @@ class CashFlowController extends Controller
         $cashFlowService = new \App\Services\CashFlowService();
         $cashFlowService->rebalanceFromDate($cf->date);
 
+        \App\Http\Controllers\DashboardController::clearCache();
+
         return redirect()->route('cash-flow.index')
             ->with('success', 'Transaksi kas/bank berhasil ditambahkan');
     }
@@ -140,6 +142,8 @@ class CashFlowController extends Controller
         $earliestDate = $oldDate < $validated['date'] ? $oldDate : $validated['date'];
         $cashFlowService->rebalanceFromDate($earliestDate);
 
+        \App\Http\Controllers\DashboardController::clearCache();
+
         return redirect()->route('cash-flow.index')
             ->with('success', 'Transaksi kas/bank berhasil diupdate');
     }
@@ -159,6 +163,8 @@ class CashFlowController extends Controller
 
         $cashFlowService = new \App\Services\CashFlowService();
         $cashFlowService->rebalanceFromDate($date);
+
+        \App\Http\Controllers\DashboardController::clearCache();
 
         return redirect()->route('cash-flow.index')
             ->with('success', 'Transaksi kas/bank berhasil dihapus');

@@ -16,7 +16,7 @@ class ReportController extends Controller
     public function closing(Request $request)
     {
         $user = auth()->user();
-        $allowedIds = $this->getAllowedSalesmanIds();
+        $allowedIds = $user->getAllowedSalesmanIds();
         
         // Admin or Manager can override/narrow down with filters
         if ($user->role === 'admin' || $user->role === 'manager') {
@@ -72,65 +72,10 @@ class ReportController extends Controller
         $lastCashFlow = (clone $cashQuery)->orderBy('date', 'desc')->orderBy('id', 'desc')->first();
         $endingBalance = $lastCashFlow ? $lastCashFlow->balance : 0;
 
-        $salesmanQuery = Salesman::query();
-        if ($allowedIds !== null) {
-            $salesmanQuery->whereIn('id', $allowedIds);
-        }
-        $allSalesmen = $salesmanQuery->with(['sales' => function ($q) {
-            $q->where('status', 'paid');
-        }])->get();
-
-        // 1. Separate Managers (Achievement & Target are sum of their subordinate supervisors and sales)
-        $managers = $allSalesmen->where('level', 'manager');
-        $managerAssessment = $managers->map(function ($s) {
-            $supervisorIds = \App\Models\Salesman::where('supervisor_id', $s->id)->pluck('id')->toArray();
-            $salesIds = \App\Models\Salesman::whereIn('supervisor_id', $supervisorIds)->pluck('id')->toArray();
-            $teamIds = array_merge([$s->id], $supervisorIds, $salesIds);
-
-            $target = (float) \App\Models\Salesman::whereIn('id', $teamIds)->sum('target');
-            $achievement = (float) \App\Models\Sale::whereIn('salesman_id', $teamIds)->where('status', 'paid')->sum('total');
-
-            $pct = $target > 0 ? min(100, round(($achievement / $target) * 100)) : 0;
-            $grade = $pct >= 100 ? 'A' : ($pct >= 80 ? 'B' : ($pct >= 60 ? 'C' : 'D'));
-
-            return [
-                'name' => $s->name,
-                'achievement' => $achievement,
-                'target' => $target,
-                'percentage' => $pct,
-                'grade' => $grade,
-            ];
-        });
-
-        // 2. Separate Other Salesmen (Supervisors and Sales agents)
-        $otherSalesmen = $allSalesmen->whereIn('level', ['supervisor', 'sales']);
-        $salesmanAssessment = $otherSalesmen->map(function ($s) {
-            if ($s->level === 'supervisor') {
-                $subordinates = \App\Models\Salesman::where('supervisor_id', $s->id)->get();
-                $subordinateNames = $subordinates->pluck('name')->toArray();
-                $teamIds = array_merge([$s->id], $subordinates->pluck('id')->toArray());
-                
-                $target = (float) \App\Models\Salesman::whereIn('id', $teamIds)->sum('target');
-                $achievement = (float) \App\Models\Sale::whereIn('salesman_id', $teamIds)->where('status', 'paid')->sum('total');
-                $teamList = implode(', ', $subordinateNames);
-            } else {
-                $target = (float) $s->target;
-                $achievement = (float) $s->sales->sum('total');
-                $teamList = null;
-            }
-
-            $pct = $target > 0 ? min(100, round(($achievement / $target) * 100)) : 0;
-            $grade = $pct >= 100 ? 'A' : ($pct >= 80 ? 'B' : ($pct >= 60 ? 'C' : 'D'));
-            return [
-                'name' => $s->name,
-                'level' => $s->level,
-                'achievement' => $achievement,
-                'target' => $target,
-                'percentage' => $pct,
-                'grade' => $grade,
-                'team_list' => $teamList,
-            ];
-        });
+        // Optimized calculations (no query inside loop, eager load recursively)
+        $assessment = $this->getClosingAssessmentData($allowedIds);
+        $managerAssessment = $assessment['managerAssessment'];
+        $salesmanAssessment = $assessment['salesmanAssessment'];
 
         $unpaidInvoices = (clone $querySales)->with('customer')
             ->whereIn('status', ['unpaid', 'partial'])
@@ -160,9 +105,77 @@ class ReportController extends Controller
         ));
     }
 
+    /**
+     * Compute manager and salesman assessments efficiently in-memory.
+     * Fixes N+1 database queries.
+     */
+    private function getClosingAssessmentData($allowedIds)
+    {
+        $salesmanQuery = Salesman::query();
+        if ($allowedIds !== null) {
+            $salesmanQuery->whereIn('id', $allowedIds);
+        }
+        
+        $allSalesmen = $salesmanQuery->with(['subordinates.subordinates', 'sales' => function ($q) {
+            $q->where('status', 'paid');
+        }])->get();
+
+        $managers = $allSalesmen->where('level', 'manager');
+        $managerAssessment = $managers->map(function ($s) {
+            $teamSalesmen = collect([$s])
+                ->concat($s->subordinates)
+                ->concat($s->subordinates->flatMap(fn($sub) => $sub->subordinates));
+
+            $target = (float) $teamSalesmen->sum('target');
+            $achievement = (float) $teamSalesmen->sum(fn($member) => $member->sales->sum('total'));
+
+            $pct = $target > 0 ? min(100, round(($achievement / $target) * 100)) : 0;
+            $grade = $pct >= 100 ? 'A' : ($pct >= 80 ? 'B' : ($pct >= 60 ? 'C' : 'D'));
+
+            return [
+                'name' => $s->name,
+                'achievement' => $achievement,
+                'target' => $target,
+                'percentage' => $pct,
+                'grade' => $grade,
+            ];
+        });
+
+        $otherSalesmen = $allSalesmen->whereIn('level', ['supervisor', 'sales']);
+        $salesmanAssessment = $otherSalesmen->map(function ($s) {
+            if ($s->level === 'supervisor') {
+                $subordinates = $s->subordinates;
+                $subordinateNames = $subordinates->pluck('name')->toArray();
+                
+                $teamSalesmen = collect([$s])->concat($subordinates);
+                $target = (float) $teamSalesmen->sum('target');
+                $achievement = (float) $teamSalesmen->sum(fn($member) => $member->sales->sum('total'));
+                $teamList = implode(', ', $subordinateNames);
+            } else {
+                $target = (float) $s->target;
+                $achievement = (float) $s->sales->sum('total');
+                $teamList = null;
+            }
+
+            $pct = $target > 0 ? min(100, round(($achievement / $target) * 100)) : 0;
+            $grade = $pct >= 100 ? 'A' : ($pct >= 80 ? 'B' : ($pct >= 60 ? 'C' : 'D'));
+            return [
+                'name' => $s->name,
+                'level' => $s->level,
+                'achievement' => $achievement,
+                'target' => $target,
+                'percentage' => $pct,
+                'grade' => $grade,
+                'team_list' => $teamList,
+            ];
+        });
+
+        return compact('managerAssessment', 'salesmanAssessment');
+    }
+
     public function sales(Request $request)
     {
-        $allowedIds = $this->getAllowedSalesmanIds();
+        $allowedIds = auth()->user()->getAllowedSalesmanIds();
         $query = $this->buildSalesReportQuery($request, $allowedIds);
 
         $sales = $query->get();
@@ -186,7 +199,7 @@ class ReportController extends Controller
 
     public function salesExportCsv(Request $request)
     {
-        $allowedIds = $this->getAllowedSalesmanIds();
+        $allowedIds = auth()->user()->getAllowedSalesmanIds();
         $sales = $this->buildSalesReportQuery($request, $allowedIds)->get();
 
         $filename = 'laporan-penjualan.csv';
@@ -220,7 +233,7 @@ class ReportController extends Controller
 
     public function salesExportPdf(Request $request)
     {
-        $allowedIds = $this->getAllowedSalesmanIds();
+        $allowedIds = auth()->user()->getAllowedSalesmanIds();
         $sales = $this->buildSalesReportQuery($request, $allowedIds)->get();
         $pdf = Pdf::loadView('report.sales-pdf', compact('sales'))->setPaper('a4', 'landscape');
         return $pdf->stream('laporan-penjualan.pdf');
@@ -232,7 +245,7 @@ class ReportController extends Controller
             abort(403, 'Anda tidak memiliki akses ke laporan Kas / Bank.');
         }
 
-        $allowedIds = $this->getAllowedSalesmanIds();
+        $allowedIds = auth()->user()->getAllowedSalesmanIds();
         $query = CashFlow::orderBy('date', 'desc')->orderBy('id', 'desc');
         
         if ($allowedIds !== null) {
@@ -265,7 +278,7 @@ class ReportController extends Controller
             abort(403, 'Anda tidak memiliki akses ke laporan Kas / Bank.');
         }
 
-        $allowedIds = $this->getAllowedSalesmanIds();
+        $allowedIds = auth()->user()->getAllowedSalesmanIds();
         $query = CashFlow::orderBy('date', 'desc')->orderBy('id', 'desc');
         
         if ($allowedIds !== null) {
@@ -296,7 +309,7 @@ class ReportController extends Controller
     public function closingExportPdf(Request $request)
     {
         $user = auth()->user();
-        $allowedIds = $this->getAllowedSalesmanIds();
+        $allowedIds = $user->getAllowedSalesmanIds();
         
         // Admin or Manager can override/narrow down with filters
         if ($user->role === 'admin' || $user->role === 'manager') {
@@ -349,65 +362,10 @@ class ReportController extends Controller
         $lastCashFlow = (clone $cashQuery)->orderBy('date', 'desc')->orderBy('id', 'desc')->first();
         $endingBalance = $lastCashFlow ? $lastCashFlow->balance : 0;
 
-        $salesmanQuery = Salesman::query();
-        if ($allowedIds !== null) {
-            $salesmanQuery->whereIn('id', $allowedIds);
-        }
-        $allSalesmen = $salesmanQuery->with(['sales' => function ($q) {
-            $q->where('status', 'paid');
-        }])->get();
-
-        // 1. Separate Managers (Achievement & Target are sum of their subordinate supervisors and sales)
-        $managers = $allSalesmen->where('level', 'manager');
-        $managerAssessment = $managers->map(function ($s) {
-            $supervisorIds = \App\Models\Salesman::where('supervisor_id', $s->id)->pluck('id')->toArray();
-            $salesIds = \App\Models\Salesman::whereIn('supervisor_id', $supervisorIds)->pluck('id')->toArray();
-            $teamIds = array_merge([$s->id], $supervisorIds, $salesIds);
-
-            $target = (float) \App\Models\Salesman::whereIn('id', $teamIds)->sum('target');
-            $achievement = (float) \App\Models\Sale::whereIn('salesman_id', $teamIds)->where('status', 'paid')->sum('total');
-
-            $pct = $target > 0 ? min(100, round(($achievement / $target) * 100)) : 0;
-            $grade = $pct >= 100 ? 'A' : ($pct >= 80 ? 'B' : ($pct >= 60 ? 'C' : 'D'));
-
-            return [
-                'name' => $s->name,
-                'achievement' => $achievement,
-                'target' => $target,
-                'percentage' => $pct,
-                'grade' => $grade,
-            ];
-        });
-
-        // 2. Separate Other Salesmen (Supervisors and Sales agents)
-        $otherSalesmen = $allSalesmen->whereIn('level', ['supervisor', 'sales']);
-        $salesmanAssessment = $otherSalesmen->map(function ($s) {
-            if ($s->level === 'supervisor') {
-                $subordinates = \App\Models\Salesman::where('supervisor_id', $s->id)->get();
-                $subordinateNames = $subordinates->pluck('name')->toArray();
-                $teamIds = array_merge([$s->id], $subordinates->pluck('id')->toArray());
-                
-                $target = (float) \App\Models\Salesman::whereIn('id', $teamIds)->sum('target');
-                $achievement = (float) \App\Models\Sale::whereIn('salesman_id', $teamIds)->where('status', 'paid')->sum('total');
-                $teamList = implode(', ', $subordinateNames);
-            } else {
-                $target = (float) $s->target;
-                $achievement = (float) $s->sales->sum('total');
-                $teamList = null;
-            }
-
-            $pct = $target > 0 ? min(100, round(($achievement / $target) * 100)) : 0;
-            $grade = $pct >= 100 ? 'A' : ($pct >= 80 ? 'B' : ($pct >= 60 ? 'C' : 'D'));
-            return [
-                'name' => $s->name,
-                'level' => $s->level,
-                'achievement' => $achievement,
-                'target' => $target,
-                'percentage' => $pct,
-                'grade' => $grade,
-                'team_list' => $teamList,
-            ];
-        });
+        // Optimized calculations (no query inside loop, eager load recursively)
+        $assessment = $this->getClosingAssessmentData($allowedIds);
+        $managerAssessment = $assessment['managerAssessment'];
+        $salesmanAssessment = $assessment['salesmanAssessment'];
 
         $unpaidInvoices = (clone $querySales)->with('customer')->whereIn('status', ['unpaid', 'partial'])->orderBy('date', 'desc')->get();
 
@@ -417,31 +375,6 @@ class ReportController extends Controller
         ))->setPaper('a4', 'portrait');
 
         return $pdf->stream('laporan-closing.pdf');
-    }
-
-    private function getAllowedSalesmanIds()
-    {
-        $user = auth()->user();
-        if ($user->role === 'admin') {
-            return null; // All access
-        }
-
-        if ($user->role === 'manager') {
-            $supervisorIds = Salesman::where('supervisor_id', $user->salesman_id)->pluck('id')->toArray();
-            $salesIds = Salesman::whereIn('supervisor_id', $supervisorIds)->pluck('id')->toArray();
-            return array_merge([$user->salesman_id], $supervisorIds, $salesIds);
-        }
-
-        if ($user->role === 'supervisor') {
-            $subordinateIds = Salesman::where('supervisor_id', $user->salesman_id)->pluck('id')->toArray();
-            return array_merge([$user->salesman_id], $subordinateIds);
-        }
-
-        if ($user->role === 'sales') {
-            return [$user->salesman_id];
-        }
-
-        return []; // No access
     }
 
     private function buildSalesReportQuery(Request $request, ?array $allowedIds)
